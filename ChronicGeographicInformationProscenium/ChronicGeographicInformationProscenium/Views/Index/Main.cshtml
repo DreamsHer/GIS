@@ -1,0 +1,2742 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="generator" content="" />
+    <title>从化区慢性病地理信息系统</title>@* GuangZhouCongHuaQu_Data*@
+    <link rel="shortcut icon" type="image/svg" href="~/content/images/picture/Logo2.png" media="screen" /> <!--网页小图标-->
+    <link href="~/content/css/index/index.css" rel="stylesheet" /><!--css样式-->
+    <link href="~/SuperMap/js/css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <script src="~/scripts/jquery.2.1.4.min.js"></script><!--jQuery插件-->
+    <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" /><!--bootstrap css样式-->
+    <link href="~/content/css/index/DisasterManagement.css" rel="stylesheet" />
+    <link href="~/content/Round/css/style.css" rel="stylesheet" />
+    @*CSS样式设置*@
+    <style>
+        /*地图缩放控件位置调整（右下角）*/
+        #SuperMap.Control.Zoom_13 {
+            top: 88% !important;
+            right: 0px !important;
+        }
+
+        #navbar {
+            min-height: 40px !important;
+        }
+
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        body {
+            font-family: "宋体";
+            color: #000;
+            font-size: 14px;
+        }
+        /*头部栏*/
+        #titleFence {
+            padding: 0px;
+            transition: all 2s ease;
+            -o-transition: all 2s ease;
+            -moz-transition: all 2s ease;
+            -webkit-transition: all 2s ease;
+            position: relative;
+        }
+
+            #titleFence > #navbar {
+                background-color: #1c38e2;
+                color: #fff;
+                padding: 0px;
+                margin: 0px;
+            }
+
+                #titleFence > #navbar #titleFenceTow_con {
+                    padding-left: 0px;
+                    padding-right: 0px;
+                }
+
+            #titleFence #navbar #titleFenceTow_con .navbar-header .navbar-toggle {
+                border-color: #fff;
+                background-color: transparent;
+                right: 8px;
+                padding: 6px 5px;
+            }
+
+                #titleFence #navbar #titleFenceTow_con .navbar-header .navbar-toggle span {
+                    background-color: #fff;
+                }
+
+            #titleFence #navbar #titleFenceTow_con .navbar-header .navbar-brand {
+                padding: 0px;
+            }
+        /*上半部分导航条*/
+        #top-Navbar-collapse {
+            padding-bottom: 2px;
+            padding-top: 0px;
+            padding-right: 20px;
+        }
+
+            #top-Navbar-collapse #user_nav {
+                padding-bottom: 0px;
+                padding-top: 0px;
+            }
+
+                #top-Navbar-collapse #user_nav .dropdown.user {
+                    min-width: 136px;
+                    padding-bottom: 0px;
+                    padding-top: 0px;
+                    padding-right: 1px;
+                    padding-left: 0px;
+                }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user > a {
+                        padding-bottom: 5px;
+                        padding-top: 5px;
+                        width: 100%;
+                        padding-left: 0px;
+                        padding-right: 0px;
+                        display: block;
+                        text-align: center;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user .dropdown-menu > li:hover, #top-Navbar-collapse #user_nav .dropdown.user .dropdown-menu > li:hover > a {
+                        background-color: rgba(219, 231, 242, 0.40);
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user .dropdown-menu > li > a {
+                        padding-bottom: 7px;
+                        padding-top: 7px;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user.active > a {
+                        background-color: transparent;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user.active.open > a {
+                        background-color: #3B6F9B;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user.open > a {
+                        background-color: #3B6F9B;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user.active > a:hover, #top-Navbar-collapse #user_nav .dropdown.user.active > a:focus {
+                        background-color: #3B6F9B;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user > .dropdown-toggle:hover {
+                        background-color: #3B6F9B;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user .dropdown-menu {
+                        min-width: 130px;
+                        /*max-width:200px;*/
+                        background-color: white;
+                    }
+
+        .user .dropdown-menu li {
+            list-style: none;
+        }
+        /*下版部分导航栏*/
+        #bottom-Navbar-collapse {
+        }
+
+            #bottom-Navbar-collapse > ul > li > a {
+                color: #fff;
+                padding-bottom: 3px;
+                padding-top: 3px;
+            }
+
+            #bottom-Navbar-collapse > .navbar-left > li.active > a, #bottom-Navbar-collapse > .navbar-left > li:hover > a {
+                background-color: #0933fb;
+                color: #fff;
+            }
+
+            #bottom-Navbar-collapse > .navbar-right > li.active > a, #bottom-Navbar-collapse > .navbar-right > li:hover > a {
+                background-color: rgb(255, 0, 0);
+                color: #fff;
+            }
+
+
+        #content {
+            padding: 0px;
+            overflow: hidden;
+            position: relative;
+            margin-top: 80px;
+            height: 665px;
+        }
+
+        .toolLi a {
+            text-decoration: none;
+            background-repeat: no-repeat;
+            background-position: 0px center;
+            background-size: 25px 25px;
+            padding-left: 25px !important;
+            padding-right: 5px !important;
+        }
+
+        /*load加载地图*/
+        #loadMap {
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            background-color: rgba(255, 255, 255, 1);
+            position: absolute;
+            z-index: 9999;
+        }
+
+        @@keyframes scale {
+            0% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            45% {
+                -webkit-transform: scale(0.1);
+                transform: scale(0.1);
+                opacity: 0.7;
+            }
+
+            80% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .ball-pulse {
+            /*width:65px;*/
+            height: 20px;
+            text-align: center;
+        }
+
+        #loadMapText {
+            display: none;
+            text-align: center;
+        }
+
+        .ball-pulse > div:nth-child(0) {
+            -webkit-animation: scale 0.75s 0s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -o-animation: scale 0.75s 0s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -moz-animation: scale 0.75s 0s infinite cubic-bezier(.2, .68, .18, 1.08);
+            animation: scale 0.75s 0s infinite cubic-bezier(.2, .68, .18, 1.08);
+        }
+
+        .ball-pulse > div:nth-child(1) {
+            -webkit-animation: scale 0.75s 0.12s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -o-animation: scale 0.75s 0.12s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -moz-animation: scale 0.75s 0.12s infinite cubic-bezier(.2, .68, .18, 1.08);
+            animation: scale 0.75s 0.12s infinite cubic-bezier(.2, .68, .18, 1.08);
+        }
+
+        .ball-pulse > div:nth-child(2) {
+            -webkit-animation: scale 0.75s 0.24s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -o-animation: scale 0.75s 0.24s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -moz-animation: scale 0.75s 0.24s infinite cubic-bezier(.2, .68, .18, 1.08);
+            animation: scale 0.75s 0.24s infinite cubic-bezier(.2, .68, .18, 1.08);
+        }
+
+        .ball-pulse > div:nth-child(3) {
+            -webkit-animation: scale 0.75s 0.36s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -o-animation: scale 0.75s 0.36s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -moz-animation: scale 0.75s 0.36s infinite cubic-bezier(.2, .68, .18, 1.08);
+            animation: scale 0.75s 0.36s infinite cubic-bezier(.2, .68, .18, 1.08);
+        }
+
+        .ball-pulse > div {
+            background-color: #0e83cd;
+            width: 15px;
+            height: 15px;
+            border-radius: 100%;
+            margin: 2px;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            display: inline-block;
+        }
+
+        /*更改地图弹窗样式=====================================================================*/
+        #popwin {
+            font-family: "微软雅黑" !important;
+            min-height: 140px;
+        }
+
+        #popwin_GroupDiv {
+        }
+        /*弹窗内容*/
+        #popwin_contentDiv {
+            background-color: #FFF;
+            top: 0px !important;
+            left: 0px !important;
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 5px;
+            border: solid 2px #3586D7;
+            border-top: solid 30px #3586D7;
+        }
+
+        /*弹窗关闭按钮*/
+        #popwin_close {
+            /*background-color:transparent !important;
+            background-image: url('../../images/Delete.png');
+            background-size: 17px 17px;*/
+            font-family: Tahoma;
+            border: solid 2px #ccc;
+            padding: 8px;
+            text-decoration: none;
+            font-size: 12px;
+            color: #3383CD;
+            position: absolute;
+            right: 3px !important;
+            top: 5px;
+            line-height: 14px;
+            height: 14px;
+            width: 7px !important;
+            border-radius: 14px;
+            -moz-border-radius: 14px;
+            background-color: white;
+        }
+
+            #popwin_close:hover {
+                border: solid 2px #E6394B;
+                color: #E6394B;
+            }
+        /*END更改地图弹窗样式=====================================================================*/
+
+
+        /*报警信息列表过滤属性*/
+        .bottom_listpnl {
+            bottom: -100%;
+            left: 0px;
+            right: 0px;
+            position: absolute;
+            max-height: 50%;
+            transition: all 1s ease .1s;
+            -webkit-transition: all 1s ease .1s;
+            -moz-transition: all 1s ease-in .1s;
+        }
+
+        #map_newmenu {
+            transition: all 1s ease .1s;
+            -webkit-transition: all 1s ease .1s;
+            -moz-transition: all 1s ease-in .1s;
+        }
+
+        #map_Zoom {
+            transition: all 1s ease .1s;
+            -webkit-transition: all 1s ease .1s;
+            -moz-transition: all 1s ease-in .1s;
+        }
+
+        #toolbar {
+            position: relative;
+            padding-top: 5px;
+            padding-bottom: 10px;
+        }
+    </style>
+
+    <style>
+        .LayerControl {
+            z-index: 10000;
+            position: fixed;
+            top: 20%;
+            right: 1%;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer; /*显示的光标的类型（形状）*/
+            background: #fff;
+            border: 1px solid #555;
+            transition: 1s;
+        }
+
+        .MedicalIllustration {
+            width: 190px;
+            z-index: 10000;
+            position: fixed;
+            top: 18%;
+            left: 10%;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer; /*显示的光标的类型（形状）*/
+            background: #fff;
+            border: 1px solid #555;
+            transition: 1s;
+        }
+
+        .LayerControllist {
+            display: none;
+            z-index: 10000;
+            position: fixed;
+            top: 20%;
+            right: 1%;
+            width: 170px;
+            border-radius: 10px;
+            background: #fff;
+            border: 1px solid #555;
+        }
+
+        .checkbox-group input {
+            display: none;
+            opacity: 0;
+        }
+
+            .checkbox-group input[type=checkbox] + label, .checkbox-group input[type=radio] + label {
+                line-height: 1;
+                position: relative;
+                display: -webkit-box;
+                /*display: -webkit-flex;*/
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                /*-webkit-align-items: center;*/
+                -ms-flex-align: center;
+                align-items: center;
+                margin: 2px;
+            }
+
+                .checkbox-group input[type=checkbox] + label:before, .checkbox-group input[type=radio] + label:before {
+                    line-height: 20px;
+                    display: inline-block;
+                    width: 18px;
+                    height: 18px;
+                    margin-right: 8px;
+                    content: '';
+                    color: #fff;
+                    border: 1px solid #809da5;
+                    background-color: #f3f6f8;
+                    border-radius: 3px;
+                }
+
+            .checkbox-group input[type=checkbox]:checked + label:before, .checkbox-group input[type=radio]:checked + label:before {
+                content: '\2713';
+                color: #fff;
+                background-color: #69aae0;
+                border-radius: 3px;
+                font-size: 14px;
+                text-align: center;
+                border-color: #31b968;
+            }
+
+        .xuan-group input[type=checkbox]:checked + label:before, .xuan-group input[type=radio]:checked + label:before {
+            content: ' ';
+            background: #e02222 url(images/input_checked_1.png) 2px 1px no-repeat;
+            background-size: 80% 80%;
+        }
+
+        #TuCengKongZhi .checkbox-group {
+            margin-bottom: 10px;
+        }
+
+        .YingCang {
+            display: none;
+        }
+
+        .ZiTi {
+            font-size: 15px;
+            color: #fff;
+            padding: 0 5px;
+        }
+    </style>
+
+    <style>
+        .rides-cs1 .floatR1 {
+            width: 300px;
+            height: 625px;
+            float: left;
+            padding: 0px;
+            overflow: hidden;
+            opacity: 0.9;
+            background-color: #fff;
+            border-right: 1px solid #015293 !important;
+            margin-top: 80px;
+        }
+
+            .rides-cs1 .floatR1 .cn {
+                background: #F7F7F7;
+            }
+
+        .rides-cs1 a:hover {
+            text-decoration: none;
+        }
+
+        .rides-cs1 .floatL1 {
+            width: 20px;
+            height: 120px;
+            float: right;
+            background-color: rgba(74, 139, 194,0.4);
+            border-radius: 0px 50px 50px 0px;
+            top: 30%;
+            position: absolute;
+            right: -20px;
+        }
+    </style>
+
+</head>
+<body onload="init()">
+
+    <!--表头导航栏-->
+    <div class="container-fluid" id="titleFence">
+        <nav id="navbar" class="navbar navbar-default navbar-fixed-top" style="border-radius:0px;">
+            <div class="container-fluid" id="titleFenceTow_con">
+                <div class="navbar-header" style="padding:0px;">
+                    <button class="navbar-toggle" data-toggle="collapse" onclick="changeFrameHeight()" data-target=".example-navbar-collapse">
+                        <span class="sr-only">切换导航</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="javascript:" style="padding:0px;padding-left:15px;height:50px;" class="navbar-brand col-lg-12 col-md-10 col-sm-10 col-xs-9">
+                        <img style="height:85px;width:570px; padding-top:10px;padding-bottom:10px;" class="" src="/content/images/emen2.png" />
+                    </a>
+                </div>
+                <div id="top-Navbar-collapse" class="collapse navbar-collapse example-navbar-collapse">
+
+                    <div style="width: 40%; margin-left:70%;">
+                        <div class="WYingCang" style="float:left;display:none;">
+                            <button onclick="ButtonWYC1()" style="width:50px; height:50px;" class="btn btn-primary">
+                                <img src="~/content/images/picture/icon01.png" style="margin-left: -6px;" />
+                            </button><br />
+                            <span class="ZiTi">综合展示</span>
+                        </div>
+                        <div class="YingCang" style="float:left;display:block;">
+                            <button onclick="ButtonYC1()" style="width:60px; height:60px;" class="btn btn-primary">
+                                <img src="~/content/images/picture/icon01.png" />
+                            </button><br /><span class="ZiTi">综合展示</span>
+                        </div>
+                        <div class="WYingCang" style="float:left">
+                            <button onclick="ButtonWYC2()" style="width:50px; height:50px;" class="btn btn-primary">
+                                <img src="~/content/images/picture/icon02.png" style="margin-left: -6px;" />
+                            </button><br /><span class="ZiTi">疫情预警</span>
+                        </div>
+                        <div class="YingCang" style="float:left;">
+                            <button onclick="ButtonYC2()" style="width:60px; height:60px;" class="btn btn-primary">
+                                <img src="~/content/images/picture/icon02.png" />
+                            </button><br /><span class="ZiTi">疫情预警</span>
+                        </div>
+                        <div class="WYingCang" style="float:left">
+                            <button onclick="ButtonWYC3()" style="width:50px; height:50px;" class="btn btn-primary">
+                                <img src="~/content/images/picture/icon03.png" style="margin-left: -6px;" />
+                            </button><br /><span class="ZiTi">专题分析</span>
+                        </div>
+                        <div class="YingCang" style="float:left">
+                            <button onclick="ButtonYC3()" style="width:60px; height:60px;" class="btn btn-primary">
+                                <img src="~/content/images/picture/icon03.png" />
+                            </button><br /><span class="ZiTi">专题分析</span>
+                        </div>
+                        <div class="WYingCang" style="float:left">
+                            <button onclick="ButtonWYC4()" style="width:50px; height:50px;" class="btn btn-primary">
+                                <img src="~/content/images/picture/icon04.png" style="margin-left: -6px;" />
+                            </button><br /><span class="ZiTi">报告报表</span>
+                        </div>
+                        <div class="YingCang" style="float:left">
+                            <button onclick="ButtonYC4()" style="width:60px; height:60px;" class="btn btn-primary">
+                                <img src="~/content/images/picture/icon04.png" />
+                            </button><br /><span class="ZiTi">报告报表</span>
+                        </div>
+                        <div class="WYingCang" style="float:left">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:" style="padding: 0px;padding-top: 1px;padding-bottom: 1px;">
+                                <img id="portrait" style="margin-top:10px;width:60px;height:55px;cursor:default;margin-left:30px;" src="/content/images/picture/0101.jpg"><span style="color:#fff;" id="UserName_a" class="ZiTi">@ViewBag.username</span>&nbsp;<span style="color:#fff;" class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu text-center  nav pull-right top-menu">
+                                <li class="text-center" id="userDataLi">
+                                    <a href="javascript:" id="userDataA" onclick="userData()">
+                                        <b class="glyphicon text-primary"><img src="/content/images/user_32px_1183455_easyicon.net.png" style="width:25px;height:25px;" /> 个人资料</b>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="text-center">
+                                    <a href="javascript:" onclick="Login()">
+                                        <b class="glyphicon text-danger"><img src="/content/images/logout.png" style="width:25px;height:25px;" /> 退出</b>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!--地图操作-->
+    <div class="container-fluid" id="content">
+        <!--地图-->
+        <div id="map" style="top:0px;bottom:0px;left:0px;right:0px;position:absolute;border:none;height:680px;"></div>
+        <!--操作左侧栏-->
+        <div class="rides-cs1">
+            <div id="ContentView" class="floatR1" style="display:none;width:310px;margin-top:15px;">
+                <div class="showOrDisp_table_right">
+                    <!--load加载-->
+                </div>
+                <div id="ToponymyTree">
+                    <div id="ToponymyTreeTile">
+                        <span style="font-size:20px;">功能操作</span>
+                    </div>
+                    <div class="panel-group" id="accordion" style="padding-top:5px;">
+                        @*定位查询*@
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="background-color:#69aae0">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="text-decoration: none;"><strong style="color:#ffffff">定位查询</strong></a></h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse ">
+                                <div class="panel-body">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="text">
+                                            <span onclick="ZoneLocationHuaDu()" style="cursor:default;">所选地区：从化区</span><br />
+                                            <label onclick="clickSelectMap(2)">龙潭镇</label>
+                                            <label onclick="clickSelectMap(4)">民乐镇</label>
+                                            <label onclick="clickSelectMap(8)">旗杆镇</label>
+                                            <label onclick="clickSelectMap(6)">鳌头镇</label>
+                                            <label onclick="clickSelectMap(12)">太平镇</label>
+                                            <label onclick="clickSelectMap(10)">神岗镇</label>
+                                            <label onclick="clickSelectMap(22)">江埔镇</label>
+                                            <label onclick="clickSelectMap(24)">灌村镇</label>
+                                            <label onclick="clickSelectMap(30)">良口镇</label>
+                                            <label onclick="clickSelectMap(34)">东明镇</label>
+                                            <label onclick="clickSelectMap(16)">从化镇</label>
+                                            <label onclick="clickSelectMap(20)">温泉镇</label>
+                                            <label onclick="clickSelectMap(33)">吕田镇</label>
+                                            <label onclick="clickSelectMap(26)">桃园镇</label>
+                                            <label onclick="clickSelectMap(14)">民乐茶场</label>
+                                            <label onclick="clickSelectMap(18)">横江农村</label>
+                                            <label onclick="clickSelectMap(28)">大岭山林场</label>
+                                            <label onclick="clickSelectMap(32)">流溪河林场</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*搜索查询*@
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="background-color:#69aae0">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="text-decoration: none;"><strong style="color:#ffffff">查询搜索</strong></a></h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse ">
+                                <div class="panel-body">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-left:0">
+                                                <select class="form-control" style="margin-left:0px;background:#d5d5d5;" id="Select">
+                                                    <option value="1">名称定位查询</option>
+                                                    <option value="2">地址定位查询</option>
+                                                    <option value="4">行政区定位查询</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0;margin-left:-13px;">
+                                                <input type="text" class="form-control" style="font-size:12px;" placeholder="请输入地址" id="txtDZ">
+
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2" style="margin-left:-14px;">
+                                                <button type="button" class="btn btn-primary" onclick="mapFixedPosition()">查 询</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:0">
+                                        <div class="row" style="margin-top:6px;overflow-y:auto;height:300px;">
+                                            <div class="col-lg-11 col-md-11 col-sm-11" id="tabAddress" style="margin-left:5px;padding:0px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*路径分析*@
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="background-color:#69aae0;">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" style="text-decoration: none;"><strong style="color:#ffffff">路径查询</strong></a></h4>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-sm-12" style="margin-bottom:5px;">
+                                        <label class="radio-inline" style="font-size: 15px;">
+                                            <input type="radio" class="Activity" id="CaseOriginalActivityPath" onclick="CaseOriginalActivityPath()" value="1" name="path" />病原活动路径
+                                        </label>
+                                        <label class="radio-inline" style="font-size: 15px;">
+                                            <input type="radio" class="Activity" id="CaseActivityppath" onclick="CaseActivityppath()" value="2" name="path" />病例活动路径
+                                        </label>
+                                    </div>
+                                    <ul id="myTab" class="nav nav-tabs">
+                                        <li class="active"><a href="#Years" data-toggle="tab">年</a></li>
+                                        <li><a href="#Month" data-toggle="tab">月</a></li>
+                                        <li><a href="#Week" data-toggle="tab">周</a></li>
+                                        <li><a href="#Day" data-toggle="tab">天</a></li>
+                                    </ul>
+                                    <div id="myTabContent" class="tab-content">
+                                        @* 年 *@
+                                        <div class="tab-pane active" id="Years">
+                                            <div class="col-sm-12" style="margin-top:2px;">
+                                                <label class="col-md-3 col-sm-3 control-label reset" style="padding:0px;margin-top:10px;font-weight:normal">开始年份</label>
+                                                <div class="col-sm-9" style="padding: 0px;">
+                                                    <input type="date" class="form-control Activity" id="StartYear" name="StartYear" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin-top:2px;">
+                                                <label class="col-md-3 col-sm-3 control-label reset" style="padding:0px;margin-top:10px;font-weight:normal">结束年份</label>
+                                                <div class="col-sm-9" style="padding: 0px;">
+                                                    <input type="date" class="form-control Activity" id="EndYear" name="EndYear" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">登记号</span>
+                                                    <input type="text" class="form-control Activity" id="RegistrationMark" placeholder="请输入项目登记号" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">年龄</span>
+                                                    <select class="form-control Activity" id="NPropertyID">
+                                                        <option value="0">----请选择----</option>
+                                                        <option value="1">0-4</option>
+                                                        <option value="2">5-9</option>
+                                                        <option value="3">10-14</option>
+                                                        <option value="4">15-24</option>
+                                                        <option value="5">25-34</option>
+                                                        <option value="6">35-44</option>
+                                                        <option value="7">45-54</option>
+                                                        <option value="8">55-64</option>
+                                                        <option value="9">65-74</option>
+                                                        <option value="10">75-84</option>
+                                                        <option value="11">≥85</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">性别</span>
+                                                    <select class="form-control Activity" id="XPropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">疾病</span>
+                                                    <select class="form-control Activity" id="JPropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">疾病亚型</span>
+                                                    <select class="form-control Activity" id="JBPropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin-top:10px;">
+                                                <div class="col-sm-6">
+                                                    <button class="btn btn-primary" type="button" onclick="BtnSelectYear(1)">查询</button>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <button class="btn btn-danger  ResetActivity">重置</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @* 月 *@
+                                        <div class="tab-pane" id="Month">
+                                            <div class="col-sm-12" style="margin-top:2px;">
+                                                <label class="col-md-3 col-sm-3 control-label reset" style="padding:0px;margin-top:10px;font-weight:normal">开始月份</label>
+                                                <div class="col-sm-9" style="padding: 0px;">
+                                                    <input type="date" class="form-control Activity" id="StartMonth" name="StartMonth" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin-top:2px;">
+                                                <label class="col-md-3 col-sm-3 control-label reset" style="padding:0px;margin-top:10px;font-weight:normal">结束月份</label>
+                                                <div class="col-sm-9" style="padding: 0px;">
+                                                    <input type="date" class="form-control Activity" id="EndMonth" name="EndMonth" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">登记号</span>
+                                                    <input type="text" class="form-control Activity" placeholder="请输入项目登记号" id="RegistrationMonth" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">年龄</span>
+                                                    <select class="form-control Activity" id="NLPropertyID">
+                                                        <option value="0">----请选择----</option>
+                                                        <option value="1">0-4</option>
+                                                        <option value="2">5-9</option>
+                                                        <option value="3">10-14</option>
+                                                        <option value="4">15-24</option>
+                                                        <option value="5">25-34</option>
+                                                        <option value="6">35-44</option>
+                                                        <option value="7">45-54</option>
+                                                        <option value="8">55-64</option>
+                                                        <option value="9">65-74</option>
+                                                        <option value="10">75-84</option>
+                                                        <option value="11">≥85</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">性别</span>
+                                                    <select class="form-control Activity" id="XBPropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">疾病</span>
+                                                    <select class="form-control Activity" id="JBLPropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">疾病亚型</span>
+                                                    <select class="form-control Activity" id="JBYXPropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin-top:10px;">
+                                                <div class="col-sm-6">
+                                                    <button class="btn btn-primary" onclick="BtnSelectYear(2)">查询</button>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <button class="btn btn-danger ResetActivity">重置</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @* 周 *@
+                                        <div class="tab-pane" id="Week">
+                                            <div class="col-sm-12" style="margin-top:2px;">
+                                                <label class="col-md-3 col-sm-3 control-label reset" style="padding:0px;margin-top:10px;font-weight:normal">开始周日</label>
+                                                <div class="col-sm-9" style="padding: 0px;">
+                                                    <input type="date" class="form-control Activity" id="StartWeek" name="StartWeek" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin-top:2px;">
+                                                <label class="col-md-3 col-sm-3 control-label reset" style="padding:0px;margin-top:10px;font-weight:normal">结束周日</label>
+                                                <div class="col-sm-9" style="padding: 0px;">
+                                                    <input type="date" class="form-control Activity" id="EndWeek" name="EndWeek" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 col-xs-12 col-lg-12 col-md-12" style="padding: 0 0 0 20px;">
+                                                <span style="position: relative; color:#f00;">注：（开始日期不能大于结束日期，且两个日期不能超过一周）</span>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">登记号</span>
+                                                    <input type="text" class="form-control Activity" placeholder="请输入项目登记号" id="RegistrationWeek" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">年龄</span>
+                                                    <select class="form-control Activity" id="ZNPropertyID">
+                                                        <option value="0">----请选择----</option>
+                                                        <option value="1">0-4</option>
+                                                        <option value="2">5-9</option>
+                                                        <option value="3">10-14</option>
+                                                        <option value="4">15-24</option>
+                                                        <option value="5">25-34</option>
+                                                        <option value="6">35-44</option>
+                                                        <option value="7">45-54</option>
+                                                        <option value="8">55-64</option>
+                                                        <option value="9">65-74</option>
+                                                        <option value="10">75-84</option>
+                                                        <option value="11">≥85</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">性别</span>
+                                                    <select class="form-control Activity" id="ZXBPropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">疾病</span>
+                                                    <select class="form-control Activity" id="ZJBropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">疾病亚型</span>
+                                                    <select class="form-control Activity" id="ZJBYXropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin-top:10px;">
+                                                <div class="col-sm-6">
+                                                    <button class="btn btn-primary" onclick="BtnSelectYear(3)">查询</button>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <button class="btn btn-danger ResetActivity">重置</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @* 天 *@
+                                        <div class="tab-pane" id="Day">
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">登记号</span>
+                                                    <input type="text" class="form-control Activity" placeholder="请输入项目登记号" id="RegistrationDay" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">年龄</span>
+                                                    <select class="form-control Activity" id="AgeIDDay">
+                                                        <option value="0">----请选择----</option>
+                                                        <option value="1">0-4</option>
+                                                        <option value="2">5-9</option>
+                                                        <option value="3">10-14</option>
+                                                        <option value="4">15-24</option>
+                                                        <option value="5">25-34</option>
+                                                        <option value="6">35-44</option>
+                                                        <option value="7">45-54</option>
+                                                        <option value="8">55-64</option>
+                                                        <option value="9">65-74</option>
+                                                        <option value="10">75-84</option>
+                                                        <option value="11">≥85</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">性别</span>
+                                                    <select class="form-control Activity" id="DXPropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">疾病</span>
+                                                    <select class="form-control Activity" id="DJBPropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="input-group" style="margin-top:5px;">
+                                                    <span class="input-group-addon">疾病亚型</span>
+                                                    <select class="form-control Activity" id="DJBYXPropertyID"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin-top:10px;">
+                                                <div class="col-sm-6">
+                                                    <button class="btn btn-primary" onclick="ActivityPathByDay()">查询</button>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <button class="btn btn-danger ResetActivity">重置</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*周边分析*@
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="background-color:#69aae0">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="text-decoration: none;"><strong style="color:#ffffff;">周边分析</strong></a></h4>
+                            </div>
+                            <div class="panel-collapse collapse in" id="collapseFour">
+                                <div class="panel-body col-sm-12" style="background:#fff;">
+                                    <div class="col-sm-12 col-xs-12 col-md-12">
+                                        <div class="col-sm-10 col-xs-10 col-md-10 " style="padding-left: 0;"><input id="RegionRadius" type="text" class="form-control Empties" style="height:35px;" placeholder="请输入半径..." /></div>
+                                        <div class="col-sm-2 col-xs-2 col-md-2" style="position: relative; top: 7px; padding-left: 0px;">米</div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-xs-12 col-md-12" style="height: 30px;margin-top:2px; background: rgba(219, 231, 242, 0.40); font-size: 14px; color: #000; font-weight: bold; line-height: 30px; border-radius: 2px;">查询目标</div>
+                                    <div class="col-sm-12 col-xs-12 col-md-12">
+                                        <div class="col-sm-3 col-xs-3 col-md-3" style="padding:0; margin-top: 10px;"><input type="checkbox" id="Regioncheckbox1" class="Emptiess" /><label for="Regioncheckbox1">医院</label></div>
+                                        <div class="col-sm-3 col-xs-3 col-md-3" style="padding:0; margin-top: 10px;"><input type="checkbox" id="Regioncheckbox2" class="Emptiess" /><label for="Regioncheckbox2">杜康</label></div>
+                                        <div class="col-sm-3 col-xs-3 col-md-3" style="padding:0; margin-top: 10px;"><input type="checkbox" id="Regioncheckbox3" class="Emptiess" /><label for="Regioncheckbox3">药店</label></div>
+                                        <div class="col-sm-3 col-xs-3 col-md-3" style="padding:0; margin-top: 10px;"><input type="checkbox" id="Regioncheckbox4" class="Emptiess" /><label for="Regioncheckbox4">病例</label></div>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-12">
+                                        <div class="col-sm-6 col-xs-6 col-md-6">
+                                            <button type="button" style="margin-top: 20px;" class="btn btn-primary col-sm-12 col-xs-12 col-md-12" onclick="RegionSelect()">查 询</button>
+                                        </div>
+                                        <div class="col-sm-6 col-xs-6 col-md-6">
+                                            <button type="button" style="margin-top: 20px;" class="btn btn-info col-sm-12 col-xs-12 col-md-12 RegionDeletes">清 空</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--疫情预警-->
+            <div id="YiQingYuJing" class="floatR1" style="display:none;width:250px;margin-top:15px;" hidden>
+                <div class="showOrDisp_table_right">
+                    <!--load加载-->
+                </div>
+                <div id="ToponymyTree">
+                    <div id="ToponymyTreeTile">
+                        <span style="font-size:20px;">疫情预警</span>
+                    </div>
+                    <div class="panel-group" id="accordion" style="padding-top:5px;">
+                        <input type="hidden" id="YiQingLan" />
+                        <div class="row">
+                            <button class="btn btn-primary form-control" id="YiDongBaiFen">移动百分位数法预警</button>
+                        </div>
+
+                        <div class="row" style="margin-top:8px;">
+                            <button class="btn btn-primary form-control" id="">社区级绝对数法预警</button>
+                        </div>
+                        <div class="row" style="margin-top:8px;">
+                            <button class="btn btn-primary form-control" id="">单位级绝对数法预警</button>
+                        </div>
+
+                        <div class="row" style="margin-top:8px;">
+                            <button class="btn btn-primary form-control" id="">时空重排</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--专题分析-->
+            <div id="ZhuanTiFenXin" class="floatR1" style="display:none;width:250px;margin-top:15px;" hidden>
+                <div class="showOrDisp_table_right">
+                    <!--load加载-->
+                </div>
+                <div id="ToponymyTree">
+                    <div id="ToponymyTreeTile">
+                        <span style="font-size:20px;">专题分析</span>
+                    </div>
+                    <div class="panel-group" id="accordion" style="padding-top:5px;">
+                        <div class="row" style="margin-top:8px;">
+                            <button class="btn btn-primary form-control" id="ZJuBuJieDaoNianDu">街道年度发病率分布</button>
+                        </div>
+                        <div class="row" style="margin-top:8px;">
+                            <button class="btn btn-primary form-control" id="ZJuBuSheQuNianDu">社区年度发病率分布</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="floatL1">
+                <!--收缩按钮-->
+                <a style="display:block" id="supervise_Show" class="btnOpen1" title="展开" href="javascript:void(0);">展开</a>
+                <a style="display:none;" id="supervise_Hide" class="btnCtn1" title="隐藏" href="javascript:void(0);">收缩</a>
+            </div>
+        </div>
+    </div>
+
+    <!--病人信息窗体-->
+    <div id="PathInquiringPatientSuspension" style="display:none; position:fixed;top:20%; left:30%; z-index:10000; width:250px;background-color:#fff">
+        <div class="panel-group" style="margin:0px;">
+            <div class="panel panel-primary">
+                <div class="panel-heading PathInquiringPatientSuspension">
+                    <div class="panel-title" style="line-height: 0px; font-size: 13px;">
+                        <a href="#SuspendingPatientInformation" data-toggle="collapse" data-target="#SuspendingPatientInformation">获取病人</a>
+                        <a href="#" onclick="AchieveSufferClose()" style="float:right;">X</a>
+                    </div>
+                </div>
+                <div class="panel-collapse collapse in" id="SuspendingPatientInformation">
+                    <div class="col-sm-12 col-xs-12 col-md-12" id="AchieveSuffer" style="margin-top:5px; max-height:250px; overflow:auto; padding:0px;">
+
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12" style="margin-top: 10px;" id="CountDingWeiDeposit"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--周边分析窗体-->
+    <div id="Regionsmodal" hidden="hidden" style="z-index:10000; width:400px; position:fixed;top:30%;right:1%;background:#fff;">
+        <div class="panel-group">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title" style="line-height: 0px; font-size: 13px;">
+                        <a href="#Regions" data-toggle="collapse" data-target="#Regions">周边分析</a>
+                        <a href="#" onclick="RegionsGuanBi()" style="float:right;">X</a>
+                    </div>
+                </div>
+                <div class="panel-collapse collapse in" id="Regions">
+                    <div class="panel-body col-sm-12">
+                        <div class="col-sm-12 col-xs-12 col-md-12">
+                            <input id="RegionCentrals" type="text" class="form-control" style="height:35px;" placeholder="获取中心点..." />
+                        </div>
+                        <div class="col-sm-12 col-xs-12 col-md-12">
+                            <div class="col-sm-10 col-xs-10 col-md-10" style="padding-left: 0;"><input id="RegionRadiuss" type="text" class="form-control Empties" style="height:35px;" placeholder="半径..." /></div>
+                            <div class="col-sm-2 col-xs-2 col-md-2 Empties" style="position: relative; top: 7px; padding-left: 0px;">米</div>
+                        </div>
+
+                        <div class="col-sm-12 col-xs-12 col-md-12" style="height: 30px; background: #ccc; font-size: 14px; color: #000; font-weight: bold; line-height: 30px; border-radius: 2px;">查询目标</div>
+                        <div class="col-sm-12 col-xs-12 col-md-12">
+                            <div class="col-sm-3 col-xs-3 col-md-3" style="padding:0; margin-top: 10px;"><input type="checkbox" id="Regioncheckbox1s" class="Emptiess" /><label for="Regioncheckbox1s">医院</label></div>
+                            <div class="col-sm-3 col-xs-3 col-md-3" style="padding:0; margin-top: 10px;"><input type="checkbox" id="Regioncheckbox2s" class="Emptiess" /><label for="Regioncheckbox2s">杜康</label></div>
+                            <div class="col-sm-3 col-xs-3 col-md-3" style="padding:0; margin-top: 10px;"><input type="checkbox" id="Regioncheckbox3s" class="Emptiess" /><label for="Regioncheckbox3s">药店</label></div>
+                            <div class="col-sm-3 col-xs-3 col-md-3" style="padding:0; margin-top: 10px;"><input type="checkbox" id="Regioncheckbox4s" class="Emptiess" /><label for="Regioncheckbox4s">病例</label></div>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 col-md-12">
+                            <div class="col-sm-6 col-xs-6 col-md-6">
+                                <button type="button" style="margin-top: 20px;" class="btn btn-primary col-sm-12 col-xs-12 col-md-12" onclick="RegionSelects()">查 询</button>
+                            </div>
+                            <div class="col-sm-6 col-xs-6 col-md-6">
+                                <button type="button" style="margin-top: 20px;" class="btn btn-info col-sm-12 col-xs-12 col-md-12 RegionDeletes">清 空</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--图层控制-->
+    <div class="">
+        <div class="LayerControl" onclick="LayerControl()" style="background-image:url(/SuperMap/images/layer-switcher-maximize.png);background-size:100%,100%;">@*图层*@</div>
+        <div id="MedicalIllustrationID">@*医疗资源图例*@</div>
+        <div id="ScatteredPoint">@*病例分布散点图*@</div>
+        <div id="PathogenicLegend">@*病原基因分布图例*@</div>
+        <div class="LayerControllist">
+            <div style="height: 20px; background: #69aae0;border-top-left-radius: 9px;border-top-right-radius: 9px;">
+                <a onclick="LayerControllist()" class="glyphicon glyphicon-minus" style="padding: 0; float: right; margin-right: 6px; height: 20px; width: 25px; margin: 0; cursor:pointer; line-height:20px;"></a>
+            </div>
+            <div class="checkbox-group " style="margin-left:21px;margin-top: 5px;">
+                <input onclick="Hospital()" type="checkbox" id="Hospital" value="false" name="TuCeng" />
+                <label class="TuCengLists" style="" for="Hospital">医疗资源分布图</label>
+            </div>
+            <div class="checkbox-group " style="margin-left: 21px;margin-top: 8px;">
+                <input onclick="PathogenicGene()" type="checkbox" id="PathogenicGene" value="false" name="TuCeng" />
+                <label class="TuCengLists" for="PathogenicGene">病原基因分布图</label>
+            </div>
+            <div class="checkbox-group " style="margin-left: 21px;margin-top: 8px;">
+                <input onclick="CaseDistribution()" type="checkbox" id="CaseDistribution" value="false" name="TuCeng" />
+                <label class="TuCengLists" for="CaseDistribution">病例分布散点图</label>
+            </div>
+            <div class="checkbox-group " style="margin-left: 21px;margin-top: 8px;">
+                <input onclick="Thermodynamic()" type="checkbox" id="Thermodynamic" value="false" name="TuCeng" />
+                <label class="TuCengLists" for="Thermodynamic">病例分布热力图</label>
+            </div>
+            <div class="checkbox-group " style="margin-left: 21px;margin-top: 8px;">
+                <input onclick="EarlyWarning()" type="checkbox" id="EarlyWarning" value="false" name="TuCeng" />
+                <label class="TuCengLists" for="EarlyWarning">疫病预警提醒</label>
+            </div>
+
+        </div>
+    </div>
+
+    <!--右下角测距离工具栏-->
+    <div class="PathInner" id="PathMenu" style="  position: absolute;right: 100px;bottom:20px;">
+        <div class="PathMain">
+            <div class="Tmain" onclick="PathRun()">
+                <div class="rotate" data-transform="rotate(0deg)" style="background-image:url(/content/images/picture/Eye_32px_1187216_easyicon.net.png);"><span class="cover"></span></div>
+                <img />
+            </div>
+        </div>
+        @*测距离*@
+        <div class="PathItem">
+            <a href="#" class="link" onclick="distanceMeasure()"><span class="item" style="background-image:url(/content/images/picture/测距.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+        </div>
+        @*侧面积*@
+        <div class="PathItem">
+            <a href="#" class="link" onclick="areaMeasure()"> <span class="item" style="background-image:url('/content/images/picture/测面积.png'); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+        </div>
+        @*搜索选中面积的医院信息*@
+        <div class="PathItem">
+            <a href="#" class="link" onclick="drawGeometry()"> <span class="item" style="background-image: url(/content/images/picture/圆选.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+        </div>
+        <div class="PathItem">
+            <a class="link" href="#" onclick="drawGeometry1()"> <span class="item" style="background-image: url('/content/images/picture/框选.png'); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+        </div>
+        <div class="PathItem">
+            <a href="#" class="link" onclick="drawGeometry2()"> <span class="item" style="background-image: url(/content/images/picture/自定义框选.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+        </div>
+        <div class="PathItem">
+            <a class="link" href="#" onclick="clearFeatures()"> <span class="item" style="background-image: url(/content/images/picture/清除.png); -moz-transform: rotate(0deg);" data-transform="rotate(0deg)"></span> </a>
+        </div>
+    </div>
+
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/SuperMap/libs/SuperMap.Include.js"></script><!--超图引用-->
+    <script src="~/content/javascript/index/img.js"></script>
+    <script src="~/content/Round/js/jquery-1.7.2.min.js"></script>
+    <script src="~/content/Round/js/js.js"></script>
+    <script src="~/content/Round/js/jquery.transform.js"></script>
+    <script src="~/content/js/customfunction.js"></script>
+
+    @*////////////////////////////////////放置地图控件////////////////////////////////////*@
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".PathItem").hover(function () {
+                $(this).find(".metaicondetail").show();
+            }, function () {
+                $(this).find(".metaicondetail").hide();
+            });
+        });
+
+
+        $.ajaxSettings.async = false;
+        //声明全局变量 map、layer、url
+        var map, layerS, drawLine, lineLayer,vectorLayer_WG, CeTuXing, vectorLayer, control, queryBounds, markerLayer, drawFeature, drawPolygon1, drawPolygon2, polygonLayer, features, layer, drawLine, lineLayer, MedicalMap, PathogenicGeneLayer, EarlyWarningWarning, CaseScatterlLayer, heatMapLayer, OpendPathogenicPathwaies, PatientPathLayer
+        style = {
+            strokeColor: "#304DBE",
+            strokeWidth: 2,
+            pointerEvents: "visiblePainted",
+            fillColor: "#304DBE",
+            fillOpacity: 0.8
+        },
+        url = "http://127.0.0.1:8090/iserver/services/map-CongHuaQuDistrictFire/rest/maps/MapClip@GuangZhouCongHuaQu_Data1";
+        //url = "http://127.0.0.1:8090/iserver/services/map-CongHuaQuDistrictFire/rest/maps/区县界_region_2_1@GuangZhouCongHuaQu_Data";
+        function init() {
+
+            //////////////////////////////////////////////////////////////////新建线图层
+            //新建线矢量图层
+            lineLayer = new SuperMap.Layer.Vector("量算距离");
+            //对线图层应用样式style（前面有定义）
+            lineLayer.style = style;
+            //创建画线控制，图层是lineLayer;这里DrawFeature(图层,类型,属性)；multi:true在将要素放入图层之前是否现将其放入几何图层中
+            drawLine = new SuperMap.Control.DrawFeature(lineLayer, SuperMap.Handler.Path, { multi: true });
+            /*
+            注册featureadded事件,触发drawCompleted()方法
+            例如注册"loadstart"事件的单独监听
+            events.on({ "loadstart": loadStartListener });
+            */
+            drawLine.events.on({ "featureadded": drawCompleted });
+
+            /////////////////////////////////////////////////////////////////新建面积图层
+            //新建面矢量图层
+            polygonLayer = new SuperMap.Layer.Vector("面积量算");
+            //对面图层应用样式style（前面有定义）
+            polygonLayer.style = style;
+            //创建画面控制，图层是polygonLayer
+            drawPolygon = new SuperMap.Control.DrawFeature(polygonLayer, SuperMap.Handler.Polygon);
+            drawPolygon.events.on({ "featureadded": drawCompleted });
+
+            ///////////////////////////////////////////////////////////////////////////////
+            vectorLayer = new SuperMap.Layer.Vector("范围查询图层");//新建一个vectorLayer的矢量图层
+            RegionalLayer = new SuperMap.Layer.Markers("周边查询");
+            markerLayer = new SuperMap.Layer.Markers("点图标");//创建一个有标签的图层
+            EarlyWarningWarning = new SuperMap.Layer.Markers("预警提醒");
+            PatientPathLayer = new SuperMap.Layer.Vector("轨迹图层");
+            OpendPathogenicPathwaies = new SuperMap.Layer.HeatGridLayer("病原路径分析图");
+            PathogenicGeneLayer = new SuperMap.Layer.Markers("病原基因分布图"), DataForms;
+
+            vectorLayer_WG = new SuperMap.Layer.Vector("街道区域");
+
+            //定义layer图层，TiledDynamicRESTLayer：分块动态 REST 图层
+            layer = new SuperMap.Layer.TiledDynamicRESTLayer("从化区慢性病图层", url, { transparent: true, cacheEnabled: true }, { maxResolution: "auto" });
+            //为图层初始化完毕添加addLayer()事件
+            layer.events.on({ "layerInitialized": addLayer });
+
+            map = new SuperMap.Map("map", {
+                controls: [
+             //   new SuperMap.Control.LayerSwitcher(),
+                new SuperMap.Control.ScaleLine(),
+                new SuperMap.Control.Zoom(),
+                new SuperMap.Control.Navigation({
+                    dragPanOptions: {
+                        enableKinetic: true
+                    }
+                }),
+                drawLine, drawPolygon]
+            });
+
+            //矩形查询
+            drawFeature = new SuperMap.Control.DrawFeature(vectorLayer, SuperMap.Handler.Box, { "handlerOptions": { "cursorCSS": "crosshair" } });
+            drawFeature.events.on({ "featureadded": drawCompleteds });
+            map.addControl(drawFeature);
+
+            //几何圆查询
+            drawPolygon1 = new SuperMap.Control.DrawFeature(vectorLayer, SuperMap.Handler.RegularPolygon, { handlerOptions: { sides: 50 } });
+            drawPolygon1.events.on({ "featureadded": drawCompleteds });
+            map.addControl(drawPolygon1);
+
+            //多边形查询
+            drawPolygon2 = new SuperMap.Control.DrawFeature(vectorLayer, SuperMap.Handler.Polygon);
+            drawPolygon2.events.on({ "featureadded": drawCompleteds });
+            map.addControl(drawPolygon2);
+        }
+
+        function addLayer() {
+            map.addLayers([layer, lineLayer, polygonLayer, vectorLayer, RegionalLayer, markerLayer, PathogenicGeneLayer, MedicalMap, EarlyWarningWarning, CaseScatterlLayer, heatMapLayer, OpendPathogenicPathwaies, PatientPathLayer, vectorLayer_WG]);//显示图层
+            map.setCenter(new SuperMap.LonLat(113.581716, 23.552697), 4);
+        }
+
+        //移除图层要素
+        function clearFeatures() {
+            lineLayer.removeAllFeatures();//距离
+            polygonLayer.removeAllFeatures();//面积
+            RegionalLayer.clearMarkers();
+            vectorLayer.removeAllFeatures();
+            markerLayer.clearMarkers();//点标签
+        }
+
+        $(".RegionDeletes").click(function () {
+            $(".Empties").val("");
+            $(".Emptiess").removeAttr("checked");
+
+        })
+
+    </script>
+
+    @*/////////////////////////////////////区域定位///////////////////////////////////////*@
+    <script>
+        function clickSelectMap(SmID) {
+            //声明字段
+            var queryParam = [], queryBySQLParams, queryBySQLService;
+            queryParam.push(new SuperMap.REST.FilterParameter({
+                name: "区县界_region_2_1@GuangZhouCongHuaQu_Data",//查询数据集名称或者图层名称，根据实际的查询对象而定，必设属性
+                attributeFilter: "SmID=" + SmID,//属性过滤条件  相当于 SQL 语句中的 WHERE 子句，
+            }));
+            //SQL 查询参数类。 该类用于设置 SQL 查询的相关参数。
+            queryBySQLParams = new SuperMap.REST.QueryBySQLParameters({
+                queryParams: queryParam
+            });
+            //SQL 查询服务类。 在一个或多个指定的图层上查询符合 SQL 条件的空间地物信息。
+            queryBySQLService = new SuperMap.REST.QueryBySQLService(url, {//url 服务的访问地址
+                eventListeners: { "processCompleted": processCompleted_PG, "processFailed": processFailed_PG }
+            });
+            //传递到服务端
+            queryBySQLService.processAsync(queryBySQLParams);
+        }
+        function processFailed_PG(er) {
+
+        }
+        function processCompleted_PG(queryEventArgs) {
+            //声明字段
+            var i, j, feature, bounds, N = [], S = [], W = [], E = [],
+            result = queryEventArgs.result;//获取服务器传回来的数据
+            vectorLayer_WG.removeAllFeatures();//清除上一次查询
+            var features = [];
+            //判断是否有数据
+            if (result && result.recordsets) {//判断查询的查询结果记录集数组是否为空
+                for (i = 0; i < result.recordsets.length; i++) {//循环记录集数组
+                    //features===用于存放矢量要素
+                    if (result.recordsets[i].features) {//判断记录集数组的矢量要素是否为空
+                        //如果记录集数组的矢量要素不为空，则又循环 记录集数组的矢量要素
+                        for (j = 0; j < result.recordsets[i].features.length; j++) {
+                            feature = result.recordsets[i].features[j];//获取记录集数组的矢量要素
+                            //判断显示面或点
+                            if (feature.geometry.CLASS_NAME == SuperMap.Geometry.Point.prototype.CLASS_NAME) {//判断返回的数据是不是这个数据
+
+                            }
+                            else {
+                                //社区网格
+                                feature.style = {
+                                    strokeColor: 'Orange',//边颜色
+                                    strokeWidth: 1,//边宽度
+                                    strokeDashstyle: 'solid',//边类型，虚线
+                                    fillColor: 'Orange',//填充颜色
+                                    fillOpacity: 0.15,//透明度
+                                    label: feature.data.Name,
+                                    fontColor: 'Orange',
+                                    fontOpacity: "1",
+                                    fontSize: '10px',
+                                    fontWeight: 700
+                                };
+                                vectorLayer_WG.addFeatures(feature);//给这个图层添加features。也就是把查询结果显示出来
+
+                                bounds = feature.geometry.bounds;
+                                if (bounds != null) {
+                                    if (bounds.top != null && Boolean(bounds.top) == true) {
+                                        N.push(Number(bounds.top));
+                                    }
+                                    if (bounds.bottom != null && Boolean(bounds.bottom) == true) {
+                                        S.push(Number(bounds.bottom));
+                                    }
+                                    if (bounds.left != null && Boolean(bounds.left) == true) {
+                                        W.push(Number(bounds.left));
+                                    }
+                                    if (bounds.right != null && Boolean(bounds.right) == true) {
+                                        E.push(Number(bounds.right));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (W.length > 0 && S.length > 0 && E.length > 0 && N.length > 0) {
+                var bounds = new SuperMap.Bounds(
+                                              Math.min.apply(null, W),//最小的水平坐标系。
+                                              Math.min.apply(null, S),//最小的垂直坐标系。
+                                              Math.max.apply(null, E),//最大的水平坐标系。
+                                              Math.max.apply(null, N) //最大的垂直坐标系。
+                                          );
+                map.zoomToExtent(bounds);//缩放到指定范围，重新定位中心点。
+            }
+        }
+    </script>
+
+    @*////////////////////////////////////个人资料设置////////////////////////////////////*@
+    <script>
+        //跳转个人资料
+        function userData() {
+            window.location.href = '/Index/usernameData?OpenType=1';
+        }
+
+        //退出登录
+        function Login() {
+            if (confirm('确定退出登录？')) {
+                window.location.href = '/Index/login';
+            }
+        }
+    </script>
+
+    @*////////////////////////////////////病人基础数据////////////////////////////////////*@
+    <script>
+
+        //性别
+        createSelect("XPropertyID", "/Index/SelectXProperty");
+        //疾病
+        createSelect("JPropertyID", "/Index/SelectJProperty");
+        //疾病亚型
+        createSelect("JBPropertyID", "/Index/SelectJBProperty");
+
+        //性别
+        createSelect("XBPropertyID", "/Index/SelectXProperty");
+        //疾病
+        createSelect("JBLPropertyID", "/Index/SelectJProperty");
+        //疾病亚型
+        createSelect("JBYXPropertyID", "/Index/SelectJBProperty");
+
+        //性别
+        createSelect("ZXBPropertyID", "/Index/SelectXProperty");
+        //疾病
+        createSelect("ZJBropertyID", "/Index/SelectJProperty");
+        //疾病亚型
+        createSelect("ZJBYXropertyID", "/Index/SelectJBProperty");
+
+        //性别
+        createSelect("DXPropertyID", "/Index/SelectXProperty");
+        //疾病
+        createSelect("DJBPropertyID", "/Index/SelectJProperty");
+        //疾病亚型
+        createSelect("DJBYXPropertyID", "/Index/SelectJBProperty");
+
+    </script>
+
+    @*////////////////////////////////////点击导航栏//////////////////////////////////////*@
+    <script>
+        var bool, boolss, gjlbool = true;
+        //综合展示
+        function ButtonWYC1() {
+            $('.YingCang').css('display', 'none');
+            $('.WYingCang').css('display', 'block');
+            $('.WYingCang').eq(0).css('display', 'none');
+            $('.YingCang').eq(0).css('display', 'block');
+            $('.YingCang span').eq(0).css('margin-left', '16px');
+            //功能操作显示
+            $('#ContentView').animate({ width: 'show', opacity: 'show' }, 'normal', function () {
+                $('#ContentView').show();
+            });
+            //疫情预警
+            $('#YiQingYuJing').animate({ width: 'hide', opacity: 'hide' }, 'normal', function () {
+                $('#YiQingYuJing').hide();
+            });
+            //专题分析
+            $("#ZhuanTiFenXin").animate({ width: 'hide', opacity: 'hide' }, 'normal', function () {
+                $("#ZhuanTiFenXin").hide();
+            })
+        }
+        //疫情预警
+        function ButtonWYC2() {
+            $('.YingCang').css('display', 'none');
+            $('.WYingCang').css('display', 'block');
+            $('.WYingCang').eq(1).css('display', 'none');
+            $('.YingCang').eq(1).css('display', 'block');
+            $('.YingCang span').eq(1).css('margin-left', '17px');
+            //功能操作显示
+            $('#ContentView').animate({ width: 'hide', opacity: 'hide' }, 'normal', function () {
+                $('#ContentView').hide();
+            });
+            //疫情预警
+            $('#YiQingYuJing').animate({ width: 'show', opacity: 'show' }, 'normal', function () {
+                $('#YiQingYuJing').show();
+            });
+            //专题分析
+            $("#ZhuanTiFenXin").animate({ width: 'hide', opacity: 'hide' }, 'normal', function () {
+                $("#ZhuanTiFenXin").hide();
+            });
+        }
+        //专题分析
+        function ButtonWYC3() {
+            $('.YingCang').css('display', 'none');
+            $('.WYingCang').css('display', 'block');
+            $('.WYingCang').eq(2).css('display', 'none');
+            $('.YingCang').eq(2).css('display', 'block');
+            $('.YingCang span').eq(2).css('margin-left', '17px');
+            //疫情预警
+            $('#YiQingYuJing').animate({ width: 'hide', opacity: 'hide' }, 'normal', function () {
+                $('#YiQingYuJing').hide();
+            });
+            //专题分析
+            $("#ZhuanTiFenXin").animate({ width: 'show', opacity: 'show' }, 'normal', function () {
+                $("#ZhuanTiFenXin").show();
+            })
+            //功能操作显示
+            $('#ContentView').animate({ width: 'hide', opacity: 'hide' }, 'normal', function () {
+                $('#ContentView').hide();
+            });
+        }
+        //报告报表
+        function ButtonWYC4() {
+            $('.YingCang').css('display', 'none');
+            $('.WYingCang').css('display', 'block');
+            $('.WYingCang').eq(3).css('display', 'none');
+            $('.YingCang').eq(3).css('display', 'block');
+            $('.YingCang span').eq(3).css('margin-left', '17px');
+            //专题分析
+            $("#ZhuanTiFenXin").animate({ width: 'hide', opacity: 'hide' }, 'normal', function () {
+                $("#ZhuanTiFenXin").hide();
+            })
+            //功能操作显示
+            $('#ContentView').animate({ width: 'hide', opacity: 'hide' }, 'normal', function () {
+                $('#ContentView').hide();
+            });
+            //疫情预警
+            $('#YiQingYuJing').animate({ width: 'hide', opacity: 'hide' }, 'normal', function () {
+                $('#YiQingYuJing').hide();
+            });
+            //报告报表路径
+            window.location.href = "/Index/Report";
+        }
+
+        //左侧栏
+        //单击显示左侧栏
+        $("#supervise_Show").click(function () {
+            //功能操作显示
+            $('#ContentView').animate({ width: 'show', opacity: 'show' }, 'normal', function () {
+                $('#ContentView').show();
+            });
+            $('#supervise_Show').attr('style', 'display:none');
+            $('#supervise_Hide').attr('style', 'display:block');
+        });
+
+        //单击隐藏左侧栏
+        $("#supervise_Hide").click(function () {
+            //功能操作显示
+            $('#ContentView').animate({ width: 'hide', opacity: 'hide' }, 'normal', function () {
+                $('#ContentView').hide();
+            });
+            $('#supervise_Show').attr('style', 'display:block');
+            $('#supervise_Hide').attr('style', 'display:none');
+        });
+
+    </script>
+
+    @*//////////////////////////////////////路径查询//////////////////////////////////////*@
+    <script>
+        styles = [
+            {
+                start: 0,
+                end: 2,
+                style: {
+                    strokeColor: "#C69944",
+                    strokeWidth: 1,
+                    fillColor: "#B8E4B8",
+                    fillOpacity: 0.5
+                }
+            },
+            {
+                start: 2,
+                end: 4,
+                style: {
+                    strokeColor: "#C69944",
+                    strokeWidth: 1,
+                    fillColor: "#66dd66",
+                    fillOpacity: 0.5
+                }
+            },
+            {
+                start: 4,
+                end: 6,
+                style: {
+                    strokeColor: "#C69944",
+                    strokeWidth: 1,
+                    fillColor: "#00ee00",
+                    fillOpacity: 0.5
+                }
+            },
+            {
+                start: 6,
+                end: 8,
+                style: {
+                    strokeColor: "#C69944",
+                    strokeWidth: 1,
+                    fillColor: "#008800",
+                    fillOpacity: 0.5
+                }
+            },
+            {
+                start: 8,
+                end: 10,
+                style: {
+                    strokeColor: "#C69944",
+                    strokeWidth: 1,
+                    fillColor: "#df8505",
+                    fillOpacity: 0.5
+                }
+            },
+            {
+                start: 10,
+                end: 12,
+                style: {
+                    strokeColor: "#C69944",
+                    strokeWidth: 1,
+                    fillColor: "#CC9933",
+                    fillOpacity: 0.5
+                }
+            },
+            {
+                start: 12,
+                end: 16,
+                style: {
+                    strokeColor: "#C69944",
+                    strokeWidth: 1,
+                    fillColor: "#FF0000",
+                    fillOpacity: 0.5
+                }
+            }
+        ];
+
+        var ActivityType;
+        //病原活动路径
+        function CaseOriginalActivityPath() {
+            ActivityType = $("#CaseOriginalActivityPath").val();
+        }
+        //病例活动路径
+        function CaseActivityppath() {
+            ActivityType=  $("#CaseActivityppath").val();
+        }
+
+        //年月周份查询
+        function BtnSelectYear(ConditionType) {
+            $('#AchieveSuffer').html("");
+            var NPropertyID; //年龄
+            var XPropertyID; //性别
+            var JPropertyID;  //疾病
+            var JBPropertyID; //病例类型
+            var RegistrationMark;//登记号
+            var EndYear;//结束年份
+            var StartYear;//开始年份
+
+            //判断选择的是病例还是病原路径分析
+            if ($('#CaseActivityppath:checked').val() != null && $('#CaseActivityppath:checked').val() != "" && $('#CaseActivityppath:checked').val() != undefined) {
+                CaseActivityppath();
+            }
+            else if ($('#CaseOriginalActivityPath').val() != null && $('#CaseOriginalActivityPath').val() != "" && $('#CaseOriginalActivityPath').val() != undefined) {
+                CaseOriginalActivityPath();
+            }
+            else {
+                alert("请选择任意一个条件查询!");
+                return false;
+            }
+
+            if (ConditionType == "1" || ConditionType == 1) {
+                $('#AchieveSuffer').html("");
+                NPropertyID = $('#NPropertyID').val();
+                XPropertyID = $('#XPropertyID').val();
+                JPropertyID = $('#JPropertyID').val();
+                JBPropertyID = $('#JBPropertyID').val();
+                RegistrationMark = $("#RegistrationMark").val();
+                EndYear = $("#EndYear").val();
+                StartYear = $("#StartYear").val();
+                var MedicalX = "";
+
+            } else if (ConditionType == "2" || ConditionType == 2) {
+                $('#AchieveSuffer').html("");
+                NPropertyID = $('#NLPropertyID').val();
+                XPropertyID = $('#XBPropertyID').val();
+                JPropertyID = $('#JBLPropertyID').val();
+                JBPropertyID = $('#JBYXPropertyID').val();
+                RegistrationMark = $("#RegistrationMonth").val();
+                EndYear = $("#EndMonth").val();
+                StartYear = $("#StartMonth").val();
+                var MedicalX = "";
+            }
+            else if (ConditionType == "3" || ConditionType == 3) {
+                $('#AchieveSuffer').html("");
+                NPropertyID = $('#ZNPropertyID').val();
+                XPropertyID = $('#ZXBPropertyID').val();
+                JPropertyID = $('#ZJBropertyID').val();
+                JBPropertyID = $('#ZJBYXropertyID').val();
+                RegistrationMark = $("#RegistrationWeek").val();
+                EndYear = $("#EndWeek").val();
+                StartYear = $("#StartWeek").val();
+                var MedicalX = "";
+            } else {
+                $('#AchieveSuffer').html("");
+            }
+
+            $.post("/Index/SelectSufferYear", { NPropertyID: NPropertyID, XPropertyID: XPropertyID, JPropertyID: JPropertyID, JBPropertyID: JBPropertyID, RegistrationMark: RegistrationMark, EndYear: EndYear, StartYear: StartYear, ActivityType: ActivityType }, function (data) {
+                if (data != "") {
+                    var PaintConent = "";
+                    var inti = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        inti++;
+                        PaintConent += '<div class="col-sm-12 col-xs-12 col-md-12 Jingquechaxun" style="border: 1px solid #f9f9f9; cursor:pointer; border-radius: 5px;" onclick="CreateAgrid(' + data[i]["SickpersonDetailID"] + "," + ActivityType + ')"><div style="padding: 0px; height: 33px; overflow:hidden;" class="col-sm-12 col-xs-12 col-md-12"><span class="glyphicon glyphicon-user" style="text-align: center; height: 33px; line-height: 33px; float: left;></span><span style="text-align: center; height: 33px; line-height: 33px; float: right;">' + data[i]["Cardnumber"] + '</span></div></div>';
+                    }
+                    $('#AchieveSuffer').html(PaintConent);
+                    $('#CountDingWeiDeposit').html("<span> 共查询出 ：<span style='color:#f00;'>" + inti + " </span>处</span>");
+                }
+                $('#PathInquiringPatientSuspension').css("display", "block");
+            });
+        }
+
+        //重置
+        $(".ResetActivity").click(function () {
+            $(".Activity").val("");
+            $(".Activity").removeAttr("checked");
+
+        })
+
+
+        //日查询
+        function ActivityPathByDay() {
+            $('#AchieveSuffer').html("");
+            var NPropertyID;
+            var XPropertyID;
+            var JPropertyID;
+            var JBPropertyID;
+            var RegistrationMark;//登记号
+
+            //判断选择的是病例还是病原路径分析
+            if ($('#CaseActivityppath:checked').val() != null && $('#CaseActivityppath:checked').val() != "" && $('#CaseActivityppath:checked').val() != undefined) {
+                CaseActivityppath();
+            }
+            else if ($('#CaseOriginalActivityPath').val() != null && $('#CaseOriginalActivityPath').val() != "" && $('#CaseOriginalActivityPath').val() != undefined) {
+                CaseOriginalActivityPath();
+            }
+            else {
+                alert("请选择任意一个条件查询!");
+                return false;
+            }
+                NPropertyID = $('#AgeIDDay').val();
+                XPropertyID = $('#DXPropertyID').val();
+                JPropertyID = $('#DJBPropertyID').val();
+                JBPropertyID = $('#DJBYXPropertyID').val();
+                RegistrationMark=   $("#RegistrationDay").val();
+                var MedicalX = "";
+                var MedicalY = "";
+
+                $.post("/Index/SelectSufferDay", { NPropertyID: NPropertyID, XPropertyID: XPropertyID, JPropertyID: JPropertyID, JBPropertyID: JBPropertyID, RegistrationMark: RegistrationMark }, function (data) {
+                if (data != "") {
+                    var PaintConent = "";
+                    var inti = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        inti++;
+                        PaintConent += '<div class="col-sm-12 col-xs-12 col-md-12 Jingquechaxun" style="border: 1px solid #f9f9f9; cursor:pointer; border-radius: 5px;" onclick="DetailsPathPatient_Day_Onclick(' + data[i]["SuffererID"] + ')"><div style="padding: 0px; height: 33px; overflow:hidden;" class="col-sm-12 col-xs-12 col-md-12"><span class="glyphicon glyphicon-user" style="text-align: center; height: 33px; line-height: 33px; float: left;><span style="text-align: center; height: 33px; line-height: 33px; float: left;">' + data[i]["Cardnumber"] + '</span></div></div>';
+                    }
+                    $('#AchieveSuffer').html(PaintConent);
+                    $('#CountDingWeiDeposit').html("<span>共查询病人数量：<span style='color:#f00;'>" + inti + " </span>处</span>");
+                }
+                $('#PathInquiringPatientSuspension').css("display", "block");
+            });
+        }
+
+        //日期路径
+        function DetailsPathPatient_Day_Onclick(SuffererID) {
+            PatientPathLayer.removeAllFeatures();//轨迹图
+            var MedicalX = "";
+            var MedicalY = "";
+            $.post("/Index/SelectSuffererRajectory", { SuffererID: SuffererID }, function (data) {
+                if (data != "") {
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            var dataSeeTheDoctorDate = data[i].ActivityTimes;
+                            MedicalX += data[i]["SmX"] + "`";
+                            MedicalY += data[i]["SmY"] + "`";
+                            //点对象
+                            var point = new SuperMap.Geometry.Point(data[i]["SmX"], data[i]["SmY"]);
+                            var pointVector = new SuperMap.Feature.Vector(point);
+                            pointVector.style = {
+                                fillColor: "#DC143C",
+                                strokeColor: "#CAFF70",
+                                pointRadius: 6,
+                                label: dataSeeTheDoctorDate
+                            };
+
+                            PatientPathLayer.addFeatures(pointVector);
+                        }
+                        var points2 = [];
+                        for (var i = 0; i < MedicalY.split('`').length - 1; i++) {
+                            points2[i] = new SuperMap.Geometry.Point(MedicalX.split('`')[i], MedicalY.split('`')[i]);
+                        }
+                        var line1 = new SuperMap.Geometry.LineString(points2);
+                        var linecVector = new SuperMap.Feature.Vector(line1);
+                        linecVector.style = {
+                            strokeColor: "#7B68EE",
+                            strokeWidth: 2
+                        };
+                        PatientPathLayer.addFeatures(linecVector);
+                    }
+                }
+            });
+        }
+
+
+        //关闭提示框
+        function AchieveSufferClose() {
+            $("#PathInquiringPatientSuspension").css("display", "none");
+        }
+
+        //点击患者的信息查看活动路径
+        function CreateAgrid(SickpersonDetailID, ActivityType) {
+            //先清空
+            OpendPathogenicPathwaies.removeAllFeatures();//清除分析
+            PatientPathLayer.removeAllFeatures();//清除轨迹
+            //网格控件
+            var select = new SuperMap.Control.SelectGrid(OpendPathogenicPathwaies, {
+                callbacks: {
+                    //点击circleVector1事件
+                    clickFeature: function (e) {
+                        console.log(e);
+                        closeInfoWin();
+                        openInfoPathogenicPathwaiesBox(e);
+                    },
+                    clickout: function () {
+                        closeInfoWin();
+                    }
+                }
+            });
+            map.events.on({
+                "movestart": function () {
+                    closeInfoWin();
+                }
+            });
+            map.addControl(select);
+            select.activate();
+            var heatFeatures = [], k = 1;
+            var MedicalX = "";
+            var MedicalY = "";
+
+
+            $.post("/Index/SelectSickpersonRajectoryr", { SickpersonDetailID: SickpersonDetailID }, function (data) {
+                if (data != "") {
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            var dataSeeTheDoctorDate = data[i].ActivityTimes;
+                            var centerPoint1 = new SuperMap.Geometry.Point(data[i].SmX, data[i].SmY);
+                            var circleVector1 = new SuperMap.Feature.Vector(centerPoint1);//定义样式
+                            circleVector1.style = {
+                                pointRadius: 4,
+                                graphic: true,
+                                externalGraphic: "/SuperMap/images/marker-"+ k +".png",
+                                graphicWidth: 44,
+                                graphicHeight: 33,
+                                label: dataSeeTheDoctorDate,//显示时间
+                            };
+                            k = k + 1;
+                            circleVector1.sm_capital = "<div><span>活动时间：" + data[i].ActivityTime + "</span></div>";
+                            heatFeatures.push(circleVector1);
+                            PatientPathLayer.addFeatures(circleVector1);
+                        }
+                        //plottingLayer.createSymbolWC(0, SuperMap.Plot.SymbolType.ARBITRARYPOLYGONSYMBOL, heatFeatures);
+                        //设置地图在第3级的时候进行格网散开
+                        OpendPathogenicPathwaies.spreadZoom = 3;
+                        OpendPathogenicPathwaies.items = styles;
+                        //设置label显示的数据为字段temperature的内容
+                        OpendPathogenicPathwaies.dataField = "temperature";
+                        OpendPathogenicPathwaies.addFeatures(heatFeatures);
+
+
+                        var points = [];
+                        for (var j = 0; j < MedicalY.split('`').length - 1; j++) {
+                            points[j] = new SuperMap.Geometry.Point(MedicalX.split('`')[j], MedicalY.split('`')[j]);
+                        };
+                        var line = new SuperMap.Geometry.lineLayer(points);
+                        var linecVector = new SuperMap.Feature.Vector(line);
+                        linecVector.items = items;
+                        PatientPathLayer.addFeatures(linecVector);
+                    }
+                }
+            });
+        }
+
+        //疫情
+        function openInfoPathogenicPathwaiesBox(e) {
+            infowinonMessagefun();
+            var lonlat = circleVector1.getLonLat();
+            var contentHTML = "<div class='Pathogenic_titleDiv'><span class='Pathogenic_title'>病原路径分析</span></div>";
+            contentHTML += "<div >" + e.sm_capital + "</div></div>";
+            var size = new SuperMap.Size(0, 33);
+            var offset = new SuperMap.Pixel(0, -size.h);
+            var icon = new SuperMap.Icon("/content/images/Circle_Yellow.png", size, offset);
+            var popup = new SuperMap.Popup.FramedCloud("Pathogenic",
+            new SuperMap.LonLat(lonlat.lon, lonlat.lat), null, contentHTML, icon, true);
+            infowinonMessage = popup;
+            map.addPopup(popup);
+        }
+
+    </script>
+
+    @*////////////////////////////////////////周边分析////////////////////////////////////*@
+    <script>
+
+        function RegionalQuery(Distance, Coordinate1, Coordinate2, int) {
+            RegionalLayer.clearMarkers();
+            var where = "";
+            if (int == "w") {
+                where = "7200";
+            } else if (int == "y") {
+                where = "7280";
+            } else if (int == "z") {
+                where = "2800";
+            } else if (int == "wy" || int == "yw") {
+                where = "7200,7280";
+            } else if (int == "wz" || int == "zw") {
+                where = "7200,2800";
+            } else if (int == "yz" || int == "zy") {
+                where = "7280,2800";
+            } else {
+                where = "7200,7280,2800";
+            }
+            where.substring(0, where.length - 1);
+            var queryByDistanceParams = new SuperMap.REST.QueryByDistanceParameters({
+                queryParams: new Array(new SuperMap.REST.FilterParameter({ name: "P15医疗服务_point_1_CongHuaQu@GuangZhouCongHuaQu_Data#1", attributeFilter: "TYPE in (" + where + ")" })),
+                returnContent: true,
+                distance: Distance,
+                geometry: new SuperMap.Geometry.Point(Coordinate1, Coordinate2)
+            });
+            var queryByDistanceService = new SuperMap.REST.QueryByDistanceService(url);
+            queryByDistanceService.events.on({
+                "processCompleted": RegionalQuerySpot,
+                "processFailed": processFailed
+            });
+            queryByDistanceService.processAsync(queryByDistanceParams);
+        }
+
+        function RegionalQuerySpot(queryEventArgs) {
+            var i, j, result = queryEventArgs.result;
+            for (i = 0; i < result.recordsets.length; i++) {
+                for (j = 0; j < result.recordsets[i].features.length; j++) {
+                    var f = result.recordsets[i].features[j],
+                        point = f.geometry,
+                        size = new SuperMap.Size(44, 33),
+                        offset = new SuperMap.Pixel(-(size.w / 2), -size.h)
+                    icon = new SuperMap.Icon("/SuperMap/images/map-marker-marker-outside-pin2.png", size, offset);
+                    marker = new SuperMap.Marker(new SuperMap.LonLat(point.x, point.y), icon);
+                    marker.sm_capital = "<div><span>名称：" + f.attributes.NAME + "</span></div><div><span>拼音：" + f.attributes.PYNAME + "</span></div><div><span>电话：" + f.attributes.TELEPHONE + "</span></div><div><span>地址：" + f.attributes.ADDRESS + "</span></div><div style='text-align:center; width:100%;margin:0px;'><button class='btn btn-primary' onclick='ZhouBianChaXun(" + (point.x + "," + point.y) + ")'>周边查询</button></div>";
+                    marker.events.on({
+                        "click": openInfoWin,
+                        "touchstart": openInfoWin, //假如要在移动端的浏览器也实现点击弹框，则在注册touch类事件
+                        "scope": marker
+                    });
+                    RegionalLayer.addMarker(marker);
+                }
+            }
+        }
+
+        //固定版周边查询
+        function RegionSelect() {
+            if ($('#RegionRadius').val() == "" || $('#RegionRadius').val() == null) {
+                alert("请选择中心点坐标")
+                return false;
+            }
+            if ($('#RegionRadius').val() == "" || $('#RegionRadius').val() == null) {
+                alert("请输入要查询的半径");
+                return false;
+            }
+            if ($('#Regioncheckbox1').is(":checked") && $('#Regioncheckbox2').is(":checked") && $('#Regioncheckbox3').is(":checked") && $('#Regioncheckbox4').is(":checked")) {
+               alert("请选择至少一个查询条件");
+            }
+            if ($('#Regioncheckbox1').is(":checked")) {
+                RegionalQuery($('#RegionRadius').val(), $('#RegionCentral').val(), 1);
+            }
+            if ($('#Regioncheckbox2').is(":checked")) {
+                RegionalQuery($('#RegionRadius').val(), $('#RegionCentral').val(), 2);
+            }
+            if ($('#Regioncheckbox3').is(":checked")) {
+                RegionalQuery($('#RegionRadius').val(), $('#RegionCentral').val(), 3);
+            }
+            if ($('#Regioncheckbox4').is(":checked")) {
+
+            }
+        }
+        //隐藏悬浮版的周边查询modal
+        function RegionsGuanBi() {
+            $('#Regionsmodal').hide();
+
+        }
+
+        //点击地图中的周边查询按钮
+        function ZhouBianChaXun(Coordinate1, Coordinate2) {
+            $('#Regionsmodal').show();
+            $('#RegionCentrals').val(Coordinate1 + "," + Coordinate2);
+        }
+
+        function RegionSelects() {
+            var int = "";
+            if ($('#RegionRadiuss').val() == "" || $('#RegionRadiuss').val() == "") {
+                layer.msg("请输入查询范围");
+                return false;
+            }
+            if ($('#Regioncheckbox1s').is(":checked") == false && $('#Regioncheckbox2s').is(":checked") == false && $('#Regioncheckbox3s').is(":checked") == false && $('#Regioncheckbox4s').is(":checked") == false) {
+                layer.msg("请选择至少一个查询条件");
+                return false;
+            }
+            if ($('#Regioncheckbox1s').is(":checked") == true) {
+                int += "w";
+            }
+            if ($('#Regioncheckbox2s').is(":checked") == true) {
+                int += "y";
+            }
+            if ($('#Regioncheckbox3s').is(":checked") == true) {
+                int += "z";
+            }
+            if ($('#Regioncheckbox4s').is(":checked") == true) {
+
+            } else {
+                var list = $('#RegionCentrals').val().split(',');
+                RegionalQuery((($('#RegionRadiuss').val()) / 10000), list[0], list[1], int);
+            }
+        }
+
+
+    </script>
+
+    @*////////////////////////////////////////查询搜索////////////////////////////////////*@
+    <script>
+        function mapFixedPosition() {
+            $("[name='message']").remove();
+            setTimeout(function () {
+                $('.toolLi').removeClass('active');
+            }, 100);
+
+            var addressName = $('#txtDZ').val();
+            var queryParams = [], queryBySQLParams, queryBySQLService;
+            queryParams.push(new SuperMap.REST.FilterParameter({
+                name: "P15医疗服务_point_1_CongHuaQu@GuangZhouCongHuaQu_Data#1",
+                attributeFilter: "NAME like '%" + addressName + "%' or ADDRESS like '%" + addressName + "%'"
+            }));
+
+            queryBySQLParams = new SuperMap.REST.QueryBySQLParameters({
+                expectCount: 50,
+                queryParams: queryParams//查询过滤条件参数数组
+            });
+            queryBySQLService = new SuperMap.REST.QueryBySQLService(url, {
+                eventListeners: { "processCompleted": processCompleted_selectAddress, "processFailed": processFailed }
+            });
+            queryBySQLService.processAsync(queryBySQLParams);
+        }
+
+        function processCompleted_selectAddress(queryEventArgs) {
+            var i, j, result = queryEventArgs.result;
+            if (result.recordsets) {
+                for (i = 0; i < result.recordsets.length; i++) {
+                    var recordsets = result.recordsets[i];
+                    for (j = 0; j < recordsets.features.length; j++) {
+                        var feature = recordsets.features[j];//获取结果对象的矢量
+                        var geometry = feature.geometry;//获取几何对象
+                        if (geometry.CLASS_NAME == "SuperMap.Geometry.Point") {
+                            //点数据
+                            //添加table数据
+                            var address;
+
+                            if (feature.data.ADDRESS) {
+                                address = feature.data.ADDRESS + feature.data.NAME;
+                                addressName = feature.data.ADDRESS + feature.data.NAME;
+                            }
+                            else {
+                                address = feature.data.NAME;
+                            }
+                            var X = feature.data.SmX;
+                            var Y = feature.data.SmY;
+                            $("#tabAddress").append("<div class='col-lg-12 col-md-12 col-sm-12'name='message' style='margin-bottom:20px;padding-right:0'><span ><img src='/SuperMap/theme/images/marker.png'style='width:30px;height:20px;'/></span> <a href='javascript:' X=" + X + " Y=" + Y + " address=" + address + " onclick='addressLocation(this)'style='font-size:15px;color:#555;font-weight:bold;'>" + address + "</a></div></div>");
+                        }
+                    }
+                }
+                //当返回结果不为空时，调整登记内容栏的高度60%
+            }
+        }//搜索成功调用
+
+        function processFailed(e) {
+            alert(e.error.errorMsg);
+        }
+
+        var geometryaddressLocation;
+
+        var address;
+
+        function addressLocation(t) {
+            //closeInfoWin_casePlace();//加载弹窗前先清除，上一次的弹窗
+            map.removeAllPopup();
+            markerLayer.clearMarkers();
+            var X = $(t).attr("X");
+            var Y = $(t).attr("Y");
+            address = $(t).attr("address");
+
+            geometryaddressLocation = { x: X, y: Y, address: address };
+            var queryParam, queryByGeometryParameters, queryService;//查询参数
+            var point1 = new SuperMap.Geometry.Point(X, Y);
+            addMarker_casePlace(X, Y, address, true, 0);
+        }
+
+        //搜索地址定位
+        function addMarker_casePlace(X, Y, name, bool, FangDa) {
+            var marker = null;
+            //初始化弹窗参数---------------------------------------------------
+            var size = new SuperMap.Size(35, 25);//标记的大小
+            var offset = new SuperMap.Pixel(-(size.w / 2), -size.h);//此类用x,y坐标描绘屏幕坐标（像素点）。
+            var icon = new SuperMap.Icon('/SuperMap/theme/images/marker.png', size, offset);//图标类，表示显示在屏幕上的图标
+            //---------------------------------------------------
+            //初始化标记覆盖物类
+            marker = new SuperMap.Marker(new SuperMap.LonLat(X, Y), icon);//LonLat坐标
+            marker.name = name;//名称
+            marker.bool = bool;
+            marker.FangDa = FangDa;//放大的倍数
+            if (bool == true) {
+                //注册 click 事件,触发 mouseClickHandler()方法
+                markerLayer.events.on({
+                    'click': OpenPersonMessagepopupss,//单击触发
+                    'touchstart': OpenPersonMessagepopupss,//当在触摸屏上对marker开始进行触摸时触发此事件。//假如要在移动端的浏览器也实现点击弹框，则在注册touch类事件
+                    "scope": marker,//大概是传参数把
+                });
+            }
+
+
+            markerLayer.addMarker(marker);//添加到图层
+
+            if (bool == true) {//判断是否自动打开消息框
+                OpenPersonMessagepopupss(marker);//查询到位置就立刻把弹窗显示出来
+            }
+
+        };
+        //关闭信息框
+        function infowinonMessagefun() {
+            if (infowinonMessage) {
+                try {
+                    infowinonMessage.hide();
+                    infowinonMessage.destroy();
+                    infowinonMessage = null;
+                }
+                catch (e) { }
+            }
+        }
+
+        //自动冒泡
+        var infowinonMessage = null;
+
+        function OpenPersonMessagepopupss(obj) {
+            infowinonMessagefun();
+            var XCoordinate;//X轴
+            var YCoordinate;//Y轴
+            var marker = this;
+            if (obj.bool == true) {
+                index = obj.id;
+                XCoordinate = obj.lonlat.lon;
+                YCoordinate = obj.lonlat.lat;
+            } else {
+                index = marker.id;
+                XCoordinate = marker.getLonLat().lon;
+                YCoordinate = marker.getLonLat().lat;
+            }
+
+            //var lonlat = obj.getLonLat();
+            var size = new SuperMap.Size(35, 25);//标记的大小
+            offset = new SuperMap.Pixel(-(size.w / 2), -size.h),
+            icon = new SuperMap.Icon("/SuperMap/theme/images/marker.png", size, offset);
+
+            contentHTML = "<div style='width:200px; font-size:12px;font-weight:bold ; opacity: 0.8'>";
+            contentHTML += "<b>地点详细信息:</b><br/>" + address +"</div>";
+
+            var popupOne = new SuperMap.Popup.FramedCloud("popwin_lo",
+                     new SuperMap.LonLat(XCoordinate, YCoordinate),
+                null, contentHTML,
+                icon,
+                true,
+                function () {
+                    infowinonMessagefun();
+                },
+                true);
+
+            popupOne.isShowShadow = false;
+            infowinonMessage = popupOne;
+
+            map.addPopup(popupOne);
+
+            map.panTo(new SuperMap.LonLat(XCoordinate, YCoordinate));//跟随显示
+        }//单击冒泡
+
+        function processFailed(e) {
+            alert(e.error.errorMsg);
+        }
+
+
+    </script>
+
+    @*////////////////////////////////////////图层控制////////////////////////////////////*@
+    <script>
+        //图层按钮
+        function LayerControllist() {
+            $('.LayerControl').css("display", "block");
+            $('.LayerControllist').css("display", "none");
+        }
+        function LayerControl() {
+            $('.LayerControl').css("display", "none");
+            $('.LayerControllist').css("display", "block");
+        }
+        //疾病预警提醒
+        function EarlyWarning() {
+            var EarlyWarning = $("#EarlyWarning").is(":checked");
+            if (EarlyWarning == true) {
+                OpenEarlyWarningWarning();
+            } else {
+                EarlyWarningWarning.clearMarkers();
+            }
+        }
+        //病原路径
+        function PathogenicPathway() {
+            var PathogenicPathway = $("#PathogenicPathway").is(":checked");
+            if (PathogenicPathway == true) {
+                OpenPathogenicPathway();
+            } else {
+                OpendPathogenicPathwaies.clearMarkers();
+            }
+        }
+
+    </script>
+
+    @*//////////////////////////////////医疗资源分布图////////////////////////////////////*@
+    <script>
+        //显示（隐藏）医院分布图
+        function Hospital() {
+            var Hospital = $("#Hospital").is(":checked");//医院分布图
+            if (Hospital == true) {
+                SelectMedicalresources();
+                $("#MedicalIllustrationID").append("<div class='MedicalIllustration'; style='position:absolute;left:320px; top:100px;'><div class='col-lg-12 col-md-12 col-xs-12' ><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>图标</label></div><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>图标类型</label></div></div> <div class='col-lg-12 col-md-12 col-xs-12' style='margin-top:2px;'><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><img src='/SuperMap/images/yiyuan.png' width='25'height='25'/></div><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>医院</label></div></div><div class='col-lg-12 col-md-12 col-xs-12' style='margin-top:4px;'><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><img src='/SuperMap/images/kangshe.png' width='25'height='25'/></div><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>社康</label></div></div><div class='col-lg-12 col-md-12 col-xs-12' style='margin-top:4px;'><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><img src='/SuperMap/images/yaodian.png'width='25'height='25'/></div><div class='col-lg-6 col-md-6 col-xs-6'style='padding:0px;'><label style='font-size:15px;'>药店</label></div></div></div>");
+                $("#MedicalIllustrationID").css('display', 'block');//显示图例
+            } else {
+                $("#MedicalIllustrationID").css('display', 'none');//隐藏图例
+                MedicalMap.clearMarkers();
+            }
+        }
+
+        //创建医院分布图层
+        var MedicalMap = new SuperMap.Layer.Markers("医疗资源分布图"), DataForms;
+
+        function SelectMedicalresources() {
+            //医疗资源数据
+            var queryParam = new SuperMap.REST.FilterParameter({
+                name: "P15医疗服务_point_1_CongHuaQu@GuangZhouCongHuaQu_Data#1",
+                //2800:药店，7200:医院，7290:社康
+                attributeFilter: "TYPE in (2800,7200,7280)"
+            }),
+            queryBySQLParams = new SuperMap.REST.QueryBySQLParameters({ queryParams: [queryParam] }),
+            queryBySQLService = new SuperMap.REST.QueryBySQLService(url, {
+                eventListeners: { "processCompleted": Showlandmark, "processFailed": processFailed }
+            });
+            queryBySQLService.processAsync(queryBySQLParams);
+        }
+
+        //进程失败
+        function processFailed(e) {
+            alert(e.error.errorMsg);
+        }
+
+        //在地图上显示站点地标
+        function Showlandmark(obj) {
+            var features = obj.result.recordsets[0].features;
+            var LocalMrker, index = 0,
+                size = new SuperMap.Size(14, 14),
+                offset = new SuperMap.Pixel(-(size.w / 2), -size.h),
+                icon = new SuperMap.Icon("/SuperMap/theme/images/marker.png", size, offset);
+            for (var i = 0; i < features.length; i++) {
+                var data = features[i].data;
+                var LonLat = new SuperMap.LonLat(data.SmX, data.SmY);
+                size = new SuperMap.Size(20, 20);
+                switch (data.TYPE) {
+                    case '2800':
+                        index = 1;
+                        icon = new SuperMap.Icon("/SuperMap/images/yaodian.png", size, offset);
+                        break;
+                    case '7200':
+                        index = 2;
+                        icon = new SuperMap.Icon("/SuperMap/images/yiyuan.png", size, offset);
+                        break;
+                    case '7280':
+                        index = 3;
+                        icon = new SuperMap.Icon("/SuperMap/images/kangshe.png", size, offset);
+                        break;
+                }
+
+                LocalMrker = new SuperMap.Marker(LonLat, icon);
+                LocalMrker.id = index;
+                LocalMrker.typeID = data.TYPE;
+                LocalMrker.name = data.NAME;
+                LocalMrker.laction = data.ADDRESS;
+                LocalMrker.GISID = data.SmID;
+                LocalMrker.bool = true;
+                LocalMrker.events.on({"click": OpenMedicalResourcesDataForms,"scope": LocalMrker
+                });
+                MedicalMap.addMarker(LocalMrker);
+            }
+        }
+
+        //打开医疗资源的信息框
+        function OpenMedicalResourcesDataForms(obj) {
+            CloseForms(DataForms);
+            var marker = this;
+            var index = marker.id;
+            var XCoordinate = marker.getLonLat().lon;
+            var YCoordinate = marker.getLonLat().lat;
+            var GISID = marker.GISID;
+            var laction = marker.laction;
+            var name = marker.name;
+            var contentHTML = "<div class='popwin_titleDiv'><span class='popwin_title'>";  //设置在气泡中显示的内容
+            if (index == 1) {
+                contentHTML += "药店信息</span></div><div style='font-size:14px;overflow-y:hidden;overflow:auto;color:#000;height:auto;width: 100%;max-height: 46px;min-height: 46px;padding-left: 5px;'>" +
+                      "<b> 药店名称： </b>" + name + "<br/><b> 药店地址： </b>" + laction + "<br/></div>";
+            }
+            if (index == 2) {
+                contentHTML += "医院信息</span></div><div style='font-size:14px;overflow-y:hidden;overflow:auto;color:#000;height:auto;width: 100%;max-height: 46px;min-height: 46px;padding-left: 5px;'>" +
+                     "<b> 医院名称： </b>" + name + "<br/><b> 医院地址： </b>" + laction + "<br/></div>";
+            }
+            if (index == 3) {
+                contentHTML += "社康信息</span></div><div style='font-size:14px;overflow-y:hidden;overflow:auto;color:#000;height:auto;width: 100%;max-height: 46px;min-height: 46px;padding-left: 5px;'>" +
+                     "<b> 社康名称： </b>" + name + "<br/><b> 社康地址： </b>" + laction + "<br/></div>";
+            }
+
+            contentHTML = contentHTML.replace(/undefined/g, "");
+            OpenForms(new SuperMap.LonLat(XCoordinate, YCoordinate), contentHTML);
+            map.panTo(new SuperMap.LonLat(XCoordinate, YCoordinate));//跟随显示
+        }
+
+        //打开信息框
+        function OpenForms(LonLat, html) {
+            DataForms = new SuperMap.Popup.FramedCloud("TuCengPopwin", LonLat, null, html, null, true, function () { CloseForms(DataForms); }, true);
+            DataForms.autoSize = true;
+            DataForms.panMapIfOutOfView = true;//是否移动地图以确保弹窗显示在窗口内
+            map.addPopup(DataForms);
+        }
+        //关闭信息框
+        function CloseForms(Form) {
+            try {
+                Form.hide();
+                Form.destroy();
+            }
+            catch (e) { }
+        }
+    </script>
+
+    @*/////////////////////////////////病原基因分布图/////////////////////////////////////*@
+    <script>
+
+        //显示（隐藏）病原基因分布图
+        function PathogenicGene() {
+            var PathogenicGene = $("#PathogenicGene").is(":checked");//病原基因分布图
+            if (PathogenicGene == true) {
+                PathogenicGene_queryByDistancess();
+                $("#PathogenicLegend").append("<div class='MedicalIllustration'style='position:absolute;left:320px; top:100px;'><div class='col-lg-12 col-md-12 col-xs-12' ><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>图标</label></div><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>图标类型</label></div></div> <div class='col-lg-12 col-md-12 col-xs-12' style='margin-top:2px;'><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><img src='/content/images/picture/耐药.png'width='25'height='25' /></div><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>耐药结核杆菌</label></div></div><div class='col-lg-12 col-md-12 col-xs-12' style='margin-top:4px;'><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><img src='/content/images/picture/非耐药.png'width='25'height='25' /></div><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>非耐药结核杆菌</label></div></div></div>");
+                $("#PathogenicLegend").css('display', 'block');//显示图例
+            } else {
+                $("#PathogenicLegend").css('display', 'none');//隐藏图例
+                PathogenicGeneLayer.clearMarkers();
+            }
+        }
+
+       //病原基因分布图
+        function PathogenicGene_queryByDistancess() {
+            PathogenicGeneLayer.clearMarkers();
+            $.post("/Index/SelectSickpersonDetail", function (data) {
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        size = new SuperMap.Size(28, 28),
+                        offset = new SuperMap.Pixel((size.w) - 37, (size.h) - 30);
+                        if (data[i].DrugResistantMycobacteriumBit == true) {
+                            icon = new SuperMap.Icon("/content/images/picture/耐药.png", size, offset);
+                            marker = new SuperMap.Marker(new SuperMap.LonLat(data[i].SmX, data[i].SmY), icon);
+                            marker.sm_capital = "<div><span>姓名：" + data[i].name + "</span></div><div><span>耐药类型：" + "耐药类型" + "</span></div><div><span>病原所属患者编号：" + data[i].Cardnumber + "</span></div><div><span>性别：" + data[i].BaseDetailID + "</span></div><div><span>年龄：" + data[i].Age + "</span></div><div><span>家庭住址：" + data[i].Detailedaddress + "</span></div><div style='text-align:center; width:100%;margin:0px;'><button class='btn btn-primary' onclick='ZhouBianChaXun(" + (data[i].SmX + "," + data[i].SmY) + ")'>周边查询</button></div>";
+                        } else {
+                            icon = new SuperMap.Icon("/content/images/picture/非耐药.png", size, offset);
+                            marker = new SuperMap.Marker(new SuperMap.LonLat(data[i].SmX, data[i].SmY), icon);
+                            marker.sm_capital = "<div><span>姓名：" + data[i].name + "</span></div><div><span>耐药类型：" + "非耐药类型" + "</span></div><div><span>病原所属患者编号：" + data[i].Cardnumber + "</span></div><div><span>性别：" + data[i].BaseDetailID + "</span></div><div><span>年龄：" + data[i].Age + "</span></div><div><span>家庭住址：" + data[i].Detailedaddress + "</span></div><div style='text-align:center; width:100%;margin:0px;'><button class='btn btn-primary' onclick='ZhouBianChaXun(" + (data[i].SmX + "," + data[i].SmY) + ")'>周边查询</button></div>";
+                        }
+                        marker.events.on({
+                            "click": openInfoPathogenicGeneMessageBox,
+                            "touchstart": openInfoPathogenicGeneMessageBox, //假如要在移动端的浏览器也实现点击弹框，则在注册touch类事件
+                            "scope": marker,// 同时为对象注册多个监听事件
+                        });
+                        PathogenicGeneLayer.addMarker(marker);
+                    }
+                }
+            });
+        }
+
+        //病原基因分布图查询
+        function openInfoPathogenicGeneMessageBox() {
+            infowinonMessagefun();
+            var marker = this;
+            var lonlat = marker.getLonLat();
+            var contentHTML = "<div class='Pathogenic_titleDiv'><span class='Pathogenic_title'>病原详细信息</span></div>";
+            contentHTML += "<div >" + marker.sm_capital + "</div></div>";
+            var size = new SuperMap.Size(0, 33);
+            var offset = new SuperMap.Pixel(0, -size.h);
+            var icon = new SuperMap.Icon("/SuperMap/images/marker-RK-GZ.png", size, offset);
+            var popup = new SuperMap.Popup.FramedCloud("Pathogenic",
+            new SuperMap.LonLat(lonlat.lon, lonlat.lat), null, contentHTML, icon, true);
+            infowinonMessage = popup;
+            map.addPopup(popup);
+        }
+
+    </script>
+
+    @*//////////////////////////////////病例分布散点图////////////////////////////////////*@
+    <script>
+
+        //显示（隐藏）病例分布散点图
+        function CaseDistribution() {
+            var CaseDistribution = $("#CaseDistribution").is(":checked");//病例分布散点图
+            if (CaseDistribution == true) {
+                ScatteredPointMapOfCaseDistribution();
+                $("#ScatteredPoint").append("<div class='MedicalIllustration'style='position:absolute;left:320px; top:100px;'><div class='col-lg-12 col-md-12 col-xs-12' ><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>图标</label></div><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>图标类型</label></div></div> <div class='col-lg-12 col-md-12 col-xs-12' style='margin-top:2px;'><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><img src='/content/images/picture/病例蓝色.png' width='25'height='25'/></div><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>疑似</label></div></div><div class='col-lg-12 col-md-12 col-xs-12' style='margin-top:4px;'><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><img src='/content/images/picture/病例红色.png'width='25'height='25' /></div><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><label style='font-size:15px;'>确诊</label></div></div><div class='col-lg-12 col-md-12 col-xs-12' style='margin-top:4px;'><div class='col-lg-6 col-md-6 col-xs-6' style='padding:0px;'><img src='/content/images/picture/病例绿色.png' width='25'height='25' /></div><div class='col-lg-6 col-md-6 col-xs-6'style='padding:0px;'><label style='font-size:15px;'>项目管理</label></div></div></div>");
+                $("#ScatteredPoint").css('display', 'block');//显示图例
+            } else {
+                $("#ScatteredPoint").css('display', 'none');//隐藏图例
+                CaseScatterlLayer.clearMarkers();
+            }
+        }
+
+        CaseScatterlLayer = new SuperMap.Layer.Markers("病例分布散点图");
+        function ScatteredPointMapOfCaseDistribution() {
+            $.post("/Index/SelectS_DiseaseData", function (data) {//查询病例人员
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        size = new SuperMap.Size(20, 30),//设置图标大小 宽,高
+                        offset = new SuperMap.Pixel((size.w) - 37, (size.h) - 30);//设置图标显示位置
+                        if (data[i].SickpersonID == "5" ) {//判断疑似病例 --蓝色
+                            icon = new SuperMap.Icon("/content/images/picture/病例蓝色.png", size, offset);
+                            marker = new SuperMap.Marker(new SuperMap.LonLat(data[i].SmX, data[i].SmY), icon);//创建一个新的地图位置对象.
+                            marker.sm_capital = "<div><span>项目登记号：" + 10001 + "</span></div><div><span>门诊号：" + 10001 + "</span></div><div><span>卡片编号：" + data[i].Cardnumber + "</span></div><div><span>姓名：" + data[i].name + "</span></div><div><span>性别：" + "</span></div><div><span>年龄：" + data[i].Age + data[i].sexID + "</span></div><div><span>家庭住址：" + data[i].Detailedaddress + "</span></div><div style='text-align:center; width:100%;margin:0px;'><button class='btn btn-info' onclick='ZhouBianChaXun(" + (data[i].SmX + "," + data[i].SmY) + ")'>周边查询</button></div>";
+
+                        } else if (data[i].SickpersonID == "6" ) {
+                            icon = new SuperMap.Icon("/content/images/picture/病例红色.png", size, offset);
+                            marker = new SuperMap.Marker(new SuperMap.LonLat(data[i].SmX, data[i].SmY), icon);//创建一个新的地图位置对象.
+                            marker.sm_capital = "<div><span>项目登记号：" + 10001 + "</span></div><div><span>门诊号：" + 10001 + "</span></div><div><span>卡片编号：" + data[i].Cardnumber + "</span></div><div><span>姓名：" + data[i].name + "</span></div><div><span>性别：" + "</span></div><div><span>年龄：" + data[i].Age + data[i].sexID + "</span></div><div><span>家庭住址：" + data[i].Detailedaddress + "</span></div><div style='text-align:center; width:100%;margin:0px;'><button class='btn btn-info' onclick='ZhouBianChaXun(" + (data[i].SmX + "," + data[i].SmY) + ")'>周边查询</button></div>";
+
+                        } else if (data[i].SickpersonID == "") {
+                            icon = new SuperMap.Icon("/content/images/picture/病例绿色.png", size, offset);
+                            marker = new SuperMap.Marker(new SuperMap.LonLat(data[i].SmX, data[i].SmY), icon);//创建一个新的地图位置对象.
+                            marker.sm_capital = "<div><span>项目登记号：" + 10001 + "</span></div><div><span>门诊号：" + 10001 + "</span></div><div><span>卡片编号：" + data[i].Cardnumber + "</span></div><div><span>姓名：" + data[i].name + "</span></div><div><span>性别：" + "</span></div><div><span>年龄：" + data[i].Age + data[i].sexID + "</span></div><div><span>家庭住址：" + data[i].Detailedaddress + "</span></div><div style='text-align:center; width:100%;margin:0px;'><button class='btn btn-info' onclick='HuoDonLuJi(" + null + "," + null + ")'>活动路径</button> <button class='btn btn-info' onclick='ZhouBianChaXun(" + (data[i].SmX + "," + data[i].SmY) + ")'>周边查询</button></div>";
+                        }
+
+                            marker.events.on({
+                                "click": openInfoPointMapOfCaseMessageBox,
+                                "touchstart": openInfoPointMapOfCaseMessageBox, //假如要在移动端的浏览器也实现点击弹框，则在注册touch类事件
+                                "scope": marker
+                            });
+                            CaseScatterlLayer.addMarker(marker);
+                    }
+                }
+            }
+        )}
+        //病例分布散点图查询--冒泡
+        function openInfoPointMapOfCaseMessageBox() {
+            infowinonMessagefun();
+            var marker = this;
+            var lonlat = marker.getLonLat();//获取单前坐标位置
+            var contentHTML = "<div class='PointMap_titleDiv'><span class='PointMap_title'>病例详细信息</span></div><div >" + marker.sm_capital + "</div></div>";
+            var size = new SuperMap.Size(0, 33);
+            var offset = new SuperMap.Pixel(0, -size.h);
+            var icon = new SuperMap.Icon("/Content/Map/image/marker.png", size, offset);
+            var popup = new SuperMap.Popup.FramedCloud("PointMap",
+            new SuperMap.LonLat(lonlat.lon, lonlat.lat), null, contentHTML, icon, true); //创建一个新的地图位置对象.
+            map.panTo(new SuperMap.LonLat(lonlat.lon, lonlat.lat));//跟随
+            infowinonMessage = popup;
+            popup.isShowShadow = true;//是否要阴影
+            map.addPopup(popup);
+        }
+
+    </script>
+
+    @*//////////////////////////////////病例分布热力图////////////////////////////////////*@
+    <script>
+        //热力图创建
+        heatMapLayer = new SuperMap.Layer.HeatMapLayer(
+         "病例分布热力图层",
+           {
+               "radius": 45,
+               "featureWeight": "value",
+               "featureRadius": "geoRadius"
+           }
+         );
+
+        //显示（隐藏）病例分布热力图
+        function Thermodynamic() {
+            var Thermodynamic = $("#Thermodynamic").is(":checked");//病例分布热力图
+            if (Thermodynamic == true) {
+                CaseHeatMap();
+            } else {
+                heatMapLayer.removeAllFeatures();
+            }
+        }
+
+        function CaseHeatMap() {
+            var heatPoints = [];
+            $.post("/Index/SelectS_DiseaseData", function (data) {
+                var num = parseInt(data.length);
+                var unit = "degree",
+                useGeoRadius = false;
+                heatMapLayer.radius = 60;
+                heatMapLayer.height = 10;
+                for (var i = 0; i < num; i++) {
+                    heatPoints[i] = new SuperMap.Feature.Vector(
+                    new SuperMap.Geometry.Point(data[i].SmX, data[i].SmY),
+                    {
+                        "value": 1,
+                        "geoRadius": useGeoRadius ? radius : null
+                    }
+                    );
+                }
+                heatMapLayer.addFeatures(heatPoints);
+            });
+
+        }
+    </script>
+
+    @*////////////////////////////////////疾病预警提醒////////////////////////////////////*@
+    <script>
+        //预警
+        var CaseIllnessId;
+        function OpenEarlyWarningWarning() {
+            EarlyWarningWarning.clearMarkers();
+            $.post("/Index/Selectillness", function (data) {
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        size = new SuperMap.Size(25, 30),
+                        offset = new SuperMap.Pixel((size.w) - 37, (size.h) - 30);
+                        if (data[i].Overcomebit == true) {
+                            icon = new SuperMap.Icon("/SuperMap/images/2cf11b3bb909db55bbd6360317fd7.gif", size, offset);
+                        marker = new SuperMap.Marker(new SuperMap.LonLat(data[i].SmX, data[i].SmY), icon);
+                        marker.sm_capital = "<div><span>地址：" + data[i].PresentResidenceDetailed + "</span></div><div><span>病例数：" + data.length + "</span></div><div style='text-align:center; width:100%;margin:0px;'><button class='btn btn-primary'>已排除疫情</button></div>";
+                        } else {
+                            icon = new SuperMap.Icon("/SuperMap/images/2cf11b3bb909db55bbd6360317fd7f15.gif", size, offset);
+                            marker = new SuperMap.Marker(new SuperMap.LonLat(data[i].SmX, data[i].SmY), icon);
+                            marker.sm_capital = "<div><span>地址：" + data[i].PresentResidenceDetailed + "</span></div><div><span>病例数：" + data.length + "</span></div><div style='text-align:center; width:100%;margin:0px;'><button class='btn btn-primary' onclick='YiQingPaiChu(" + data[i].CaseIllnessID + ")'>疫情排除</button></div>";
+                        }
+                            marker.events.on({
+                            "click": openInfoEarlyWarningBox,
+                            "touchstart": openInfoEarlyWarningBox, //假如要在移动端的浏览器也实现点击弹框，则在注册touch类事件
+                            "scope": marker,// 同时为对象注册多个监听事件
+                        });
+
+                        EarlyWarningWarning.addMarker(marker);
+                    }
+                }
+
+            });
+        }
+
+        //疫情
+        function openInfoEarlyWarningBox() {
+            infowinonMessagefun();
+            var marker = this;
+            var lonlat = marker.getLonLat();
+            var contentHTML = "<div class='Pathogenic_titleDiv'><span class='Pathogenic_title'>疫情提醒</span></div>";
+            contentHTML += "<div >" + marker.sm_capital + "</div></div>";
+            var size = new SuperMap.Size(0, 33);
+            var offset = new SuperMap.Pixel(0, -size.h);
+            var icon = new SuperMap.Icon("/SuperMap/images/marker-RK-CS.png", size, offset);
+            var popup = new SuperMap.Popup.FramedCloud("Pathogenic",
+            new SuperMap.LonLat(lonlat.lon, lonlat.lat), null, contentHTML, icon, true);
+            infowinonMessage = popup;
+            map.addPopup(popup);
+        }
+
+        //疫情排除
+        function YiQingPaiChu(CaseIllnessID) {
+            $.post("/Home/Updateillness", { CaseIllnessID: CaseIllnessID }, function (msg) {
+                if (msg == "success") {
+                    alert("疫情排除成功");
+                }
+            })
+        }
+
+    </script>
+
+    @*//////////////////////////////////距离\面积量算/////////////////////////////////////*@
+    <script>
+        var bool = 0;
+        //距离
+        function distanceMeasure() {
+            bool = 1;
+            clearFeatures();
+            drawLine.activate();
+        }
+        //面积
+        function areaMeasure() {
+            bool = 2;
+            clearFeatures();
+            drawPolygon.activate();
+        }
+
+        //绘完触发事件
+        function drawCompleted(drawGeometryArgs) {
+            if (bool == 1) {
+                //停止画面控制,距离
+                drawLine.deactivate();
+            } else {
+                //停止画面控制,面积
+                drawPolygon.deactivate();
+            }
+
+            //获得图层几何对象
+            var geometry = drawGeometryArgs.feature.geometry,
+            measureParam = new SuperMap.REST.MeasureParameters(geometry), /* MeasureParameters：量算参数类。 客户端要量算的地物间的距离或某个区域的面积*/
+            myMeasuerService = new SuperMap.REST.MeasureService(url); //量算服务类，该类负责将量算参数传递到服务端，并获取服务端返回的量算结果
+            myMeasuerService.events.on({ "processCompleted": measureCompleted });
+
+            //对MeasureService类型进行判断和赋值，当判断出是LineString时设置MeasureMode.DISTANCE，否则是MeasureMode.AREA
+            if (bool==1) {
+                myMeasuerService.measureMode = SuperMap.REST.MeasureMode.DISTANCE;
+            } else {
+                myMeasuerService.measureMode = SuperMap.REST.MeasureMode.AREA;
+            }
+
+            //processAsync负责将客户端的量算参数传递到服务端
+            myMeasuerService.processAsync(measureParam);
+        }
+
+        //测量结束调用事件
+        function measureCompleted(measureEventArgs) {
+            if (bool == 1) {
+                var distance = measureEventArgs.result.distance;
+                var unit = measureEventArgs.result.unit;
+                alert("量算结果:" + distance + "米");
+            } else {
+                var area = measureEventArgs.result.area,
+                unit = measureEventArgs.result.unit;
+                alert("量算结果:" + area + "平方米");
+            }
+        }
+
+    </script>
+
+    @*///////////////////////////////////多边形查询///////////////////////////////////////*@
+    <script>
+        //圆形范围查询触发事件
+        function drawGeometry() {
+            CeTuXing = 2;
+            //先清除上次的显示结果
+            clearFeatures();
+            drawPolygon1.activate();
+        }
+        //矩形范围查询触发事件
+        function drawGeometry1() {
+            CeTuXing = 1;
+            //先清除上次的显示结果
+            clearFeatures();
+            drawFeature.activate();
+        }
+        //多边形范围查询触发事件
+        function drawGeometry2() {
+            CeTuXing = 3;
+            //先清除上次的显示结果
+            clearFeatures();
+            drawPolygon2.activate();
+        }
+        //获取要查询的图层名称格式(数据集名称@数据源别名)和查询范围
+        function drawCompleteds(obj) {
+            if (CeTuXing == 1) {
+                drawFeature.deactivate();
+            } else if (CeTuXing == 2) {
+                drawPolygon1.deactivate();
+            } else {
+                drawPolygon2.deactivate();
+            }
+            var feature = obj.feature;
+            feature.style = style;
+            vectorLayer.addFeatures(feature);
+            var queryBounds = feature.geometry.bounds;
+            var queryParam, queryByBoundsParams, queryService;
+            queryParam = new SuperMap.REST.FilterParameter({ name: "P15医疗服务_point_1_CongHuaQu@GuangZhouCongHuaQu_Data#1" });//FilterParameter设置查询条件，name是必设的参数，（图层名称格式：数据集名称@数据源别名）
+            queryByBoundsParams = new SuperMap.REST.QueryByBoundsParameters({ queryParams: [queryParam], bounds: queryBounds });//queryParams查询过滤条件参数数组。bounds查询范围
+            queryService = new SuperMap.REST.QueryByBoundsService(url, {
+                eventListeners: {
+                    "processCompleted": processCompleted,
+                    "processFailed": processFailed
+                }
+            });
+            queryService.processAsync(queryByBoundsParams);//向服务端传递参数，然后服务端返回对象
+        }
+        //获取查询的数据
+        function processCompleted(queryEventArgs) {
+            var i, j, result = queryEventArgs.result, marker, SmIDQuYu = "";//queryEventArgs服务端返回的对象
+            if (result && result.recordsets) {
+                for (i = 0, recordsets = result.recordsets, len = recordsets.length; i < len; i++) {
+                    if (recordsets[i].features) {
+                        for (j = 0; j < recordsets[i].features.length; j++) {
+                            var f = recordsets[i].features[j];
+                            var point = f.geometry,
+                            size = new SuperMap.Size(44, 33),
+                            offset = new SuperMap.Pixel(-(size.w / 2), -size.h),
+                            icon = new SuperMap.Icon("/SuperMap/images/map-marker-marker-outside-green.png", size, offset);
+                            marker = new SuperMap.Marker(new SuperMap.LonLat(point.x, point.y), icon);
+                            marker.sm_capital = f.attributes.NAME;
+                            SmIDQuYu += f.attributes.SmID + "`";
+                            marker.events.on({
+                                "click": openInfoWin,
+                                "touchstart": openInfoWin, //假如要在移动端的浏览器也实现点击弹框，则在注册touch类事件
+                                "scope": marker
+                            });
+                            markerLayer.addMarker(marker);
+                        }
+                    }
+                }
+            }
+            QuYuSelectData(SmIDQuYu);
+        }
+
+        var infowin = null;
+        function openInfoWin() {
+            closeInfoWin();
+            var marker = this;
+            var lonlat = marker.getLonLat();
+            var contentHTML = "<div style='font-size:.8em; opacity: 0.8; overflow-y:hidden;'>";
+            contentHTML += "<div>" + marker.sm_capital + "</div></div>";
+            var size = new SuperMap.Size(14, 20);
+            var offset = new SuperMap.Pixel(0, -size.h);
+            var icon = new SuperMap.Icon("/SuperMap/images/marker_red.png", size, offset);
+            var popup = new SuperMap.Popup.FramedCloud("popwin",
+            new SuperMap.LonLat(lonlat.lon, lonlat.lat), null, contentHTML, icon, true);
+
+            infowin = popup;
+            map.addPopup(popup);
+        }
+        function closeInfoWin() {
+            if (infowin) {
+                try {
+                    infowin.hide();
+                    infowin.destroy();
+                }
+                catch (e) { }
+            }
+        }
+
+        //根据地图 区域查询 查询数据
+        function QuYuSelectData(SmIDQuYu) {
+            var inti = 0;
+            var listSMID = SmIDQuYu.split('`');
+            if (SmIDQuYu == "" || SmIDQuYu == null || SmIDQuYu == undefined) {
+                $('#DinWeiCunFang').html("");
+                $('#CountDingWei').html("<span>共查询定位点：<span style='color:#f00;'>0 </span>处</span>");
+            } else {
+                var shuju = "";
+                for (var i = 0; i < listSMID.length - 1; i++) {
+                    inti++;
+                    $.post("/Index/QuYuSelectData_AdoptSmID", { strSmID: listSMID[i] }, function (data) {
+                        if (data.length > 0) {
+                            shuju += '<div class="col-sm-12 col-xs-12 col-md-12 Jingquechaxun" style="border: 1px solid #f9f9f9; cursor:pointer; border-radius: 5px;" onclick="Jingquechaxun(' + inti + ')"><div class="col-sm-3 col-xs-3 col-md-3" style="padding: 0px;"><img style="float: right; height: 22px; margin-top: 3px; margin-right: 3px;" src="/SuperMap/images/marker_red.png" /></div><div style="padding: 0px; height: 20px; overflow:hidden;" class="col-sm-9 col-xs-9 col-md-9"><span id="Jingquechaxunspan' + inti + '" style="text-align: center; height: 20px; line-height: 20px; float: left;">' + data[0]["NAME"] + '</span></div><input id="SMID' + inti + '" style="display:none;" hidden="hidden" value="' + data[0]["SmID"] + '" /></div>';
+                            $('#DinWeiCunFang').html(shuju);
+                        }
+                    });
+                }
+                $('#CountDingWei').html("<span>共查询定位点：<span style='color:#f00;'>" + inti + " </span>处</span>");
+            }
+        }
+
+        function Jingquechaxun(int) {
+            $('#DinweiChaxun').val($('#Jingquechaxunspan' + int).text());
+            DingWeiClick();
+            getFeaturesByIDs($('#SMID' + int).val());
+        }
+
+    </script>
+
+</body>
+</html>

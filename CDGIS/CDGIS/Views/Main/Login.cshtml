@@ -1,0 +1,143 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/svg" href="~/Content/images/bg/Logo.png" media="screen" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('../../Content/images/bg/000.jpg');
+            background-attachment: fixed !important;
+            background-size: 100% !important;
+        }
+
+        .reset-padding {
+            padding: 0 5px;
+        }
+
+        .reset {
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+    </style>
+</head>
+<body onkeydown="HuiCheDengLu()">                                                                                                             
+
+    <div class="container">
+       
+        <div class="row" style="margin-top:130px;">
+            <div class="col-md-5 col-md-offset-3">
+                <div class="panel panel-body">
+                    <form id="fmLogin" method="post" class="form-horizontal form-radius">
+
+                        <div class="form-group has-feedback" style="margin-top:30px;">
+                            <label class="col-sm-3 control-label no-padding-right reset" for="StaffName">用户名:</label>
+                            <div class="col-sm-7">
+                                <input type="text" name="username" id="username" value="@ViewBag.username" class="form-control" placeholder="登录账号" />
+                                <img src="~/Content/images/bg/agent.png" class="form-control-feedback" />
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback" style="margin-top:30px;">
+                            <label class="col-sm-3 control-label no-padding-right reset" for="password">密 码: </label>
+                            <div class="col-sm-7">
+                                <input type="password" name="password" id="password" value="@ViewBag.password" onkeyup="value=value.replace(/[^0-9a-zA-Z]/g,'')" class="form-control" placeholder="登录密码" />
+                                <img src="~/Content/images/bg/unlock.png" class="form-control-feedback" />
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top:30px;">
+                            <label class="col-sm-2 col-md-offset-1 control-label no-padding-right reset" for="validCode">验证码:</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    <input type="text" name="validCode" id="validCode" value="" class="form-control" onkeyup="value=value.replace(/[^0-9a-zA-Z]/g,'')" />
+                                    <div class="input-group-addon" style="padding:0"><img src="/Main/ValideCode" id="ValidateCode" onclick="reloadValideImage()" /></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top:50px;">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <button type="button" class="btn btn-primary btn-block btn-radius" id="btnSubmit">登 录</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Content/bootstrap-3.3.7-dist/js/jquery-1.11.3.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/js/lang/grid.zh-CN.min.js"></script>
+    <script src="~/Content/js/jquery.form.js"></script>
+    <script src="~/Content/js/customfunction.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+
+    @*登录界面*@
+    <script type="text/javascript">
+
+        $("#heightSize").show('slow');
+        if(window.top.location.href != window.location.href){
+            window.top.location.href = window.location.href;
+        }
+        //验证码刷新方法
+        function reloadValideImage() {
+            //在请求时加上当前时间作为参数，避免浏览器缓存
+            $("#ValidateCode").attr("src", '/Main/ValideCode?ts=' + new Date().getTime());
+        }
+
+        //登录
+        $("#btnSubmit").click(function () {
+            //window.location.href = "/Main/Main";
+            var fromData = $("#fmLogin").serializeArray();
+            $.post("/Main/UserLogin", fromData, function (msg) {
+                if (msg == "fail") {
+                    layer.alert("用户名或密码不正确", { icon: 5, title: '温馨小提示：' });
+                } else {
+                    if (msg == "loginErro") {
+                        layer.alert("请输入用户名/密码", { icon: 5, title: '温馨小提示：' });
+                    } else {
+                        if (msg == "vlodeCodeErro") {
+                            layer.alert("请输入正确的验证码", { icon: 5, title: '温馨小提示：' });
+                        } else {
+                            if (msg == "Main") {
+                                window.location.href = "/Main/Main";
+                            }
+                            else if (msg == "passwordErro") {
+                                layer.alert("请输入正确的密码", { icon: 5, title: '温馨小提示：' });
+                            } 
+                        }
+
+                    }
+
+                }
+
+            });
+        });
+        $("#coclYanSe").fadeTo("slow", 0.66);
+
+        //回车键登录
+        function HuiCheDengLu() {
+            if (event.keyCode==13) {
+                $("#btnSubmit").click();
+            }
+        };
+
+    </script>
+
+</body>
+</html>

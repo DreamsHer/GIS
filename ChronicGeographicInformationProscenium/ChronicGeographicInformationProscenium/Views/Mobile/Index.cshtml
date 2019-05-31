@@ -1,0 +1,2211 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="generator" content="" />
+    <link rel="shortcut icon" type="image/svg" href="~/content/images/logo_M.ico" media="screen" /> <!--网页小图标-->
+    <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/scripts/jquery.2.1.4.min.js"></script><!--jQuery插件-->
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/SuperMap/libs/SuperMap.Include.js"></script><!--超图引用-->
+    <title>南山区消防监督管理大队应急救援指挥移动终端</title>
+
+    <script type="text/javascript">
+
+        //改变浏览器窗口大小，执行方法
+
+        window.onresize = function () {
+            changeFrameHeight();
+
+
+        }
+        //计算嵌套标签的高度
+        function changeFrameHeight() {
+            var height = window.document.documentElement.clientHeight;
+            var navbar = document.getElementById('navbar').offsetHeight;
+
+            $('body').css('padding-top', navbar + 'px');
+            $('#content').css('height', (height - navbar) + 'px');
+            setTimeout(function () {
+                var height = window.document.documentElement.clientHeight;
+                var navbar = document.getElementById('navbar').offsetHeight;
+
+                $('body').css('padding-top', navbar + 'px');
+                $('#content').css('height', (height - navbar) + 'px');
+
+            }, 500);
+
+        }
+
+
+        var map,//地图
+            layer,//底图
+            baseLayer,//底图2(行政图)
+            alarmMarkerLayer,//新警情
+            seriousMarkerLayer,//未处理
+            moderateMarkerLayer,//正处理;
+            safetyMarkerLayer;//处理完
+        var vectorLayer_WG;
+        var vectorLayer_Grid;//网格图层
+        var fireProtectionMarkerLayer;//消防设备
+        var myMarkerLayer;//我的位置
+        var timeAlarm;//时间刷新警情
+
+        var WeiXingFireHouseLayer; //"微型消防站");
+        var SmallFireHouseLayer; //小型消防站");
+        var PoliceSubstationLayer; //"公安派出所");
+
+
+        var host, url, url2, urlNetwork, urldata, urldataAlarm, ugcv5url, ugcv5url2;
+        host = 'http://127.0.0.1:8090';
+        url = host + '/iserver/services/map-CongHuaDistrictFire/rest/maps/从化区网格_1@GuangZhouCongHua_Data';//卫星图
+        url2 = host + '/iserver/services/map-CongHuaDistrictFire/rest/maps/从化区网格_1@GuangZhouCongHua_Data';//行政图
+        urlNetwork = host + '/iserver/services/transportationAnalyst-NsDistrictWorkingSpace/rest/networkanalyst/BuildNetwork@ShenZhenNanShan_Data';//网络数据
+        urldata = host + "/iserver/services/data-NsDistrictWorkingSpace/rest/data/";//数据集数据地址
+        urldataAlarm = host + "/iserver/services/data-NsDistrictWorkingSpace/rest/data/datasources/name/ShenZhenNanShan_Data/datasets/name/Alarm/";//警情数据集
+        ugcv5url = host + '/iserver/services/map-ugcv5-ShenZhenNanShanDiTuShenZhenNanShanData/rest/maps/深圳南山地图@ShenZhenNanShan_Data';//卫星图切片地址
+        ugcv5url2 = host + '/iserver/services/map-ugcv5-NanTouZhen/rest/maps/南头镇';
+       // ugcv5url2 = host + '/iserver/services/map-ugcv5-NanShanHangZhengQuYuShenZhenNanShanData/rest/maps/南山行政区域@ShenZhenNanShan_Data';//行政图切片地址
+
+        //缩放比例值
+        var heightsize = 0;
+
+
+        $(function () {
+            addDase();//加载基础设置
+            vectorLayer_WG = new SuperMap.Layer.Vector("搜周边"); //创建警务网格图层
+            vectorLayer_Grid = new SuperMap.Layer.Vector("南头街道网格");
+            overviewMap = new SuperMap.Control.OverviewMap();//实例化鹰眼
+            //初始化地图控件
+            map = new SuperMap.Map("map",//要绑定的html标签ID
+                {
+                    controls: [//控件参数
+                       //new SuperMap.Control.LayerSwitcher(),//图层选择控件类。 用于控制地图中的图层可见性。
+                       new SuperMap.Control.ScaleLine(),//比例尺控件。默认位置为地图左下角。
+                       //new SuperMap.Control.Zoom({ defaultPosition: new SuperMap.Pixel(10,13,SuperMap.Pixel.Mode.RightBottom) }),//缩放类。 用于缩放地图。(调整为右下角)
+                       new SuperMap.Control.Navigation({//此控件处理伴随鼠标事件（拖拽，双击、鼠标滚轮缩放）的地图浏览， 如果创建地图时没有设置任何控件，此控件会默认添加到地图
+                           dragPanOptions: {
+                               enableKinetic: true//设置是否使用拖拽动画。默认为false，不使用动画。
+                           }
+                       })
+                    ], units: "m",//地图的单位
+                    scales: [1 / 80000, 1 / 50000, 1 / 25000, 1 / 10000, 1 / 5000, 1 / 2000]//比例尺
+                });
+
+
+            //初始化图层
+
+            fireProtectionMarkerLayer = new SuperMap.Layer.Markers("消防设备");
+            myMarkerLayer = new SuperMap.Layer.Markers("我的位置");
+
+            alarmMarkerLayer = new SuperMap.Layer.Markers("新警情");//新警情
+            seriousMarkerLayer = new SuperMap.Layer.Markers("未处理");//未处理
+            moderateMarkerLayer = new SuperMap.Layer.Markers("正处理");//正处理;
+            safetyMarkerLayer = new SuperMap.Layer.Markers("处理完");//处理完
+
+             WeiXingFireHouseLayer = new SuperMap.Layer.Markers("微型消防站");
+             SmallFireHouseLayer = new SuperMap.Layer.Markers("小型消防站");
+             PoliceSubstationLayer = new SuperMap.Layer.Markers("公安派出所");
+
+
+             map.events.register("click", this, mapclick);//监听地图单击事件
+
+            map.addControl(new SuperMap.Control.MousePosition());//该控件显示鼠标移动时，所在点的地理坐标
+
+            //获取数据库的地图url
+            $.post("/index/getMapUrl", function (data) {
+                if (data.length > 0) {
+
+                    host = data[0].Url.trim();//域名
+                    url = host + data[1].Url.trim();//卫星图
+                    url2 = host + data[2].Url.trim();//行政图
+                    ugcv5url = host + data[3].Url.trim();//卫星图切片地址
+                    ugcv5url2 = host + data[4].Url.trim();//行政图切片地址
+                    urlNetwork = host + data[5].Url.trim();//交通网络数据
+                    urldata = host + data[6].Url.trim();//数据服务
+                    urldataAlarm = host + data[7].Url.trim();//警情数据集
+
+
+                    layer = new SuperMap.Layer.TiledDynamicRESTLayer("深圳南山区",
+                       ugcv5url2,//图层的服务地址，是数组也可以是单个url，前者支持多地图服务轮询出图，大大提高显示速度。 ugcv5url
+                        {
+                            transparent: true,//transparent（图层是否透明,默认为false）
+                            cacheEnabled: true//cacheEnabled（是否使用服务端的缓存，默认为true）
+                        }, {
+                            maxResolution: "auto",// 在图层实例化的时候设置图层最大的分辨率，默认最大的是360度/256像素（投影为4326），相当于缩放级别为0级。 不同的投影下maxResolution会不同，内部会进行计算。
+                            // useCanvas: false,////设置是否将一个图层用Canvas元素显示，默认为true，使用Canvas显示。 图层在初始化时会进行浏览器检测，若不支持Canvas方式显示时，自动处理为Image 方式出图，该属性会被设置成false。
+                            useCORS: true//使用跨域资源共享策略，这时请求的瓦片必须带有”access-control-allow-origin”响应头， 但是此时瓦片不带cookies信息，如果要带上cookies的信息，还要加一个响应头——”access-control-allow-credentials”, 如果”access-control-allow-origin”响应头不能为”*”，否则也没有cookies信息。默认为:false
+                            //如果useCORS设置了 false ，就不能截图了，就会出错
+                        });
+                    layer.isBaseLayer = true;
+                    layer.bool = true;
+                    //监听图层信息加载完成事件
+                    layer.events.on({
+                        "layerInitialized": addLayer1,//底图加载完成事件
+                        //"loadstart": loadstartMap,//当图层开始加载时触发事件。
+                        //"loadend": loadendMap//当图层结束加载时候触发事件。
+                    });
+                }
+
+            });
+
+        });
+
+
+        //加载图层1
+        function addLayer1() {
+            //初始化图层，此图层在最上层，做卷帘图层
+            baseLayer = new SuperMap.Layer.TiledDynamicRESTLayer("行政区划图", ugcv5url, { transparent: true, cacheEnabled: true }, { maxResolution: "auto", useCORS: true });
+            baseLayer.isBaseLayer = true;
+            baseLayer.bool = false;
+            baseLayer.events.on({
+                "layerInitialized": addLayer//底图加载完成事件
+            });
+
+        }
+
+
+        //异步加载图层
+        function addLayer() {
+            map.addLayers([
+                baseLayer,
+                layer,//底图
+                                 WeiXingFireHouseLayer, //"微型消防站");
+                 SmallFireHouseLayer, //小型消防站");
+                 PoliceSubstationLayer, //"公安派出所");
+                safetyMarkerLayer,//处理完
+                moderateMarkerLayer,//正处理;
+                seriousMarkerLayer,//未处理
+                alarmMarkerLayer,//新警情
+
+                vectorLayer_WG,
+                vectorLayer_Grid,
+                fireProtectionMarkerLayer,
+                myMarkerLayer,
+            ]);
+            map.setCenter(new SuperMap.LonLat(113.92213, 22.54527), 1);
+            map.setBaseLayer(layer);//设置底图图层
+
+            //删除地图比例尺的下半部分()
+            $(".smControlScaleLineBottom").remove();
+            $(".smControlScaleLineTop").css("opacity", "0.5");
+
+            //我的位置
+            addAlarmMarker(113.920283, 22.543887, "[我的位置]", "南山区深圳消防大队", 0, 0, 0);
+
+
+            loadWeb();//加载南山区网格
+            popupTipClose();//隐藏警告框
+
+            WeiXingFireHousePoint();//定位微型站点
+            SmallFireHousePoint();//定位小型站点
+            PoliceSubstationPoint();//定位公安派出所
+
+            selectAlarm();
+            timeAlarm = setInterval("selectAlarm()", 5000);//实时刷新警情
+
+            timeAlarm = setInterval("selectAlarmNotice();", 3000);//查询警情通知
+            timeAlarm = setInterval("selectmyTasks();", 3000); //我的任务接收
+           // selectmyTasks();
+        }
+
+        //定位雷达
+        var countYuan = 20;
+        function One() {
+
+            if (countYuan > 60) {
+                countYuan = 20;
+                //移除图层所有要素
+                vectorLayer_WG.removeAllFeatures();
+            }
+            else {
+                countYuan = countYuan+5;
+            }
+
+
+            var point = new SuperMap.Geometry.Point(113.92213, 22.54527);
+
+            //设置圆范围
+            var circleP = createCircle(point, (countYuan - 5) * 0.0001, 360, 360, 360);//这里应该控制它为 1500 米
+            var circleVector = new SuperMap.Feature.Vector(circleP);
+            circleVector.style = {
+                strokeColor: "#0084EC",
+                fillColor: "#0084EC",
+                strokeWidth: 1,
+                fillOpacity: 0,
+                pointRadius: 6
+            };
+            circleVector.Name = "圆";
+            vectorLayer_WG.addFeatures(circleVector);
+
+            var point = new SuperMap.Geometry.Point(113.92213, 22.54527);
+
+            //设置圆范围
+            var circleP = createCircle(point, countYuan * 0.0001, 360, 360, 360);//这里应该控制它为 1500 米
+            var circleVector = new SuperMap.Feature.Vector(circleP);
+            circleVector.style = {
+                strokeColor: "#0084EC",
+                fillColor: "#0084EC",
+                strokeWidth: 1,
+                fillOpacity: 0.1,
+                pointRadius: 6
+            };
+            circleVector.Name = "圆";
+            vectorLayer_WG.addFeatures(circleVector);
+        }
+
+
+
+
+
+
+
+
+        //==============================================加载网格=============================================================================
+        //加载南山区
+        function loadWeb() {
+            vectorLayer_Grid.removeAllFeatures();//清除上一次查询
+            //声明字段
+            var queryParam = [], queryBySQLParams, queryBySQLService;
+            //查询警务子网格
+            queryParam.push(new SuperMap.REST.FilterParameter({
+                name: "街道网格@ShenZhenNanShan_Data",//查询数据集名称或者图层名称，根据实际的查询对象而定，必设属性
+                attributeFilter: "SmID=1",//属性过滤条件  相当于 SQL 语句中的 WHERE 子句，
+            }));
+            //SQL 查询参数类。 该类用于设置 SQL 查询的相关参数。
+            queryBySQLParams = new SuperMap.REST.QueryBySQLParameters({
+                queryParams: queryParam//查询过滤条件参数数组
+            });
+            //SQL 查询服务类。 在一个或多个指定的图层上查询符合 SQL 条件的空间地物信息。
+            queryBySQLService = new SuperMap.REST.QueryBySQLService(url, {//url 服务的访问地址
+                eventListeners: { "processCompleted": processCompleted_PG, "processFailed": processFailed_PG }
+            });
+
+            //传递到服务端
+            queryBySQLService.processAsync(queryBySQLParams);
+
+        }
+
+        function processCompleted_PG(queryEventArgs) {
+            //声明字段
+            var i, j, feature, bounds, N = [], S = [], W = [], E = [],
+            result = queryEventArgs.result;//获取服务器传回来的数据
+            vectorLayer_WG.removeAllFeatures();//清除上一次查询
+            var features = [];
+            //判断是否有数据
+            if (result && result.recordsets) {//判断查询的查询结果记录集数组是否为空
+                for (i = 0; i < result.recordsets.length; i++) {//循环记录集数组
+                    //features===用于存放矢量要素
+                    if (result.recordsets[i].features) {//判断记录集数组的矢量要素是否为空
+                        //如果记录集数组的矢量要素不为空，则又循环 记录集数组的矢量要素
+                        for (j = 0; j < result.recordsets[i].features.length; j++) {
+                            feature = result.recordsets[i].features[j];//获取记录集数组的矢量要素
+
+                            //判断显示面或点
+                            if (feature.geometry.CLASS_NAME == SuperMap.Geometry.Point.prototype.CLASS_NAME) {//判断返回的数据是不是这个数据
+
+                            }
+                            else {
+
+                                var smID = parseInt(feature.data.SmID);
+                                feature.smID = smID;
+                                if (smID == 1) {
+                                    //街道网格
+                                    feature.style = {
+                                        strokeColor: '#0322ff',//边颜色
+                                        strokeWidth: 1,//边宽度
+                                        strokeDashstyle: 'dash',//边类型，虚线
+                                        fillColor: '#0322ff',//填充颜色
+                                        fillOpacity: 0.08,//透明度
+                                        //label: feature.data.Name,
+                                        fontColor: '#0322ff',
+                                        fontOpacity: "1",
+                                        fontSize: '18px',
+                                        fontWeight: 700
+                                    };
+                                    vectorLayer_Grid.addFeatures(feature);
+                                } else {
+                                    //社区网格
+                                    feature.style = {
+                                        strokeColor: 'Orange',//边颜色
+                                        strokeWidth: 1,//边宽度
+                                        strokeDashstyle: 'solid',//边类型，虚线
+                                        fillColor: 'Orange',//填充颜色
+                                        fillOpacity: 0.15,//透明度
+                                        label: feature.data.Name,
+                                        fontColor: '#f8f540',
+                                        fontOpacity: "1",
+                                        fontSize: '10px',
+                                        fontWeight: 700
+                                    };
+                                    vectorLayer_WG.addFeatures(feature);//给这个图层添加features。也就是把查询结果显示出来
+                                }
+
+                                bounds = feature.geometry.bounds;
+                                if (bounds != null) {
+                                    if (bounds.top != null && Boolean(bounds.top) == true) {
+                                        N.push(Number(bounds.top));
+                                    }
+                                    if (bounds.bottom != null && Boolean(bounds.bottom) == true) {
+                                        S.push(Number(bounds.bottom));
+                                    }
+                                    if (bounds.left != null && Boolean(bounds.left) == true) {
+                                        W.push(Number(bounds.left));
+                                    }
+                                    if (bounds.right != null && Boolean(bounds.right) == true) {
+                                        E.push(Number(bounds.right));
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            if (W.length > 0 && S.length > 0 && E.length > 0 && N.length > 0) {
+                var bounds = new SuperMap.Bounds(
+                                              Math.min.apply(null, W),//最小的水平坐标系。
+                                              Math.min.apply(null, S),//最小的垂直坐标系。
+                                              Math.max.apply(null, E),//最大的水平坐标系。
+                                              Math.max.apply(null, N) //最大的垂直坐标系。
+                                          );
+
+                map.zoomToExtent(bounds);//缩放到指定范围，重新定位中心点。
+            }
+        }
+        //查询网格失败调用
+        function processFailed_PG(er) {
+
+        }
+        //===============================================END加载网格============================================================================
+
+
+
+
+
+
+        function addDase() {
+            changeFrameHeight(); //计算嵌套标签的高度
+            //切换功能背景颜色
+            $('.navbar-nav li').click(function (e) {
+                $(this).tab('show');
+            });
+
+            $('#UserName_a').text($('#PoliceName').val());//用户名称
+            $('#portrait').attr('src', $('#PicturePath').val());//用户头像路径
+
+            //控制头部标题高度
+            //var width = window.document.documentElement.clientWidth;
+            //if (width < 500) {
+            //    $("#top_M").css("margin-top", "5px");
+            //}
+            //else {
+            //    $("#top_M").css("margin-top", "0px");
+            //}
+        }
+
+        //个人资料
+        function userData() {
+            window.location.href = '/index/userData?OpenType=2';
+        }
+
+        //退出
+        function colseLogIn_a() {
+            window.location.href = "/MobileTerminal/login";
+        }
+
+        //显示报警信息列表
+        function newslistShow() {
+
+            popupTipClose();//当显示信息列表,关闭头部提示框
+            //$("#bottom_newslist").show();
+            $("#bottom_newslist").css("bottom", "0px");
+            menulistHide();//隐藏菜单列表
+            alarmMessageHide();//隐藏底部报警信息
+            search_coverageHide(); //隐藏搜索范围框
+            popupTipClose();//隐藏警告框
+
+        }
+
+        //关闭警告框提示框
+        function popupTipClose() {
+            $("#popupTip").hide();
+        }
+
+
+        //隐藏报警信息列表
+        function newslistHide() {
+            $("#bottom_newslist").css("bottom", "-100%");
+            //$("#news").text("");
+        }
+
+
+        //显示菜单列表
+        function menulistShow() {
+            //$("#bottom_newslist").show();
+            $("#bottom_menulist").css("bottom", "0px");
+            $("#bottom_newslist").css("bottom", "-100%");//隐藏报警信息列表
+            alarmMessageHide();//隐藏底部报警信息
+            search_coverageHide(); //隐藏搜索范围框
+        }
+        //隐藏菜单列表
+        function menulistHide() {
+            $("#bottom_menulist").css("bottom", "-100%");
+        }
+
+        //显示底部报警信息（点击对应报警点）
+        function alarmMessageShow() {
+            //弹出底部报警信息
+            $("#warning_message").css("bottom", "0px");
+            $("#bottom_newslist").css("bottom", "-100%");//隐藏报警信息列表
+            $("#bottom_menulist").css("bottom", "-100%");//隐藏菜单列表
+            search_coverageHide(); //隐藏搜索范围框
+            //调整地图左右控件的位置
+            $("#map_newmenu").css("bottom", "30%");
+            $("#map_Zoom").css("bottom", "30%");
+
+        }
+
+        //弹出显示底部报警信息（点击报警点）
+        function alarmMessageOpen(lon, lat, name, address, reportTime) {
+            //移除地图所有弹窗
+            map.removeAllPopup();
+            //移除图层所有要素
+            vectorLayer_WG.removeAllFeatures();
+            //弹出显示信息
+            $("#fireAlarmName").text(name);
+            $("#fireAlarmAddress").text("地址："+address);
+            $("#txtReportTime").text(reportTime);
+            //赋值周边
+            $("#btnsearchSurrounding").attr("X", lon);
+            $("#btnsearchSurrounding").attr("Y", lat);
+
+            //设置中心点，和缩放比例
+            map.panTo(new SuperMap.LonLat(lon, lat));
+            alarmMessageShow();////显示底部报警信息
+        }
+
+        //隐藏底部报警信息
+        function alarmMessageHide() {
+            //弹出底部报警信息
+            $("#warning_message").css("bottom", "-100%");
+            //调整地图左右控件的位置
+            $("#map_newmenu").css("bottom", "10%");
+            $("#map_Zoom").css("bottom", "10%");
+
+        }
+
+
+
+
+        //地图定位报警点位置（消息列表定位）
+        function AlarmPositioning(t) {
+            var marker = this;
+            var lon, lat;
+            alarmMessageHide();////隐藏底部报警信息
+            search_coverageHide(); //隐藏搜索范围框
+            //隐藏报警信息列表
+            //$("#bottom_newslist").css("bottom", "-100%");
+
+            lon = $(t).attr("X");
+            lat = $(t).attr("Y");
+            //获取通知ID
+            alarmNoticeID = $(t).attr("alarmNoticeID");
+            state = $(t).attr("state");//状态
+
+
+            if (state == 1 && newCount > 0) {
+                //修改状态
+                $.post('/MobileTerminal/UpdateAlarmNotice', { alarmNoticeID: alarmNoticeID }, function (data) {
+                    if (data == "ok") {
+                        //点击新消息后，把新消息标签去掉
+                        $("#new" + alarmNoticeID).remove();
+                        $(t).attr("state", 0);
+                        newCount--;//点击一次之后，消息数目减一
+                        if (newCount == 0)//当消息数目为0时
+                        {
+                            $("#news").text("");
+                        }
+                        else {
+                            $("#news").text(newCount);//显示新消息数量
+                        }
+                    }
+                    else {
+                        alert("状态无法提交，请重试！");
+                    }
+                });
+            }
+
+            //移除图层所有要素
+            vectorLayer_WG.removeAllFeatures();
+            fireProtectionMarkerLayer.clearMarkers();
+
+            //移除地图所以弹窗
+            map.removeAllPopup();
+            //移除报警图层所有点
+            //alarmMarkerLayer.clearMarkers();
+            //设置中心点，和缩放比例
+            map.panTo(new SuperMap.LonLat(lon, lat));
+
+
+            if (map.getZoom() < 5)
+            {
+                //延迟1秒放大地图
+                setTimeout(function () {
+                    map.zoomTo(5);
+                }, 300);
+            }
+
+
+        }
+
+        //======================================================添加地图点标记=============================================
+
+        //添加数据
+        function addAlarmMarker(lon, lat, name, address,alarmID,alarmStateID, reportTime) {
+            //判断赋值显示的标志
+            var size = new SuperMap.Size(16,16),//标记的大小
+                offset = new SuperMap.Pixel(-(size.w / 2), -size.h);//此类用x,y坐标描绘屏幕坐标（像素点）
+            var icon;
+            if (alarmStateID == 0) {//已收队状态
+                size = new SuperMap.Size(18, 18),//标记的大小
+                icon = new SuperMap.Icon("/content/images/navigation.png", size, offset);//图标类，表示显示在屏幕上的图标
+            }
+            else if (alarmStateID == 9) {//新警情
+
+                icon = new SuperMap.Icon("/SuperMap/images/2cf11b3bb909db55bbd6360317fd7f15.gif", size, offset);//图标类，表示显示在屏幕上的图标
+            }
+            else if (alarmStateID == 10) {//未出警状态
+
+                icon = new SuperMap.Icon("/content/images/Circle_Red.png", size, offset);//图标类，表示显示在屏幕上的图标
+            }
+            else if (alarmStateID == 11) {//已出警状态
+
+                icon = new SuperMap.Icon("/content/images/Circle_Yellow.png", size, offset);//图标类，表示显示在屏幕上的图标
+            }
+            else if (alarmStateID == 12) {//已收队状态
+
+                icon = new SuperMap.Icon("/content/images/Circle_Green.png", size, offset);//图标类，表示显示在屏幕上的图标
+            }
+
+
+            marker = new SuperMap.Marker(new SuperMap.LonLat(lon, lat), icon);
+            marker.name = name;
+            marker.address = address;
+            marker.alarmID = alarmID;
+            marker.alarmStateID = alarmStateID;
+            marker.reportTime = reportTime;
+            marker.events.on({
+                "click": openInfoWin,
+                "touchstart": openInfoWin,    //假如要在移动端的浏览器也实现点击弹框，则在注册touch类事件
+                "scope": marker
+            });
+
+
+            //分别把标志添加到地图
+            if (alarmStateID == 0){//我的位置
+                myMarkerLayer.addMarker(marker);
+            }
+            else if (alarmStateID == 9) {//新警情
+
+                document.getElementById('iTunes_T').play();//铃声提醒
+
+                alarmMarkerLayer.addMarker(marker);//添加覆盖物到标记图层
+            }
+            else if (alarmStateID == 10) {//未出警状态
+
+                seriousMarkerLayer.addMarker(marker);
+            }
+            else if (alarmStateID == 11) {//已出警状态
+
+                moderateMarkerLayer.addMarker(marker);
+            }
+            else if (alarmStateID == 12) {//已收队状态
+
+                safetyMarkerLayer.addMarker(marker);
+            }
+
+
+        }
+
+
+
+        //打开对应的信息框
+        function openInfoWin() {
+
+            var marker = this;
+            var lonlat = marker.getLonLat();
+
+            nowSelectAlarm.x = lonlat.lon;
+            nowSelectAlarm.y = lonlat.lat;
+            nowSelectAlarm.AlarmID =marker.alarmID;
+            nowSelectAlarm.AlarmStateID = marker.alarmStateID;
+
+            var layercount = map.getNumLayers();
+
+           //getNumLayers
+
+ //           setLayerIndex: function ( layer,
+ //idx )
+
+
+
+
+
+            //把上一次选中的报警点图片换点
+            for (var i = 0; i < alarmMarkerLayer.markers.length; i++) {//新警情
+                alarmMarkerLayer.markers[i].setUrl('/SuperMap/images/2cf11b3bb909db55bbd6360317fd7f15.gif');
+            }
+            for (var i = 0; i < seriousMarkerLayer.markers.length; i++) {//未出警
+                seriousMarkerLayer.markers[i].setUrl('/content/images/Circle_Red.png');
+            }
+            for (var i = 0; i < moderateMarkerLayer.markers.length; i++) {//已出警
+                moderateMarkerLayer.markers[i].setUrl('/content/images/Circle_Yellow.png');
+            }
+            for (var i = 0; i < safetyMarkerLayer.markers.length; i++) {//已收队
+                safetyMarkerLayer.markers[i].setUrl('/content/images/Circle_Green.png');
+            }
+
+
+            //if (nowSelectAlarm.AlarmStateID == 9) {
+            //    marker.setUrl('/SuperMap/images/2cf11b3bb909db55bbd6360317fd7.gif');
+            //}
+
+            if (marker.name.trim() == "[我的位置]") {
+                //隐藏时间和按钮
+                $("#threeAlarmbtn").hide();
+                $("#reportTime").hide();
+            }
+            else {
+                //显示时间和按钮
+                $("#reportTime").show();
+                $("#threeAlarmbtn").show();
+
+                if (nowSelectAlarm.AlarmStateID == 9) {
+                    marker.setUrl('/SuperMap/images/2cf11b3bb909db55bbd6360317fd7.gif');
+                    map.setLayerIndex(alarmMarkerLayer, layercount - 1);
+                }
+                else {
+                    marker.setUrl('/content/images/Circle_Blue.png');
+                    if (nowSelectAlarm.AlarmStateID == 10) {
+
+                        map.setLayerIndex(seriousMarkerLayer, layercount - 1);
+                    }
+                    else if (nowSelectAlarm.AlarmStateID == 11) {
+                        map.setLayerIndex(moderateMarkerLayer, layercount - 1);
+                    }
+                    else if (nowSelectAlarm.AlarmStateID == 12) {
+                        map.setLayerIndex(safetyMarkerLayer, layercount - 1);
+                    }
+                }
+            }
+
+
+            //移除图层所有要素
+            vectorLayer_WG.removeAllFeatures();
+            fireProtectionMarkerLayer.clearMarkers();
+
+            alarmMessageHide();////隐藏底部报警信息
+            alarmMessageOpen(lonlat.lon, lonlat.lat, marker.name, marker.address, marker.reportTime);//弹出底部报警信息面板
+        }
+        //关闭信息框
+        function closeInfoWin() {
+            if (infowin) {
+                try {
+                    infowin.hide();
+                    infowin.destroy();
+                }
+                catch (e) { }
+            }
+        }
+
+        //地图单击事件
+        function mapclick() {
+
+            if (nowSelectAlarm.AlarmID !=0)
+            {
+                alarmMessageHide();////隐藏底部报警信息
+                nowSelectAlarm.x = 0;
+                nowSelectAlarm.y = 0;
+                nowSelectAlarm.AlarmID = 0;
+                nowSelectAlarm.AlarmStateID = 0;
+                //把上一次选中的报警点图片换点
+                for (var i = 0; i < alarmMarkerLayer.markers.length; i++) {//新警情
+                    alarmMarkerLayer.markers[i].setUrl('/SuperMap/images/2cf11b3bb909db55bbd6360317fd7f15.gif');
+                }
+                for (var i = 0; i < seriousMarkerLayer.markers.length; i++) {//未出警
+                    seriousMarkerLayer.markers[i].setUrl('/content/images/Circle_Red.png');
+                }
+                for (var i = 0; i < moderateMarkerLayer.markers.length; i++) {//已出警
+                    moderateMarkerLayer.markers[i].setUrl('/content/images/Circle_Yellow.png');
+                }
+                for (var i = 0; i < safetyMarkerLayer.markers.length; i++) {//已收队
+                    safetyMarkerLayer.markers[i].setUrl('/content/images/Circle_Green.png');
+                }
+            }
+
+        }
+
+
+        //====================================================END添加地图点标记=============================================
+
+
+        //放大 ，在当前缩放级别的基础上放大一级。
+        function zoomin() {
+            alarmMessageHide();////隐藏底部报警信息
+            menulistHide(); //隐藏菜单列表
+            map.zoomIn();
+        }
+        //缩小，在当前缩放级别的基础上缩小一级。
+        function zoomout() {
+            alarmMessageHide();////隐藏底部报警信息
+            menulistHide(); //隐藏菜单列表
+            map.zoomOut();
+        }
+        //我的位置
+        function mylocation() {
+            alarmMessageHide();////隐藏底部报警信息
+            menulistHide(); //隐藏菜单列表
+            map.panTo(new SuperMap.LonLat(113.920283, 22.543887))
+
+        }
+        //地图切换
+        function mapToggle(t) {
+            var indexTyep = parseInt($(t).attr('indexTyep'));
+
+            if (indexTyep == 0) {
+                //加载卫星图
+
+                //$(t).find('a').css('background-image', 'url(/content/images/toolIco/nanshang2.PNG)');
+                //$(t).find('a').text('行政图');
+                $(t).attr('indexTyep', 1);
+                //layer.setVisibility(true);
+                //baseLayer.setVisibility(false);
+                baseLayer.bool = false;
+                layer.bool = true;
+                map.setBaseLayer(layer);
+
+            } else if (indexTyep == 1) {
+                //加载行政图
+
+                $(t).attr('indexTyep', 0);
+                //$(t).find('a').css('background-image', 'url(/content/images/toolIco/weixingtu.PNG)');
+                //$(t).find('a').text('卫星图');
+                //layer.setVisibility(false);
+                //baseLayer.setVisibility(true);
+                baseLayer.bool = true;
+                layer.bool = false;
+                map.setBaseLayer(baseLayer);
+
+            }
+            setTimeout(function () {
+                $(t).removeClass('active');
+            }, 100);
+        }
+
+
+        //火灾上报
+        function fireReport() {
+            window.location.href = '/MobileTerminal/fireReport';
+        }
+        //火灾报警点详情
+        function fireDetails() {
+            //获取选中点ID
+            var alarmID = nowSelectAlarm.AlarmID;
+
+            if (alarmID != 0)
+            {
+                window.location.href = '/MobileTerminal/fireDetails?alarmID=' + alarmID;
+            }
+            else
+            {
+                alert("请在地图上选择一个点！");
+            }
+        }
+        //我的任务
+        function myTasks() {
+            window.location.href = '/MobileTerminal/myTasks';
+        }
+        //路径规划（到这去）
+        function pathPlanning() {
+            //获取警情ID
+            var AlarmID = nowSelectAlarm.AlarmID
+            if (AlarmID>0)
+            {
+                window.location.href = '/MobileTerminal/pathPlanning?AlarmID=' + AlarmID;
+            }
+            else
+            {
+                alert("请选择一个点！");
+            }
+        }
+
+        //显示搜索范围框
+        function search_coverageShow() {
+            $("#search_coverage").css("bottom", "0px");
+
+        }
+
+        //隐藏搜索范围框
+        function search_coverageHide() {
+            $("#search_coverage").css("bottom", "-100%");
+        }
+
+        //加一（搜索范围）
+        function addOne() {
+            var radius = parseInt($("#txtRadius").val()) + 100;
+            $("#txtRadius").val(radius)
+        }
+       // 减一（搜索范围）
+        function minusOne() {
+            var radius = parseInt($("#txtRadius").val()) - 100;
+            $("#txtRadius").val(radius)
+        }
+        //搜周边
+        function searchSurrounding(t) {
+            //移除图层所有要素
+            vectorLayer_WG.removeAllFeatures();
+            //移除消防图层所有点
+            fireProtectionMarkerLayer.clearMarkers();
+            //获取坐标
+
+            var lon = $(t).attr("X");
+            var lat = $(t).attr("Y");
+
+
+            var point = new SuperMap.Geometry.Point(lon, lat);
+
+            //获取搜索范围
+            var txtRadius = parseInt($("#txtRadius").val());
+
+            //设置圆范围
+            var circleP = createCircle(point, txtRadius*0.00001, 360, 360, 360);//这里应该控制它为 1500 米
+            var circleVector = new SuperMap.Feature.Vector(circleP);
+            circleVector.style = {
+                strokeColor: "#CAFF70",
+                fillColor: "#C6E2FF",
+                strokeWidth: 2,
+                fillOpacity: 0.1,
+                pointRadius: 6
+            };
+            circleVector.Name = "圆";
+            vectorLayer_WG.addFeatures(circleVector);
+
+
+            //画圆
+            //var polygon = SuperMap.Geometry.Polygon.createRegularPolygon(
+            //       point,//中心点
+            //       Number(txtRadius),//半径
+            //       360,//边数，20个近似一个圆。
+            //       360);//圆的 旋转角度，单位为degrees。
+            //var circleVector = new SuperMap.Feature.Vector(polygon);//创建一个矢量图层
+            //circleVector.style = {
+            //    strokeColor: "#304DBE",//十六进制描边颜色。
+            //    strokeWidth: 1,//像素描边宽度，默认为1。
+            //    pointerEvents: "visiblePainted",
+            //    fillColor: "#85B8DE",//十六进制填充颜色，默认为”#ee9900”。
+            //    fillOpacity: 0.5,//填充颜色的透明度
+            //    pointRadius: 6,//像素点半径，默认为6
+            //    label: '半径' + Number(txtRadius) + '米',//可选的标签文本。
+            //    fontColor: '#007ACC',//标签字体颜色。
+            //    fontOpacity: 0.5//标签的透明度
+            //};//赋值样式
+            //vectorLayer_WG.addFeatures(circleVector);//添加到图层
+
+
+            //判断四个点,分别加载消防点
+
+
+
+        }
+        //画圆的方法
+        function createCircle(origin, radius, sides, r, angel) {
+            var rR = r * Math.PI / (180 * sides);
+            var rotatedAngle, x, y;
+            var points = [];
+            for (var i = 0; i < sides; ++i) {
+                rotatedAngle = rR * i;
+                x = origin.x + (radius * Math.cos(rotatedAngle));
+                y = origin.y + (radius * Math.sin(rotatedAngle));
+                points.push(new SuperMap.Geometry.Point(x, y));
+            }
+            rotatedAngle = r * Math.PI / 180;
+            x = origin.x + (radius * Math.cos(rotatedAngle));
+            y = origin.y + (radius * Math.sin(rotatedAngle));
+            points.push(new SuperMap.Geometry.Point(x, y));
+
+            var ring = new SuperMap.Geometry.LinearRing(points);
+            ring.rotate(parseFloat(angel), origin);
+            var geo = new SuperMap.Geometry.Collection([ring]);
+            geo.origin = origin;
+            geo.radius = radius;
+            geo.r = r;
+            geo.angel = angel;
+            geo.sides = sides;
+            geo.polygonType = "Curve";
+            return geo;
+        }
+
+
+
+
+
+
+        //当前选择的警情点信息
+        var nowSelectAlarm = { x: 0, y: 0, AlarmID: 0, AlarmStateID: 0 };
+        //addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+        //实时刷新警情
+        function selectAlarm() {
+            $.post('/MobileTerminal/selectAlarm', function (data) {
+
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        var AlarmID = parseInt(data[i].AlarmID);//警情ID
+                        var AlarmStateID = parseInt(data[i].AlarmStateID);//警情状态
+                        var AddressOfTheCrime = data[i].AddressOfTheCrime;//警情地址
+                        var AlarmDescribe = data[i].AlarmDescribe;//警情描述
+                        var AlarmNumber1 = data[i].AlarmNumber1;//警情编号
+                        var AlarmTitle = data[i].AlarmTitle;//标题
+                        var AlarmTypeMC = data[i].AlarmTypeMC;//警情类型
+                        var FireResistanceGradeMC = data[i].FireResistanceGradeMC;//耐火等级
+                        var ReportTime = data[i].ReportTime;//案发时间
+                        var EndOfProcessingTime = data[i].EndOfProcessingTime;//灭火时间
+                        var FireGradeMC = data[i].FireGradeMC;//火灾事故等级
+                        var AlarmSourceTypeMC = data[i].AlarmSourceTypeMC;//警情来源类别MC
+                        var AlarmSourceTypeID = data[i].AlarmSourceTypeID;//警情来源类别ID
+                        var XCoordinate = Number(data[i].XCoordinate);//X
+                        var YCoordinate = Number(data[i].YCoordinate);//Y
+                        var AddressDescribe = data[i].AddressDescribe;//Y;//案发地址口述
+
+                        //新警情
+                        var countalarmMarkerLayer = 0;
+                        for (var j = 0; j < alarmMarkerLayer.markers.length; j++) {
+                            var oddAlarmID = parseInt(alarmMarkerLayer.markers[j].alarmID);
+                            var oddAlarmStateID = parseInt(alarmMarkerLayer.markers[j].alarmStateID);
+                            if (oddAlarmID == AlarmID) {
+                                countalarmMarkerLayer++;
+                                if (oddAlarmStateID == AlarmStateID) {//状态没有改变
+                                    alarmMarkerLayer.markers[j].alarmStateID = AlarmStateID;
+                                    alarmMarkerLayer.markers[j].address = AddressOfTheCrime;
+                                    alarmMarkerLayer.markers[j].name = AlarmTitle;
+                                    alarmMarkerLayer.markers[j].reportTime = ReportTime;
+
+                                } else {
+
+                                    if (AlarmStateID == 10) {//改变为未处理了
+                                        alarmMarkerLayer.removeMarker(alarmMarkerLayer.markers[j]);
+                                        if (nowSelectAlarm.AlarmID == AlarmID) {//判断当前选择的点是不是改了状态
+
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        } else {
+
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        }
+                                    }
+                                    else if (AlarmStateID == 11) {//改变为正处理了
+                                        alarmMarkerLayer.removeMarker(alarmMarkerLayer.markers[j]);
+                                        if (nowSelectAlarm.AlarmID == AlarmID) {//判断当前选择的点是不是改了状态
+
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        } else {
+
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        }
+
+                                    }
+                                    else if (AlarmStateID == 12) {//改变为处理完了
+                                        alarmMarkerLayer.removeMarker(alarmMarkerLayer.markers[j]);
+                                        if (nowSelectAlarm.AlarmID == AlarmID) {//判断当前选择的点是不是改了状态
+
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        } else {
+
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        }
+
+                                    }
+                                }
+                                break;
+                            }
+                        }
+
+                        if (countalarmMarkerLayer == 0 && AlarmStateID == 9) {
+
+                            if (XCoordinate == "" && YCoordinate == "") {
+                                //110接警过来，地址
+                                //selectAddress_Y(AddressOfTheCrime, ReportTime, AlarmDescribe, AlarmSourceTypeMC, AlarmSourceTypeID, AlarmTypeMC, FireResistanceGradeMC, AlarmTitle, AlarmID, AlarmStateID, AlarmNumber1, "", "", false, EndOfProcessingTime, FireGradeMC, AddressDescribe);
+                            }
+                            else {
+
+                                if (nowSelectAlarm.AlarmStateID != 9) {
+
+                                    addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                } else {
+                                    addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                }
+                            }
+
+                        }
+
+                        //未处理
+                        var countSeriousMarker = 0;
+                        for (var j = 0; j < seriousMarkerLayer.markers.length; j++) {
+                            var oddAlarmID = parseInt(seriousMarkerLayer.markers[j].alarmID);
+                            var oddAlarmStateID = parseInt(seriousMarkerLayer.markers[j].alarmStateID);
+                            if (oddAlarmID == AlarmID) {
+                                countSeriousMarker++;
+                                if (oddAlarmStateID == AlarmStateID) {//状态没有改变
+                                    seriousMarkerLayer.markers[j].alarmStateID = AlarmStateID;
+                                    seriousMarkerLayer.markers[j].address = AddressOfTheCrime;
+                                    seriousMarkerLayer.markers[j].name = AlarmTitle;
+                                    seriousMarkerLayer.markers[j].reportTime = ReportTime;
+
+
+                                } else {
+                                    if (AlarmStateID == 11) {//改变为正处理了
+                                        seriousMarkerLayer.removeMarker(seriousMarkerLayer.markers[j]);
+                                        if (nowSelectAlarm.AlarmID == AlarmID) {//判断当前选择的点是不是改了状态
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        } else {
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        }
+                                    } else if (AlarmStateID == 12) {//改变为处理完了
+                                        seriousMarkerLayer.removeMarker(seriousMarkerLayer.markers[j]);
+                                        if (nowSelectAlarm.AlarmID == AlarmID) {//判断当前选择的点是不是改了状态
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        } else {
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        }
+
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        if (countSeriousMarker == 0 && AlarmStateID == 10) {
+                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                        }
+
+
+                        //正处理
+                        var countModerateMarker = 0;
+                        for (var j = 0; j < moderateMarkerLayer.markers.length; j++) {
+                            var oddAlarmID = parseInt(moderateMarkerLayer.markers[j].alarmID);
+                            var oddAlarmStateID = parseInt(moderateMarkerLayer.markers[j].alarmStateID);
+                            if (oddAlarmID == AlarmID) {
+                                countModerateMarker++;
+                                if (oddAlarmStateID == AlarmStateID) {//状态没有改变
+                                    moderateMarkerLayer.markers[j].alarmStateID = AlarmStateID;
+                                    moderateMarkerLayer.markers[j].address = AddressOfTheCrime;
+                                    moderateMarkerLayer.markers[j].name = AlarmTitle;
+                                    moderateMarkerLayer.markers[j].reportTime = ReportTime;
+
+                                } else {
+                                    if (AlarmStateID == 12) {//改变为处理完了
+                                        moderateMarkerLayer.removeMarker(moderateMarkerLayer.markers[j]);
+                                        if (nowSelectAlarm.AlarmID == AlarmID) {//判断当前选择的点是不是改了状态
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        } else {
+                                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        if (countModerateMarker == 0 && AlarmStateID == 11) {
+                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                        }
+
+
+                        //处理完
+                        var countSafetyMarker = 0;
+                        for (var j = 0; j < safetyMarkerLayer.markers.length; j++) {
+                            var oddAlarmID = parseInt(safetyMarkerLayer.markers[j].alarmID);
+                            var oddAlarmStateID = parseInt(safetyMarkerLayer.markers[j].alarmStateID);
+                            if (oddAlarmID == AlarmID) {
+                                countSafetyMarker++;
+                                safetyMarkerLayer.markers[j].alarmStateID = AlarmStateID;
+                                safetyMarkerLayer.markers[j].address = AddressOfTheCrime;
+                                safetyMarkerLayer.markers[j].name = AlarmTitle;
+                                safetyMarkerLayer.markers[j].reportTime = ReportTime;
+                                break;
+                            }
+                        }
+
+                        if (countSafetyMarker == 0 && AlarmStateID == 12) {
+                            addAlarmMarker(XCoordinate, YCoordinate, AlarmTitle, AddressOfTheCrime, AlarmID, AlarmStateID, ReportTime);
+                        }
+                    }
+
+
+                } else {
+
+                    nowSelectAlarm.x = 0;
+                    nowSelectAlarm.y = 0;
+                    nowSelectAlarm.AlarmID = 0;
+                    nowSelectAlarm.AlarmStateID = 0;
+                    //查询不到点要清除全部
+                    alarmMarkerLayer.clearMarkers();//新警情
+                    seriousMarkerLayer.clearMarkers();//未处理
+                    moderateMarkerLayer.clearMarkers();//正处理
+                    safetyMarkerLayer.clearMarkers();//处理完
+                    closeInfoWinPoliceIntelligence();//关闭选择的警情弹窗
+                }
+            });
+        }
+
+
+        //警情通知
+        var newCount = 0;//统计新警情数量
+        //警情通知
+        function selectAlarmNotice() {
+
+            $.post('/MobileTerminal/selectAlarmNotice', function (data) {
+
+                if (data.length > 0) {
+                    //第一种情况，新通知
+                    for (var i = 0; i < data.length; i++) {
+                        var lon = Number(data[i].X);//X
+                        var lat = Number(data[i].Y);//Y
+                        var AlarmNoticeID = data[i].AlarmNoticeID;
+                        var NoticeContent = data[i].NoticeContent;//通知内容
+                        var NoticeTime = data[i].NoticeTime;//通知时间
+                        var ReceivedNo = data[i].ReceivedNo;//收到否
+
+                        //未接收
+                        if( ReceivedNo==false)
+                        {
+                            //获取元素集合
+                            var newlist_a = $("#newslist a");
+                            if (newlist_a.length==0) {//第一次加载
+                                newCount++;//统计新警情数量
+                                $("#txtpopupTip").text("[通知]"+NoticeContent + " " + NoticeTime);//弹出警告框显示标题
+                                $("#popupTip").show();//显示警告框
+                                $("#news").text(newCount);//显示新消息数量
+                                var html = "<a href='#' name='AlarmNotice' class='list-group-item' X=" + lon + " Y=" + lat + " alarmNoticeID=" + AlarmNoticeID + " state='1'  onclick='AlarmPositioning(this)'> <p class='text-warning' style='padding:0px;margin:0px;'>" + NoticeTime + "</p><span class='badge' id='new" + AlarmNoticeID + "' style='background-color:red'>新</span>[通知]" + NoticeContent + "</a>"
+                                $("#newslist").prepend(html);
+                                document.getElementById('iTunes_news').play();//铃声提醒
+                            }
+                            else {
+                                var count = 0;
+                                for (var j = 0; j < newlist_a.length; j++) {
+                                    var oddAlarmNoticeID = parseInt($(newlist_a[j]).attr('alarmNoticeID'));
+                                    if (oddAlarmNoticeID) {//ID 不为空
+                                        if (AlarmNoticeID == oddAlarmNoticeID) {
+                                            count++;
+                                        }
+                                    }
+
+                                }
+                                if (count==0) { //新内容
+                                    newCount++;//统计新警情数量
+                                    $("#txtpopupTip").text("[通知]"+NoticeContent + " " + NoticeTime);//弹出警告框显示标题
+                                    $("#popupTip").show();//显示警告框
+                                    $("#news").text(newCount);//显示新消息数量
+                                    var html = "<a href='#' name='AlarmNotice' class='list-group-item' X=" + lon + " Y=" + lat + " alarmNoticeID=" + AlarmNoticeID + " state='1'  onclick='AlarmPositioning(this)'> <p class='text-warning' style='padding:0px;margin:0px;'>" + NoticeTime + "</p><span class='badge' id='new" + AlarmNoticeID + "' style='background-color:red'>新</span>[通知]" + NoticeContent + "</a>"
+                                    $("#newslist").prepend(html);
+                                    document.getElementById('iTunes_news').play();//铃声提醒
+                                }
+
+                            }
+                        }
+                        //已接收
+                        else {
+                            //获取元素集合
+                            var newlist_a = $("#newslist a");
+                            if (newlist_a.length == 0) {//第一次加载
+
+                                var html = "<a href='#' name='AlarmNotice' class='list-group-item' X=" + lon + " Y=" + lat + " alarmNoticeID=" + AlarmNoticeID + " state='0'  onclick='AlarmPositioning(this)'> <p class='text-warning' style='padding:0px;margin:0px;'>" + NoticeTime + "</p>[通知]" + NoticeContent + "</a>"
+                                $("#newslist").prepend(html);
+
+                            }
+                            else {
+                                var count = 0;
+                                for (var j = 0; j < newlist_a.length; j++) {
+                                    var oddAlarmNoticeID = parseInt($(newlist_a[j]).attr('alarmNoticeID'));
+                                    if (oddAlarmNoticeID) {//ID不为空
+                                        if (AlarmNoticeID == oddAlarmNoticeID) {
+                                            count++;
+                                        }
+                                    }
+                                }
+                                if (count == 0) {
+
+                                    var html = "<a href='#' name='AlarmNotice' class='list-group-item' X=" + lon + " Y=" + lat + " alarmNoticeID=" + AlarmNoticeID + " state='0'  onclick='AlarmPositioning(this)'> <p class='text-warning' style='padding:0px;margin:0px;'>" + NoticeTime + "</p>[通知]" + NoticeContent + "</a>"
+                                    $("#newslist").prepend(html);
+                                }
+
+                            }
+
+                        }
+                    }
+
+                    //第二种情况，删除通知（已加载）
+                    var newlist_a = $("#newslist a");
+                    //遍历已有元素
+                    for (var j = 0; j < newlist_a.length; j++) {
+                        var oddAlarmNoticeID = parseInt($(newlist_a[j]).attr('alarmNoticeID'));
+                        if (oddAlarmNoticeID)//ID 不为空
+                        {
+                            var count = 0;
+                            for (var i = 0; i < data.length; i++) {
+                                var AlarmNoticeID = data[i].AlarmNoticeID;
+                                if (AlarmNoticeID == oddAlarmNoticeID) {
+                                    count++;
+                                }
+                            }
+                            if (count == 0) {
+                                //统计数为0，通知不存在，移除元素
+                                $(newlist_a[j]).remove();
+                                newCount--;//统计新警情数量
+                                if (newCount == 0)//当消息数目为0时
+                                {
+                                    $("#news").text("");
+                                }
+                                else {
+                                    $("#news").text(newCount);//显示新消息数量
+                                }
+                            }
+                        }
+
+                    }
+                }
+                else
+                {
+                    //查询数据返回为空，清空所有数据
+                    //$("#newslist").html('');
+                    var newlist_a = $("#newslist a");
+                    //遍历已有元素,仅清除通知信息
+                    for (var j = 0; j < newlist_a.length; j++) {
+                        var oddAlarmNoticeID = parseInt($(newlist_a[j]).attr('alarmNoticeID'));
+
+                        if (oddAlarmNoticeID) //ID 不为空
+                        {
+                            //统计数为0，通知不存在，移除元素
+                            $(newlist_a[j]).remove();
+                            newCount--;//统计新警情数量
+                            if (newCount == 0)//当消息数目为0时
+                            {
+                                $("#news").text("");
+                            }
+                            else {
+                                $("#news").text(newCount);//显示新消息数量
+                            }
+
+                        }
+                    }
+                }
+            });
+        }
+
+        //查询我的任务
+        function selectmyTasks() {
+            $.post('/MobileTerminal/selectTasks', function (data) {
+
+                if (data.length > 0) {
+                    //第一种情况，新通知
+                    for (var i = 0; i < data.length; i++) {
+                        var ThePoliceOfficersID = data[i].ThePoliceOfficersID;//出警任务ID
+                        var TaskStateID = data[i].TaskStateID;//任务状态ID
+                        var Task = data[i].Task;//任务内容
+                        var ThePoliceTime = data[i].ThePoliceTime;//任务内容
+
+                        //未接收
+                        if (TaskStateID == 76) {
+                            //获取元素集合
+                            var newlist_a = $("#newslist a");
+                            if (newlist_a.length == 0) {//第一次加载
+                                newCount++;//统计新警情数量
+                                $("#txtpopupTip").text("[任务]" + Task + " " + ThePoliceTime);//弹出警告框显示标题
+                                $("#popupTip").show();//显示警告框
+                                $("#news").text(newCount);//显示新消息数量
+                                var html = "<a href='#' name='AlarmNotice' class='list-group-item'  ThePoliceOfficersID=" + ThePoliceOfficersID + " onclick='myTasks()'> <p class='text-warning' style='padding:0px;margin:0px;'>" + ThePoliceTime + "</p><span class='badge' id='task" + ThePoliceOfficersID + "' style='background-color:red'>新</span>[任务]" + Task + "</a>"
+                                $("#newslist").prepend(html);
+                                document.getElementById('iTunes_Task').play();//铃声提醒
+                            }
+                            else {
+                                var count = 0;
+                                for (var j = 0; j < newlist_a.length; j++) {
+                                    var oddThePoliceOfficersID = parseInt($(newlist_a[j]).attr('ThePoliceOfficersID'));
+                                    if (oddThePoliceOfficersID)//ID不为空
+                                    {
+                                        if (ThePoliceOfficersID == oddThePoliceOfficersID) {
+                                            count++;
+                                        }
+                                    }
+
+                                }
+                                if (count == 0) { //新内容
+                                    newCount++;//统计新警情数量
+                                    $("#txtpopupTip").text("[任务]" + Task + " " + ThePoliceTime);//弹出警告框显示标题
+                                    $("#popupTip").show();//显示警告框
+                                    $("#news").text(newCount);//显示新消息数量
+                                    var html = "<a href='#' name='AlarmNotice' class='list-group-item'  ThePoliceOfficersID=" + ThePoliceOfficersID + " onclick='myTasks()'> <p class='text-warning' style='padding:0px;margin:0px;'>" + ThePoliceTime + "</p><span class='badge' id='task" + ThePoliceOfficersID + "' style='background-color:red'>新</span>[任务]" + Task + "</a>"
+                                    $("#newslist").prepend(html);
+                                    document.getElementById('iTunes_Task').play();//铃声提醒
+                                }
+
+                            }
+                        }
+                            //已接收
+                        else {
+                            //获取元素集合
+                            var newlist_a = $("#newslist a");
+                            if (newlist_a.length == 0) {//第一次加载
+
+                                var html = "<a href='#' name='AlarmNotice' class='list-group-item'  ThePoliceOfficersID=" + ThePoliceOfficersID + "   onclick='myTasks()'> <p class='text-warning' style='padding:0px;margin:0px;'>" + ThePoliceTime + "</p>[任务]" + Task + "</a>"
+                                $("#newslist").prepend(html);
+
+                            }
+                            else {
+                                var count = 0;
+                                for (var j = 0; j < newlist_a.length; j++) {
+                                    var oddThePoliceOfficersID = parseInt($(newlist_a[j]).attr('ThePoliceOfficersID'));
+                                    if (oddThePoliceOfficersID)
+                                    {//ID不为空
+                                        if (ThePoliceOfficersID == oddThePoliceOfficersID) {
+                                            count++;
+                                        }
+                                    }
+                                }
+                                if (count == 0) {
+
+                                    var html = "<a href='#' name='AlarmNotice' class='list-group-item'  ThePoliceOfficersID=" + ThePoliceOfficersID + "  onclick='myTasks()'> <p class='text-warning' style='padding:0px;margin:0px;'>" + ThePoliceTime + "</p>[任务]" + Task + "</a>"
+                                    $("#newslist").prepend(html);
+                                }
+
+                            }
+
+                        }
+                    }
+
+                    //第二种情况，删除通知（已加载）
+                    var newlist_a = $("#newslist a");
+                    ////遍历已有元素
+                    for (var j = 0; j < newlist_a.length; j++) {
+                        var oddThePoliceOfficersID = parseInt($(newlist_a[j]).attr('ThePoliceOfficersID'));
+                        var count = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var oddThePoliceOfficersID = data[i].ThePoliceOfficersID;//出警任务ID
+                            if (oddThePoliceOfficersID) {//ID 不为空
+                                if (ThePoliceOfficersID == oddThePoliceOfficersID) {
+                                    count++;
+                                }
+                            }
+
+                        }
+                        if (count == 0) {
+                            //统计数为0，通知不存在，移除元素
+                            $(newlist_a[j]).remove();
+                            newCount--;//统计新警情数量
+                            if (newCount == 0)//当消息数目为0时
+                            {
+                                $("#news").text("");
+                            }
+                            else {
+                                $("#news").text(newCount);//显示新消息数量
+                            }
+                        }
+                    }
+                }
+                else {
+                    //查询数据返回为空，清空所有数据
+                    //$("#newslist").html('');
+                    //仅清除任务信息
+                    var newlist_a = $("#newslist a");
+                    for (var j = 0; j < newlist_a.length; j++) {
+                        var oddThePoliceOfficersID = parseInt($(newlist_a[j]).attr('ThePoliceOfficersID'));
+                            if (oddThePoliceOfficersID) {//ID 不为空
+                            //统计数为0，通知不存在，移除元素
+                            $(newlist_a[j]).remove();
+                            newCount--;//统计新警情数量
+                            if (newCount == 0)//当消息数目为0时
+                            {
+                                $("#news").text("");
+                            }
+                            else {
+                                $("#news").text(newCount);//显示新消息数量
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+
+
+        //加载站点
+        function WeiXingFireHousePoint()//定位微型站点
+        {
+            $.post("/MobileTerminal/SelectWeiXingFireHouse", function (data) {
+                if (data.length > 0) {
+                    var WeiXingFireHousesDataset = [];//微型消防站集
+                    for (var i = 0; i < data.length; i++) {
+                        WeiXingFireHousesDataset.push(data[i].FireStationGISID);
+                    }
+                    var queryParam, queryBySQLParams, queryBySQLService;
+                    queryParam = new SuperMap.REST.FilterParameter({
+                        name: "消防站点@ShenZhenNanShan_Data",
+                        attributeFilter: "SmID in (" + WeiXingFireHousesDataset + ")"
+                    });
+                    queryBySQLParams = new SuperMap.REST.QueryBySQLParameters({
+                        queryParams: [queryParam]
+                    });
+                    queryBySQLService = new SuperMap.REST.QueryBySQLService(url, {
+                        eventListeners: { "processCompleted": Showlandmark, "processFailed": processFailed }
+                    });
+                    queryBySQLService.processAsync(queryBySQLParams);
+                }
+            });
+
+        }
+        function SmallFireHousePoint()//定位小型站点
+        {
+            $.post("/MobileTerminal/SelectSmallFireHouse", function (data) {
+                if (data.length > 0) {
+
+                    var SmallFireHousDataset = [];//小型消防站集
+                    for (var i = 0; i < data.length; i++) {
+                        SmallFireHousDataset.push(data[i].FireStationGISID);
+                    }
+                    var queryParam, queryBySQLParams, queryBySQLService;
+                    queryParam = new SuperMap.REST.FilterParameter({
+                        name: "消防站点@ShenZhenNanShan_Data",
+                        attributeFilter: "SmID in (" + SmallFireHousDataset + ")"
+                    });
+                    queryBySQLParams = new SuperMap.REST.QueryBySQLParameters({
+                        queryParams: [queryParam]
+                    });
+                    queryBySQLService = new SuperMap.REST.QueryBySQLService(url, {
+                        eventListeners: { "processCompleted": Showlandmark, "processFailed": processFailed }
+                    });
+                    queryBySQLService.processAsync(queryBySQLParams);
+                }
+            });
+
+        }
+
+        function PoliceSubstationPoint()//定位公安派出所
+        {
+            var queryParam, queryBySQLParams, queryBySQLService;
+            queryParam = new SuperMap.REST.FilterParameter({ name: "P01政府机构_point_1@ShenZhenNanShan_Data#2", attributeFilter: "TYPE=7102 " });
+            queryBySQLParams = new SuperMap.REST.QueryBySQLParameters({
+                queryParams: [queryParam]
+            });
+            queryBySQLService = new SuperMap.REST.QueryBySQLService(url, {
+                eventListeners: { "processCompleted": Showlandmark, "processFailed": processFailed }
+            });
+            queryBySQLService.processAsync(queryBySQLParams);
+
+
+
+        }
+
+        function processFailed(e) {
+            alert(e.error.errorMsg);
+        }
+        function Showlandmark(obj)//在地图上显示站点地标
+        {
+
+            var result = obj.result;
+
+            var feature, x, y, LocalMrker, type = 0, index = 0,
+        size = new SuperMap.Size(27, 27),
+        offset = new SuperMap.Pixel(-(size.w / 2), -size.h),
+        icon = new SuperMap.Icon("/SuperMap/theme/images/marker.png", size, offset);
+            if (result && result.recordsets) {
+                for (i = 0, recordsets = result.recordsets, len = recordsets.length; i < len; i++) {
+                    if (recordsets[i].features) {
+                        for (j = 0; j < recordsets[i].features.length; j++) {
+                            feature = recordsets[i].features[j];
+                            x = feature.geometry.x;
+                            y = feature.geometry.y;
+                            type = parseInt(feature.data.TypeID);
+                            //微型15
+                            if (type == 33)//判断站点类型
+                            {
+                                index = 1;
+                                size = new SuperMap.Size(15, 15),
+                                icon = new SuperMap.Icon("/content/images/weixinzhan.png", size, offset);
+                                LocalMrker = new SuperMap.Marker(new SuperMap.LonLat(x, y), icon);
+                                LocalMrker.id = index;
+                                LocalMrker.typeID = type;
+                                LocalMrker.name = feature.attributes.Name;
+                                LocalMrker.laction = feature.attributes.address;
+                            }
+                                //小型18
+                            else if (type == 34) {
+                                index = 2;
+                                size = new SuperMap.Size(18, 18),
+                                icon = new SuperMap.Icon("/content/images/xiaoxinzhan.png", size, offset);
+                                LocalMrker = new SuperMap.Marker(new SuperMap.LonLat(x, y), icon);
+                                LocalMrker.id = index;
+                                LocalMrker.typeID = type;
+                                LocalMrker.name = feature.attributes.Name;
+                                LocalMrker.laction = feature.attributes.address;
+                            }
+                                //公安
+                            else if (feature.data.TYPE == 7102) {
+                                index = 3;
+                                size = new SuperMap.Size(17, 17),
+                                icon = new SuperMap.Icon("/content/images/gonganpaichsuo.png", size, offset);
+                                LocalMrker = new SuperMap.Marker(new SuperMap.LonLat(x, y), icon);
+                                LocalMrker.id = index;
+                                LocalMrker.name = feature.attributes.NAME;
+                                LocalMrker.laction = feature.attributes.ADDRESS;
+                            }
+                            LocalMrker.GISID = feature.attributes.SmID;
+                            LocalMrker.bool = false;
+                            //LocalMrker.events.on({
+                            //    "click": OpenZhanDianMessagepopupss1,
+                            //    "touchstart": OpenZhanDianMessagepopupss1,  //假如要在移动端的浏览器也实现点击弹框，则在注册touch类事件
+                            //    "scope": LocalMrker
+                            //});
+                            if (index == 1)//根据不同的类型添加到不同的图层上
+                            {
+                                WeiXingFireHouseLayer.addMarker(LocalMrker);
+                            } else if (index == 2) {
+                                SmallFireHouseLayer.addMarker(LocalMrker);
+                            } else if (index == 3) {
+                                PoliceSubstationLayer.addMarker(LocalMrker);
+                            }
+
+                        }
+                    }
+                }
+            }
+
+        }
+
+        //function OpenZhanDianMessagepopupss1(obj) {
+        //    CloseLayerPointPopup();
+        //    CloseFireFightingApparatusXiangQing();
+        //    ClosefirefighterXiangQing();
+        //    var marker = this;
+        //    var index;
+        //    var XCoordinate;//X轴
+        //    var YCoordinate;//Y轴
+        //    var GISID;
+        //    var laction;
+        //    var name;
+        //    if (obj.bool == true) {
+        //        index = obj.id;
+        //        XCoordinate = obj.lonlat.lon;
+        //        YCoordinate = obj.lonlat.lat;
+        //        GISID = obj.GISID;
+        //        laction = obj.laction;
+        //        name = obj.name;
+        //    } else {
+        //        index = marker.id;
+        //        XCoordinate = marker.getLonLat().lon;
+        //        YCoordinate = marker.getLonLat().lat;
+        //        GISID = marker.GISID;
+        //        laction = marker.laction;
+        //        name = marker.name;
+        //    }
+
+        //    var size = new SuperMap.Size(25, 25),
+        //     offset = new SuperMap.Pixel(-25, -25);
+        //    var icon = new SuperMap.Icon("/SuperMap/images/marker-RK.png", size, offset);
+        //    var contentHTML = "";  //设置在气泡中显示的内容
+        //    if (index == 1 || index == 2) {
+        //        $.getJSON("/index/SelectXiaoFangSheBei?ZhanDianGisID=" + GISID, function (data) {
+        //            FireStationFireCarTalbe = data.FireFghtingApparatus;
+        //            FirefightersTable = data.FireStationFirefighter;
+        //            var TatleText = "";
+        //            if (index == 1) {
+        //                TatleText = "微型消防站";
+        //            }
+        //            if (index == 2) {
+        //                TatleText = "小型消防站";
+        //            }
+        //            contentHTML = "<div class='popwin_titleDiv' style=''><span class='popwin_title'>" + TatleText + "</span></div>" +
+        //                 "<div style='font-size:14px;overflow-y:hidden;overflow:auto;color:#000;height:auto;width: 100%;max-height: 240px;min-height: 200px;padding-left: 5px;'>" +
+        //                "<div style='width:300px;height:150px;overflow:hidden; text-align:center; padding:5px;margin:auto 0px;'><img style='width:100%;height:100%;' src=" + data.FireStationFireImage[0].PicturePath + "></div><b>站点名称： </b>" + name + "<br/><b>所在地址:&nbsp;</b>"
+        //            + laction + "<br/> <b>消防设备：</b>" + data.FireFghtingApparatus.length + "个  <a href='javascript:void(0);' class='XiangXiqipao' onclick='OpenFireFightingApparatusXiangQing()'> &nbsp;详情</a> <br/> <b>消防人员：</b>" + data.FireStationFirefighter.length
+        //            + "人 <a href='javascript:void(0);' class='XiangXiqipao'onclick='OpenfirefighterXiangQing()'> &nbsp;详情</a></div>";
+
+        //            var popup = new SuperMap.Popup.FramedCloud(
+        //                "TuCengPopwin",
+        //                new SuperMap.LonLat(XCoordinate, YCoordinate),
+        //                null,
+        //           contentHTML,
+        //                icon,
+        //                true,
+        //                  function () {
+        //                      CloseLayerPointPopup();
+        //                      CloseFireFightingApparatusXiangQing();
+        //                      ClosefirefighterXiangQing();
+        //                  },
+        //                true);
+        //            popup.autoSize = true;
+        //            popup.panMapIfOutOfView = true;//是否移动地图以确保弹窗显示在窗口内
+        //            LayerPopul = popup;
+        //            map.addPopup(popup);
+
+        //        });
+
+        //    }
+        //    if (index == 3) {
+        //        offset = new SuperMap.Pixel(-12, -23);
+        //        icon = new SuperMap.Icon("/SuperMap/images/marker-RK.png", size, offset);
+        //        contentHTML += "<div class='popwin_titleDiv' style=''><span class='popwin_title'>公安派出所</span></div><div><div style='width:100%;height:120px; padding:5px;'><img  src='/content/images/thumbnails.jpg' style='width:100%;height:100%;'></div><b>派出所名称： </b>" + marker.name + "<a href='javascript:void(0);' class='XiangXiqipao'> &nbsp;详情</a><br/><b>所在地址:&nbsp;</b>" + marker.laction + "</div>";
+        //        var popup = new SuperMap.Popup.FramedCloud(
+        //            "PaiChuSuoPopwin",
+        //            marker.getLonLat(), null,
+        //             contentHTML,
+        //           icon,
+        //            true,
+        //            null,
+        //            false);
+        //        popup.autoSize = true;
+        //        popup.panMapIfOutOfView = true;//是否移动地图以确保弹窗显示在窗口内
+        //        LayerPopul = popup;
+        //        map.addPopup(popup);
+
+        //    }
+
+        //    //map.setCenter(new SuperMap.LonLat(lonlat.lon, lonlat.lat), 1);
+
+        //}//单击冒泡
+    </script>
+
+
+    <style>
+        /*地图缩放控件位置调整（右下角）*/
+        #SuperMap.Control.Zoom_13 {
+            top: 88% !important;
+            right: 0px !important;
+        }
+
+        #navbar {
+            min-height: 40px !important;
+        }
+
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        body {
+            font-family: "宋体";
+            color: #000;
+            font-size: 14px;
+        }
+        /*头部栏*/
+        #titleFence {
+            padding: 0px;
+            transition: all 2s ease;
+            -o-transition: all 2s ease;
+            -moz-transition: all 2s ease;
+            -webkit-transition: all 2s ease;
+            position: relative;
+        }
+
+            #titleFence > #navbar {
+                background-color: #0084ec;
+                /*background-image: -moz-linear-gradient(top, #4a8bc2, #4a8bc2);
+        background-image: -o-linear-gradient(top, #4a8bc2, #4a8bc2);
+        background-repeat: repeat-x  ;*/
+                color: #fff;
+                padding: 0px;
+                margin: 0px;
+            }
+
+                #titleFence > #navbar #titleFenceTow_con {
+                    padding-left: 0px;
+                    padding-right: 0px;
+                }
+
+            #titleFence #navbar #titleFenceTow_con .navbar-header .navbar-toggle {
+                border-color: #fff;
+                background-color: transparent;
+                right: 8px;
+                padding: 6px 5px;
+            }
+
+                #titleFence #navbar #titleFenceTow_con .navbar-header .navbar-toggle span {
+                    background-color: #fff;
+                }
+
+            #titleFence #navbar #titleFenceTow_con .navbar-header .navbar-brand {
+                padding: 0px;
+            }
+        /*上半部分导航条*/
+        #top-Navbar-collapse {
+            padding-bottom: 2px;
+            padding-top: 0px;
+            padding-right: 20px;
+        }
+
+            #top-Navbar-collapse #user_nav {
+                padding-bottom: 0px;
+                padding-top: 0px;
+            }
+
+                #top-Navbar-collapse #user_nav .dropdown.user {
+                    min-width: 136px;
+                    padding-bottom: 0px;
+                    padding-top: 0px;
+                    padding-right: 1px;
+                    padding-left: 0px;
+                }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user > a {
+                        padding-bottom: 5px;
+                        padding-top: 5px;
+                        width: 100%;
+                        padding-left: 0px;
+                        padding-right: 0px;
+                        display: block;
+                        text-align: center;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user .dropdown-menu > li:hover, #top-Navbar-collapse #user_nav .dropdown.user .dropdown-menu > li:hover > a {
+                        background-color: rgba(219, 231, 242, 0.40);
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user .dropdown-menu > li > a {
+                        padding-bottom: 7px;
+                        padding-top: 7px;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user.active > a {
+                        background-color: transparent;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user.active.open > a {
+                        background-color: #3B6F9B;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user.open > a {
+                        background-color: #3B6F9B;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user.active > a:hover, #top-Navbar-collapse #user_nav .dropdown.user.active > a:focus {
+                        background-color: #3B6F9B;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user > .dropdown-toggle:hover {
+                        background-color: #3B6F9B;
+                    }
+
+                    #top-Navbar-collapse #user_nav .dropdown.user .dropdown-menu {
+                        min-width: 130px;
+                        /*max-width:200px;*/
+                        background-color: white;
+                    }
+
+        .user .dropdown-menu li {
+            list-style: none;
+        }
+        /*下版部分导航栏*/
+        #bottom-Navbar-collapse {
+        }
+
+            #bottom-Navbar-collapse > ul > li > a {
+                color: #fff;
+                padding-bottom: 3px;
+                padding-top: 3px;
+            }
+
+            #bottom-Navbar-collapse > .navbar-left > li.active > a, #bottom-Navbar-collapse > .navbar-left > li:hover > a {
+                background-color: #0933fb;
+                color: #fff;
+            }
+
+            #bottom-Navbar-collapse > .navbar-right > li.active > a, #bottom-Navbar-collapse > .navbar-right > li:hover > a {
+                background-color: rgb(255, 0, 0);
+                color: #fff;
+            }
+
+
+        #content {
+            padding: 0px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .toolLi a {
+            text-decoration: none;
+            background-repeat: no-repeat;
+            background-position: 0px center;
+            background-size: 25px 25px;
+            padding-left: 25px !important;
+            padding-right: 5px !important;
+        }
+
+        /*load加载地图*/
+        #loadMap {
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            background-color: rgba(255, 255, 255, 1);
+            position: absolute;
+            z-index: 9999;
+        }
+
+        @@keyframes scale {
+            0% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            45% {
+                -webkit-transform: scale(0.1);
+                transform: scale(0.1);
+                opacity: 0.7;
+            }
+
+            80% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .ball-pulse {
+            /*width:65px;*/
+            height: 20px;
+            text-align: center;
+        }
+
+        #loadMapText {
+            display: none;
+            text-align: center;
+        }
+
+        .ball-pulse > div:nth-child(0) {
+            -webkit-animation: scale 0.75s 0s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -o-animation: scale 0.75s 0s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -moz-animation: scale 0.75s 0s infinite cubic-bezier(.2, .68, .18, 1.08);
+            animation: scale 0.75s 0s infinite cubic-bezier(.2, .68, .18, 1.08);
+        }
+
+        .ball-pulse > div:nth-child(1) {
+            -webkit-animation: scale 0.75s 0.12s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -o-animation: scale 0.75s 0.12s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -moz-animation: scale 0.75s 0.12s infinite cubic-bezier(.2, .68, .18, 1.08);
+            animation: scale 0.75s 0.12s infinite cubic-bezier(.2, .68, .18, 1.08);
+        }
+
+        .ball-pulse > div:nth-child(2) {
+            -webkit-animation: scale 0.75s 0.24s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -o-animation: scale 0.75s 0.24s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -moz-animation: scale 0.75s 0.24s infinite cubic-bezier(.2, .68, .18, 1.08);
+            animation: scale 0.75s 0.24s infinite cubic-bezier(.2, .68, .18, 1.08);
+        }
+
+        .ball-pulse > div:nth-child(3) {
+            -webkit-animation: scale 0.75s 0.36s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -o-animation: scale 0.75s 0.36s infinite cubic-bezier(.2, .68, .18, 1.08);
+            -moz-animation: scale 0.75s 0.36s infinite cubic-bezier(.2, .68, .18, 1.08);
+            animation: scale 0.75s 0.36s infinite cubic-bezier(.2, .68, .18, 1.08);
+        }
+
+        .ball-pulse > div {
+            background-color: #0e83cd;
+            width: 15px;
+            height: 15px;
+            border-radius: 100%;
+            margin: 2px;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            display: inline-block;
+        }
+
+        /*更改地图弹窗样式=====================================================================*/
+        #popwin {
+            font-family: "微软雅黑" !important;
+            min-height: 140px;
+        }
+
+        #popwin_GroupDiv {
+        }
+        /*弹窗内容*/
+        #popwin_contentDiv {
+            background-color: #FFF;
+            top: 0px !important;
+            left: 0px !important;
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 5px;
+            border: solid 2px #3586D7;
+            border-top: solid 30px #3586D7;
+        }
+
+        /*弹窗关闭按钮*/
+        #popwin_close {
+            /*background-color:transparent !important;
+            background-image: url('../../images/Delete.png');
+            background-size: 17px 17px;*/
+            font-family: Tahoma;
+            border: solid 2px #ccc;
+            padding: 8px;
+            text-decoration: none;
+            font-size: 12px;
+            color: #3383CD;
+            position: absolute;
+            right: 3px !important;
+            top: 5px;
+            line-height: 14px;
+            height: 14px;
+            width: 7px !important;
+            border-radius: 14px;
+            -moz-border-radius: 14px;
+            background-color: white;
+        }
+
+            #popwin_close:hover {
+                border: solid 2px #E6394B;
+                color: #E6394B;
+            }
+        /*END更改地图弹窗样式=====================================================================*/
+
+
+        /*报警信息列表过滤属性*/
+        .bottom_listpnl {
+            bottom: -100%;
+            left: 0px;
+            right: 0px;
+            position: absolute;
+            max-height: 50%;
+            transition: all 1s ease .1s;
+            -webkit-transition: all 1s ease .1s;
+            -moz-transition: all 1s ease-in .1s;
+        }
+
+        #map_newmenu {
+            transition: all 1s ease .1s;
+            -webkit-transition: all 1s ease .1s;
+            -moz-transition: all 1s ease-in .1s;
+        }
+
+        #map_Zoom {
+            transition: all 1s ease .1s;
+            -webkit-transition: all 1s ease .1s;
+            -moz-transition: all 1s ease-in .1s;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <input type="hidden" id="PoliceName" value="@Session["PersonnelName"]" /><!--用户名称-->
+    <input type="hidden" id="PicturePath" value="@Session["PicturePath"]" /><!--用户头像路径-->
+    <!--声音提示-->
+    <audio id="iTunes_T"><source src="~/content/images/Alarm.mp3"></audio><!--火警声音提示-->
+    <audio id="iTunes_news"><source src="~/content/images/1news.wav"></audio><!--通知声音提示-->
+    <audio id="iTunes_Task"><source src="~/content/images/1task.aac"></audio><!--通知声音提示-->
+    <!--导航栏-->
+    <div class="container-fluid" id="titleFence">
+        <nav id="navbar" class="navbar navbar-default navbar-fixed-top" style="border-radius:0px;">
+            <div class="container-fluid" id="titleFenceTow_con">
+                <div class="navbar-header" style="padding:0px;">
+                    <button class="navbar-toggle" data-toggle="collapse" onclick="changeFrameHeight()" data-target=".example-navbar-collapse">
+                        <span class="sr-only">切换导航</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a href="javascript:" style="padding:0px;padding-left:15px;padding-top:5px;height:45px;" class="navbar-brand col-lg-12 col-md-10 col-sm-10 col-xs-9">
+                        <img id="top_M" style="max-height:100%;max-width:100%;margin-top:0px;margin-left:5px;" src="/content/images/top_M.png" />
+                    </a>
+                </div>
+                <div id="top-Navbar-collapse" class="collapse navbar-collapse example-navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right" id="user_nav">
+                        <li class="dropdown user text-center">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:" style="padding: 0px;padding-top: 1px;padding-bottom: 1px;width: 100%;">
+                                <img id="portrait" style="width:35px;height:35px;cursor:default;" class="img-circle" src="/content/images/policeman.png">&nbsp;<span style="color:#fff;" id="UserName_a">用户</span>&nbsp;<span style="color:#fff;" class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu text-center">
+                                <li class="text-center" id="userDataLi">
+                                    <a href="javascript:" id="userDataA" onclick="userData()">
+                                        <b class="glyphicon text-primary"><img src="/content/images/user_32px_1183455_easyicon.net.png" style="width:25px;height:25px;" /> 个人资料</b>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="text-center">
+                                    <a href="javascript:" onclick="colseLogIn_a()">
+                                        <b class="glyphicon text-danger"><img src="/content/images/logout.png" style="width:25px;height:25px;" /> 退&nbsp;&nbsp;出</b>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!--内容-->
+    <div class="container-fluid" id="content">
+        <!--地图-->
+        <div id="map" style="top:0px;bottom:0px;left:0px;right:0px;position:absolute;border:none;" onload="changeFrameHeight()"> </div>
+
+        <!--通知以及菜单-->
+        <div id="map_newmenu" class="btn-group-vertical" style="left:15px;bottom:10%;position:absolute;">
+            <button type="button" class="btn btn-default" onclick="newslistShow()"><span class="glyphicon glyphicon-bell"></span> <span id="news" class="badge pull-right" style="background-color:red;position:absolute;"></span></button>
+            <button type="button" class="btn btn-default" indexTyep="1" onclick="mapToggle(this)"><span class="glyphicon glyphicon-globe"></span></button>
+            <button type="button" class="btn btn-default" onclick="menulistShow()"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+        </div>
+
+        <!--地图缩放按钮-->
+        <div id="map_Zoom" class="btn-group-vertical " style="right:15px;bottom:10%;position:absolute;">
+            <button type="button" class="btn btn-default" onclick="zoomin()"><span class="glyphicon glyphicon-plus"></span></button>
+            <button type="button" class="btn btn-default" onclick="zoomout()"><span class="glyphicon glyphicon-minus"></span></button>
+            <button type="button" class="btn btn-default" onclick="mylocation()"><span class="glyphicon glyphicon-screenshot"></span></button>
+        </div>
+
+
+        <!--底部信息面板-->
+        <div id="bottom_newslist" class="bottom_listpnl" style="z-index:900;">
+            <a href="#" class="list-group-item input-sm text-center active " onclick="newslistHide()"><strong style="font-size:15px;line-height:15px;">火灾报警信息&nbsp;</strong><span class="glyphicon glyphicon-chevron-down"> </span> </a>
+            <div style="position:relative;max-height:200px;overflow:auto" id="newslist">
+                @*<a href="#" class="list-group-item" X="113.907774" Y="22.545078" onclick="AlarmPositioning(this)">
+                    <p class="text-warning" style="padding:0px;margin:0px;">2016-12-06 21:44:29</p>
+                    中国广东省深圳市南山区深圳南山汽车站<span class="badge" style="background-color:red">新</span></a>
+                    <a href="#" class="list-group-item" X="113.926237" Y="22.561404" onclick="AlarmPositioning(this)">中国广东省深圳市南山区南头直升机场</a>
+                    <a href="#" class="list-group-item" X="113.929645" Y="22.543439" onclick="AlarmPositioning(this)">中国广东省深圳市南山区腾讯大厦</a>
+                    <a href="#" class="list-group-item" X="113.932046" Y="22.535599" onclick="AlarmPositioning(this)">中国广东省深圳市南山区深圳大学</a>
+                    <a href="#" class="list-group-item" X="113.921951" Y="22.518608" onclick="AlarmPositioning(this)">中国广东省深圳市南山区海王大夏</a>*@
+
+            </div>
+        </div>
+
+
+
+
+        <!--底部菜单面板-->
+        <div id="bottom_menulist" class="bottom_listpnl panel-info" style="z-index:901;">
+            <a href="#" class="list-group-item input-sm text-center active" onclick="menulistHide()"><strong style="font-size:15px;line-height:15px;">菜单&nbsp;</strong><span class="glyphicon glyphicon-chevron-down"> </span> </a>
+            <div style="position:relative;overflow:auto">
+                <a href="#" class="list-group-item text-center" onclick="myTasks()"><span class="glyphicon glyphicon-list-alt text-info">&nbsp;</span><strong>我的任务</strong></a>
+                <a href="#" class="list-group-item text-center" onclick="fireReport()"><span class="glyphicon glyphicon-fire text-danger">&nbsp;</span><strong>火灾上报</strong></a>
+            </div>
+        </div>
+
+
+        <!--报警信息显示操作面板-->
+        <div id="warning_message" class="bottom_listpnl col-md-10 col-md-offset-1" style="z-index:903;">
+            <div style="position:relative;overflow:auto">
+                <div class="list-group-item" style="padding:5px;">
+                    <p class="list-group-item-heading " style="font-size:13px;padding:0px;margin:0px;"><span class="text-info text-left" id="fireAlarmName">标题</span></p>
+
+                    <p class="list-group-item-heading " style="font-size:12px;padding:0px;margin:0px;"><span class="text-info text-left" id="fireAlarmAddress">中国广东省深圳市</span></p>
+                    <p class="list-group-item-heading text-left" id="reportTime" style="font-size:12px;padding-top:3px;"><span class="glyphicon glyphicon-time text-danger">&nbsp;</span><span class="text-danger" id="txtReportTime">2016-12-05 22:28:30</span></p>
+                </div>
+                <div role="separator" class="divider"></div>
+                <!--三个按钮-->
+                <div class="list-group-item " style="padding:2px; " id="threeAlarmbtn">
+                    <div class="btn-group btn-group-justified" role="group">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default " style="border:none;" onclick="search_coverageShow()"><span class="glyphicon glyphicon-search"></span> 搜周边 </button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default " style="border:none;border-right:solid 1px #ccc;border-left:solid 1px #ccc;" onclick="pathPlanning()"><span class="glyphicon glyphicon-flag"></span> 到这去</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default " id="" alarmID="0" style="border:none;" onclick="fireDetails(this);"><span class="glyphicon glyphicon-option-vertical"></span> 详&nbsp;情 </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!--搜索范围框-->
+        <div id="search_coverage" class="bottom_listpnl col-md-10 col-md-offset-1" style="z-index:905;">
+            <div style="position:relative;overflow:auto">
+
+                <!--搜索范围输入-->
+                <div class="list-group-item " style="padding:2px; ">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="minusOne()">
+                                <span class="glyphicon glyphicon-minus text-success"></span>
+                            </button>
+                        </span>
+                        <input id="txtRadius" type="text" class="form-control" value="1000">
+                        <span class="input-group-addon">米</span>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="addOne()">
+                                <span class="glyphicon glyphicon-plus text-success"></span>
+                            </button>
+                        </span>
+                    </div><!-- /input-group -->
+                </div>
+                <div role="separator" class="divider"></div>
+                <!--搜索  取消-->
+                <div class="list-group-item " style="padding:2px; ">
+                    <div class="btn-group btn-group-justified" role="group">
+                        <div class="btn-group" role="group">
+                            <button id="btnsearchSurrounding" type="button" X="0" Y="0" class="btn btn-default btn-info" style="border:none;" onclick="searchSurrounding(this)"><span class="glyphicon glyphicon-search"> &nbsp;</span>搜&nbsp;索</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default btn-danger" style="border:none;border-left:solid 1px #ccc;" onclick="search_coverageHide();"><span class="glyphicon glyphicon-remove">&nbsp;</span>关&nbsp;闭</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!--警告框-->
+        <div class="alert alert-danger" style="position:absolute;z-index:902;width:100%;padding:5px;margin:0px;" id="popupTip">
+            <a href="#" class="close" onclick="popupTipClose()">  &times; </a>
+            <p onclick="newslistShow()"><span class="glyphicon glyphicon-bullhorn">&nbsp;</span><span id="txtpopupTip" style="font-size:12px;">通知内容</span></p>
+        </div>
+    </div>
+
+
+    <!-- 模态框（Modal）data-toggle="modal" data-target="#myModal" -->
+    <div class="modal fade panel-danger" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        模态框（Modal）标题
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    在这里添加一些文本
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        提交更改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+</body>
+
+</html>

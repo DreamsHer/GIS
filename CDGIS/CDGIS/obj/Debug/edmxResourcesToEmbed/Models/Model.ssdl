@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ChronicGeographicInformationSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="B_AuthorityList">
+    <Key>
+      <PropertyRef Name="authorityID" />
+    </Key>
+    <Property Name="authorityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="authority" Type="nchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="B_BaseDetailList">
+    <Key>
+      <PropertyRef Name="BaseDetailID" />
+    </Key>
+    <Property Name="BaseDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BaseTypeID" Type="int" />
+    <Property Name="BaseDetailName" Type="nvarchar(max)" />
+    <Property Name="CancelBit" Type="bit" />
+  </EntityType>
+  <EntityType Name="B_BaseTypeList">
+    <Key>
+      <PropertyRef Name="BaseTypeID" />
+    </Key>
+    <Property Name="BaseTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BaseTypeName" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="B_DiseaseDetailList">
+    <Key>
+      <PropertyRef Name="DiseaseDetailID" />
+    </Key>
+    <Property Name="DiseaseDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserroleID" Type="int" />
+    <Property Name="DiseaseID" Type="int" />
+  </EntityType>
+  <EntityType Name="B_DrugfastList">
+    <Key>
+      <PropertyRef Name="DrugfastID" />
+    </Key>
+    <Property Name="DrugfastID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SickpersonID" Type="int" />
+    <Property Name="DateOfDiagnosis" Type="date" />
+    <Property Name="DiagnosisResult" Type="nvarchar(max)" />
+    <Property Name="StopTreatmentCause" Type="nvarchar(max)" />
+    <Property Name="DrugSensitivityTestResults" Type="nvarchar(max)" />
+    <Property Name="DrugResistanceDiagnosis" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="B_GenePoolList">
+    <Key>
+      <PropertyRef Name="GenePoolID" />
+    </Key>
+    <Property Name="GenePoolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SickpersonID" Type="nchar" MaxLength="10" />
+    <Property Name="SampleNumber" Type="nvarchar(max)" />
+    <Property Name="OutpatientNumber" Type="nvarchar(max)" />
+    <Property Name="SNPsite" Type="nvarchar(max)" />
+    <Property Name="MutableGene" Type="nvarchar(max)" />
+    <Property Name="Colorposition" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="B_HaveInTheWindList">
+    <Key>
+      <PropertyRef Name="HaveInTheWindID" />
+    </Key>
+    <Property Name="HaveInTheWindID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SickpersonID" Type="int" />
+    <Property Name="DiseaseregistrationID" Type="int" />
+    <Property Name="TracedArea" Type="nvarchar(max)" />
+    <Property Name="TrackingUnit" Type="nvarchar(max)" />
+    <Property Name="TrackingSituation" Type="nvarchar(max)" />
+    <Property Name="TracingMethod" Type="nvarchar(max)" />
+    <Property Name="TimeInPlace" Type="datetime" />
+    <Property Name="InPlaceMethod" Type="nvarchar(max)" />
+    <Property Name="ReferralDate" Type="datetime" />
+    <Property Name="TrackingRemarks" Type="nvarchar(max)" />
+    <Property Name="MedicalRecordDiagnosis" Type="nvarchar(max)" />
+    <Property Name="ReportArea" Type="nvarchar(max)" />
+    <Property Name="ReportUnitName" Type="nvarchar(max)" />
+    <Property Name="AdmissionUnit" Type="nvarchar(max)" />
+    <Property Name="Registration" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="B_MedicalrecordList">
+    <Key>
+      <PropertyRef Name="MedicalrecordID" />
+    </Key>
+    <Property Name="MedicalrecordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SickpersonID" Type="int" />
+    <Property Name="DiseaseregistrationID" Type="int" />
+    <Property Name="DateFirst" Type="date" />
+    <Property Name="DiagnosisResult" Type="date" />
+    <Property Name="DiagnosticClassification" Type="nvarchar(max)" />
+    <Property Name="DiagnosticResults" Type="nvarchar(max)" />
+    <Property Name="IsItSevere" Type="bit" />
+    <Property Name="DrugResistance" Type="nvarchar(max)" />
+    <Property Name="SupervisoryUnit" Type="nvarchar(max)" />
+    <Property Name="StopReason" Type="nvarchar(max)" />
+    <Property Name="QuiescentTime" Type="nvarchar(max)" />
+    <Property Name="Nation" Type="nvarchar(max)" />
+    <Property Name="Occupation" Type="nvarchar(max)" />
+    <Property Name="CensusAddressInter" Type="nvarchar(max)" />
+    <Property Name="CensusAddDetail" Type="nvarchar(max)" />
+    <Property Name="PatientSource" Type="nvarchar(max)" />
+    <Property Name="NowSymptomDate" Type="date" />
+    <Property Name="RegistrationDate" Type="date" />
+    <Property Name="RegistrationTypeID" Type="int" />
+    <Property Name="TreatTypeID" Type="int" />
+    <Property Name="MedicalStatusID" Type="int" />
+  </EntityType>
+  <EntityType Name="B_RoleAuthorityList">
+    <Key>
+      <PropertyRef Name="RoleAuthorityID" />
+    </Key>
+    <Property Name="RoleAuthorityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserroleID" Type="int" />
+    <Property Name="authorityID" Type="int" />
+  </EntityType>
+  <EntityType Name="B_SickpersonDetailList">
+    <Key>
+      <PropertyRef Name="SickpersonDetailID" />
+    </Key>
+    <Property Name="SickpersonDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SickpersonID" Type="int" />
+    <Property Name="BaseDetailID" Type="int" />
+    <Property Name="SmX" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="SmY" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DrugResistantMycobacteriumBit" Type="bit" />
+  </EntityType>
+  <EntityType Name="B_SickpersonList">
+    <Key>
+      <PropertyRef Name="SickpersonID" />
+    </Key>
+    <Property Name="SickpersonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Cardnumber" Type="nvarchar(max)" />
+    <Property Name="name" Type="nvarchar(max)" />
+    <Property Name="sexID" Type="int" />
+    <Property Name="Age" Type="nvarchar(max)" />
+    <Property Name="cantonID" Type="int" />
+    <Property Name="CrowdclassificationID" Type="int" />
+    <Property Name="CaseClassID" Type="int" />
+    <Property Name="DiseaseTypeID" Type="int" />
+    <Property Name="AuditStatusID" Type="int" />
+    <Property Name="DiagnoseDate" Type="datetime" />
+    <Property Name="CensusAddDetail" Type="nvarchar(max)" />
+    <Property Name="IDnumber" Type="nvarchar(max)" />
+    <Property Name="dateofbirth" Type="datetime" />
+    <Property Name="workunit" Type="nvarchar(max)" />
+    <Property Name="Addressnationalstandard" Type="nvarchar(max)" />
+    <Property Name="Detailedaddress" Type="nvarchar(max)" />
+    <Property Name="Occupation" Type="nvarchar(max)" />
+    <Property Name="CensusAddressInter" Type="nvarchar(max)" />
+    <Property Name="MorbidityDate" Type="datetime" />
+    <Property Name="ReportDate" Type="datetime" />
+    <Property Name="RevisedDate" Type="datetime" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="DiseaseID" Type="int" />
+  </EntityType>
+  <EntityType Name="B_UsernameList">
+    <Key>
+      <PropertyRef Name="usernameID" />
+    </Key>
+    <Property Name="usernameID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="nvarchar(max)" />
+    <Property Name="password" Type="nvarchar(max)" />
+    <Property Name="name" Type="nvarchar(max)" />
+    <Property Name="IDnumber" Type="nvarchar(max)" />
+    <Property Name="location" Type="nvarchar(max)" />
+    <Property Name="phonenumber" Type="nvarchar(max)" />
+    <Property Name="postbox" Type="nvarchar(max)" />
+    <Property Name="remarks" Type="nvarchar(max)" />
+    <Property Name="UniformAuthenticationCode" Type="nvarchar(max)" />
+    <Property Name="UserroleID" Type="int" />
+    <Property Name="BaseDetailID" Type="int" />
+    <Property Name="DepartmenttypeID" Type="int" />
+    <Property Name="USERReviewNo" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="S_DepartmenttypeList">
+    <Key>
+      <PropertyRef Name="DepartmenttypeID" />
+    </Key>
+    <Property Name="DepartmenttypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AroundID" Type="int" />
+    <Property Name="Departmenttype" Type="nchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="S_DiseaseList">
+    <Key>
+      <PropertyRef Name="DiseaseID" />
+    </Key>
+    <Property Name="DiseaseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DiseaseName" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="S_JournalList">
+    <Key>
+      <PropertyRef Name="JournalID" />
+    </Key>
+    <Property Name="JournalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="usernameID" Type="int" />
+    <Property Name="Operate" Type="nvarchar(max)" />
+    <Property Name="OperateDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="S_SickpersonRajectoryrList">
+    <Key>
+      <PropertyRef Name="SickpersonRajectoryrID" />
+    </Key>
+    <Property Name="SickpersonRajectoryrID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SickpersonDetailID" Type="int" />
+    <Property Name="SmX" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="SmY" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="ActivityTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="S_UrlList">
+    <Key>
+      <PropertyRef Name="UrlID" />
+    </Key>
+    <Property Name="UrlID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Url" Type="nvarchar" MaxLength="500" />
+    <Property Name="Describe" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="S_UserroleList">
+    <Key>
+      <PropertyRef Name="UserroleID" />
+    </Key>
+    <Property Name="UserroleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Userrole" Type="nchar" MaxLength="20" />
+    <Property Name="DepartmenttypeID" Type="int" />
+  </EntityType>
+  <EntityContainer Name="ChronicGeographicInformationSystemModelStoreContainer">
+    <EntitySet Name="B_AuthorityList" EntityType="Self.B_AuthorityList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="B_BaseDetailList" EntityType="Self.B_BaseDetailList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="B_BaseTypeList" EntityType="Self.B_BaseTypeList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="B_DiseaseDetailList" EntityType="Self.B_DiseaseDetailList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="B_DrugfastList" EntityType="Self.B_DrugfastList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="B_GenePoolList" EntityType="Self.B_GenePoolList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="B_HaveInTheWindList" EntityType="Self.B_HaveInTheWindList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="B_MedicalrecordList" EntityType="Self.B_MedicalrecordList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="B_RoleAuthorityList" EntityType="Self.B_RoleAuthorityList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="B_SickpersonDetailList" EntityType="Self.B_SickpersonDetailList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="B_SickpersonList" EntityType="Self.B_SickpersonList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="B_UsernameList" EntityType="Self.B_UsernameList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="S_DepartmenttypeList" EntityType="Self.S_DepartmenttypeList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="S_DiseaseList" EntityType="Self.S_DiseaseList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="S_JournalList" EntityType="Self.S_JournalList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="S_SickpersonRajectoryrList" EntityType="Self.S_SickpersonRajectoryrList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="S_UrlList" EntityType="Self.S_UrlList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="S_UserroleList" EntityType="Self.S_UserroleList" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

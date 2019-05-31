@@ -1,0 +1,73 @@
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.5);
+    z-index: 1000;
+}
+#preloader-inner_text {
+    display: block;
+    position: relative;
+    left: -15px;
+    top: 47%;
+    width: 100%;
+    height: 150px;
+    text-align:center;
+}
+.text-gradient {  
+    display: inline-block;
+    color: green;
+    font-size: 1.8em;
+    font-family: 'Î¢ÈíÑÅºÚ';
+    background-image: -webkit-gradient(linear, left top, right top, from(#5C5C5C), color-stop(0.4, #5C5C5C), color-stop(0.65, #9E9E9E), color-stop(0.9, #9E9E9E), to(#9E9E9E));
+    
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+#preloader #preloader-inner {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 46%;
+    width: 100px;
+    height: 100px;
+    margin: -75px 0 0 -75px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #1f9aa1 ;
+    animation: spin 2s linear infinite;
+}
+#preloader #preloader-inner:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #fa713a;
+    animation: spin 3s linear infinite;
+}
+#preloader #preloader-inner:after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #83c5db;
+    animation: spin 1.5s linear infinite;
+}
+@keyframes spin {
+    0% {
+    transform: rotate(0deg);
+}
+to {
+    transform: rotate(1turn);
+}
+}

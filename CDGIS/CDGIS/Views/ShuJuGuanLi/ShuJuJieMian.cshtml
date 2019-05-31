@@ -1,0 +1,457 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap-treeview.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/css/skins/grid_blue.min.css" rel="stylesheet" />
+    <link href="~/Content/layer/layui.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.css" rel="stylesheet" />
+    <link href="~/Content/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/Content/css/buffering/css/examples.css" rel="stylesheet" />
+    <title>基础数据</title>
+    <style type="text/css">
+        .container {
+            width: 98%;
+            padding-top: 4px;
+        }
+
+        .panel-heading {
+            font-size: 16px;
+        }
+
+        .panel-body {
+            padding: 0;
+            border-left: 3px solid #377ab7;
+            border-bottom: 3px solid #377ab7;
+            border-right: 3px solid #377ab7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row" id="caijiafenxi">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <span style="padding-left:14px;">基础字典--属性维护</span>
+                    </div>
+                </div>
+                <div class="panel-body" style="width:100%;height:520px; background:#f0edf1;">
+                    
+                    <div class="col-lg-3 col-md-3 col-sm-3 reset-padding" style="height:490px;margin-top:10px;margin-left:30px;" id="PersonnelInfor">
+                        基础数据列表
+                        <div class="" style="border:2px solid #377ab7;height:440px;overflow:auto;">
+                            <div class="tree" id="DepartmentTree">
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-lg-offset-4 reset-padding" style="margin-top:5px;">
+                            <button class="btn btn-success" type="button" data-toggle="modal" id="btnInShuXing">新增属性</button>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 reset-padding" style="height:490px;margin-top:10px;margin-left:50px;">
+                        编辑基础信息
+                        <div class="" style="border:2px solid #377ab7;height:100%;">
+                            <table id="tabProperties" style="height:340px;width:100%;overflow:auto">
+                                <tr>
+                                    <th w_num="total_line" width="15%">序号</th>
+                                    <th w_index="BaseTypeID" w_hidden="true"></th>
+                                    <th w_index="BaseDetailID" w_hidden="true"></th>
+                                    <th w_index="BaseDetailName" w_hidden="true">名称</th>
+                                    <th w_render="SetCancelBitState">名称</th>
+                                    <th w_index="CancelBit" w_hidden="true"></th>
+                                </tr>
+                            </table>
+                            <div class="row" style="margin-top:15px;">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-lg-offset-3 reset-padding">
+                                    <button class="btn btn-success " type="button" data-toggle="modal" id="btnInGasis"><span class="glyphicon glyphicon-plus"></span>&nbsp;新增</button>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 reset-padding">
+                                    <button class="btn btn-primary" type="button" data-toggle="modal" id="btnUpGasis"><span class="glyphicon glyphicon-pencil"></span>&nbsp;修改</button>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 reset-padding">
+                                    <button class="btn btn-danger" type="button" id="btnDeleteGasis"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</button>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 reset-padding">
+                                    <button class="btn btn-warning" type="button" id="btnGo"><span class="glyphicon glyphicon-repeat"></span>&nbsp;返回</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*新增属性*@
+    <div class="modal" id="AddChuangTi">
+        <div class="modal-dialog" style="width:400px;height:250px;">
+            <div class="modal-header" style="background:#a8d7ef;">
+                <span>新增属性信息</span>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body" style="background:#ffffff;">
+
+                <form class="form-horizontal" id="SelectShuXingForm" action="/ShuJuGuanLi/InsertBaseTypeName" method="post" role="form">
+
+                    <div class="form-group" style="margin-top:10px;">
+                        <label class="col-md-4 col-sm-1 control-label reset">属性名称:</label>
+                        <div class="col-md-8 col-sm-1 reset">
+                            <input type="text" class="form-control" name="BaseTypeName" id="BaseTypeName" placeholder="(10个字以内,不要带空格)">
+                        </div>
+                    </div>
+                   
+                    <div class="form-group" style="margin-top:20px;">
+                        <div class="col-sm-3 col-sm-offset-3">
+                            <button type="button" class="btn btn-primary form-control" id="btnSubmit">提交</button>
+                        </div>
+                        <div class="col-sm-3 col-sm-offset-1">
+                            <button type="button" class="btn btn-danger form-control" data-dismiss="modal">返回</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    @*新增属性字段*@
+    <div class="modal" id="AddZiDuanChuangTi">
+        <div class="modal-dialog" style="width:400px;height:350px;">
+            <div class="modal-header" style="background:#a8d7ef;">
+                <span class="modal-title" style="color:#000000;">新增属性字段</span>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body" style="background:#ffffff;">
+
+                <form class="form-horizontal" id="ShuXingZiDuanForm" action="/ShuJuGuanLi/InsertProperties" method="post" role="form">
+                    <div class="row reset-row" id="BMid" hidden>
+                        <div class="control-label col-lg-3 col-md-3 col-sm-3">部门：</div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <input id="BaseDetailID" name="BaseDetailID" hidden />
+                            <select class="form-control" id="Departmentid" name="DepartmentID"></select>
+                        </div>
+                    </div>
+
+                    <div class="row reset-row">
+                        <div class="control-label col-lg-3 col-md-3 col-sm-3">名称：</div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <input id="BaseDetailID" name="BaseDetailID" hidden />
+                            <input id="BaseTypeID" name="BaseTypeID" hidden />
+                            <input type="text" class="form-control" id="DropdownDetailName" name="BaseDetailName" />
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top:20px;">
+                        <div class="col-sm-3 col-sm-offset-3">
+                            <button type="button" class="btn btn-primary form-control" id="btnSubmit1">提交</button>
+                        </div>
+                        <div class="col-sm-3 col-sm-offset-1">
+                            <button type="button" class="btn btn-danger form-control" data-dismiss="modal">返回</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    @*修改属性字段*@
+    <div class="modal" id="UpdmodGasis">
+        <div class="modal-dialog" style="width:400px;height:350px;">
+            <div class="modal-header" style="background:#a8d7ef;">
+                <span class="modal-title" style="color:#000000;">修改属性字段</span>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body" style="background:#ffffff;">
+
+                <form class="form-horizontal" id="UpdSelectGasisForm" action="/ShuJuGuanLi/UpdateXiaLa" method="post" role="form">
+
+                    <div class="row reset-row" id="UpdBMid" hidden>
+                        <div class="control-label col-lg-3 col-md-3 col-sm-3">部门：</div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <input id="UpdT_DropdownDetailid" name="T_DropdownDetailID" hidden />
+                            <select class="form-control" id="UpdDepartmentid" name="DepartmentID"></select>
+                        </div>
+                    </div>
+
+                    <div class="row reset-row">
+                        <div class="control-label col-lg-3 col-md-3 col-sm-3">名称：</div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <input id="UpdDropdownDetailID" name="BaseDetailID" hidden />
+                            <input id="UpdDropdownTypeID" name="BaseTypeID" hidden />
+                            <input type="text" class="form-control" id="UpdGasisName" name="BaseDetailName" />
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top:20px;">
+                        <div class="col-sm-3 col-sm-offset-3">
+                            <button type="button" class="btn btn-primary form-control" id="UpdGasis">提交</button>
+                        </div>
+                        <div class="col-sm-3 col-sm-offset-1">
+                            <button type="button" class="btn btn-danger form-control" data-dismiss="modal">返回</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Content/bootstrap-3.3.7-dist/js/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/js/lang/grid.zh-CN.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap-treeview.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap-table.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+    <script src="~/Content/js/jquery.form.js"></script>
+    <script src="~/Content/js/customfunction.js"></script>
+    <script src="~/Content/layer/layui.js"></script>
+
+    <script type="text/javascript">
+        var tabClassHour = 0;
+        var Gasisid = 0;
+        
+        //基础单位设置树形
+        function departmentTree() {
+            $.getJSON("/ShuJuGuanLi/QueryProperties", function (data) {
+                $("#DepartmentTree").treeview({
+                    data: data,
+                    color: '',
+                    expandIcon: 'glyphicon glyphicon-folder-open',
+                    collapseIcon: 'glyphicon glyphicon-folder-close',
+                    nodeIcon: 'glyphicon glyphicon-list-alt',
+                    onNodeSelected: function (event, data) {
+                        Gasisid = data.id;
+                        Textt = data.text;
+                        tabClassHour.search("GasisId=" + Gasisid);
+                        $("#BaseTypeID").val(Gasisid);
+                        $("#AddZiDuanChuangTi span.modal-title").text('新增' + Textt);
+                        $("#UpdmodGasis span.modal-title").text('修改' + Textt);
+
+                    },
+                });
+                $("#preloader").hide();
+            });
+        }
+
+        //新增属性
+        $(function () {
+            //点击新增属性
+            $("#btnInShuXing").click(function () {
+                $("#AddChuangTi").modal('show');
+            });
+
+            $("#btnSubmit").click(function () {
+
+                var BaseTypeName = $('#SelectShuXingForm [name="BaseTypeName"]').val();
+
+                if (BaseTypeName != "") {
+                    layer.confirm("您确定要新增此属性吗?", {
+                        icon: 3,
+                        btn: ['确定', '取消'],
+                        skin: 'layui-layer-molv',
+                    }, function (layerIndex) {
+
+                        layer.close(layerIndex);
+
+                        $("#SelectShuXingForm").ajaxSubmit(function (data) {
+
+                            layer.alert("属性新增成功！", { skin: 'layui-layer-molv', icon: 1, title: '提示' });
+
+                            departmentTree();
+
+                            $("#AddChuangTi").modal("hide");
+                        });
+                    });
+                }
+            });
+
+        })
+      
+        //查询属性信息
+        $(document).ready(function () {
+            //createSelect("Departmentid", "/ShuJuGuanLi/SelectBuMen");
+            //createSelect("UpdDepartmentid", "/ShuJuGuanLi/SelectBuMen");
+            tabClassHour = $.fn.bsgrid.init('tabProperties', {
+                url: '/ShuJuGuanLi/SelectProperties',
+                autoLoad: false,
+                stripeRows: true,//隔行变色
+                rowHoverColor: true,//划过行变色
+                pageSize: 10,
+                pageSizeSelect: false,//是否选择分页页数下拉框
+                pagingLittleToolbar: true,//精简的图标按钮分页工具条
+                pagingToolbarAlign: 'center',//分页工具条的显示位置
+                displayPagingToolbarOnlyMultiPages: true,// 仅当多页时才显示分页工具条
+            });
+            departmentTree();
+        });
+
+        //新增属性字段
+        $(function () {
+            //点击新增按钮
+            $("#btnInGasis").click(function () {
+                var BuMenid = $("#BaseTypeID").val();
+                if (BuMenid == "18") {
+                    var ggg = document.getElementById("BMid")
+                    ggg.hidden = "";
+                    $("#AddZiDuanChuangTi").modal().slideDown(1000);
+                }
+                else {
+                    var ggg = document.getElementById("BMid")
+                    ggg.hidden = true;
+                    $("#AddZiDuanChuangTi").modal().slideDown(1000);;
+                }
+            });
+
+            $("#btnSubmit1").click(function () {
+                var BaseDetailID = $('#ShuXingZiDuanForm [name="BaseDetailID"]').val();
+                var BaseTypeID = $('#ShuXingZiDuanForm [name="BaseTypeID"]').val();
+                var BaseDetailName = $('#ShuXingZiDuanForm [name="BaseDetailName"]').val();
+                if (BaseTypeID > 0 && BaseDetailName != '') {
+                    var layerIndex = layer.load(0);//显示 加载层
+                    //提交表单
+                    $("#ShuXingZiDuanForm").ajaxSubmit(function (msg) {
+                        if (msg == "success") {
+                            layer.close(layerIndex);//关闭 加载层
+                            layer.msg('新增成功', { icon: 6 });
+                            $("#AddZiDuanChuangTi").modal("hide");//关闭 modal
+                            tabClassHour.refreshPage();
+                        }
+                        else if (msg == "已存在") {
+                            layer.alert('该类型已存在', { icon: 2, title: '警告', anim: 6, skin: 'layui-layer-molv' });
+                            layer.close(layerIndex);//关闭 加载层
+                        }
+                        else {
+                            layer.msg('新增失败', { icon: 5, anim: 6 });
+                            layer.close(layerIndex);//关闭 加载层
+                        }
+                    });
+                }
+                else {
+                    layer.alert('请填写完整', { icon: 2, title: '警告', anim: 6, skin: 'layui-layer-molv' });
+                }
+            });
+        });
+
+        //绑定属性字段
+        $("#btnUpGasis").click(function () {
+            var rowIndex = tabClassHour.getSelectedRowIndex();
+            if (rowIndex > -1) {
+                var GasiId = tabClassHour.getColumnValue(rowIndex, "BaseDetailID");
+                $.post("/ShuJuGuanLi/SelectGasisById", { GasiId: GasiId }, function (data) {
+                    loadDatatoForm("UpdSelectGasisForm", data);
+
+                    //切换隐藏部门下拉
+                    var BuMenid = $("#BaseTypeID").val();
+                    if (BuMenid == "18") {
+                        var ggg = document.getElementById("UpdBMid")
+                        ggg.hidden = "";
+                        $("#UpdmodGasis").modal().slideDown(1000);;
+                    }
+                    else {
+                        var ggg = document.getElementById("UpdBMid")
+                        ggg.hidden = true;
+                        $("#UpdmodGasis").modal().slideDown(1000);
+                    }
+                });
+            }
+            else {
+                layer.alert('请选择需要修改的基础单位', { icon: 2, title: '警告', anim: 6, skin: 'layui-layer-molv' });
+            }
+        });
+
+        //修改基础单位明细
+        $("#UpdGasis").click(function () {
+            var DropdownTypeID = $('#UpdSelectGasisForm [name="BaseTypeID"]').val();
+            var DropdownDetailName = $('#UpdSelectGasisForm [name="BaseDetailName"]').val();
+            if (DropdownTypeID >0 && DropdownDetailName != '') {
+                var layerIndex = layer.load(0);//显示 加载层
+                //提交表单
+                $("#UpdSelectGasisForm").ajaxSubmit(function (msg) {
+                    if (msg == "success") {
+                        layer.close(layerIndex);//关闭 加载层
+                        layer.msg('修改成功', { icon: 6});
+                        $("#UpdmodGasis").modal("hide");//关闭 modal
+                        tabClassHour.refreshPage();
+                        $("#UpdGasisName").empty();
+                    }
+                    else if (msg == "已存在") {
+                        layer.alert('该类型已存在', { icon: 2, title: '警告', anim: 6, skin: 'layui-layer-molv' });
+                        layer.close(layerIndex);//关闭 加载层
+                    }
+                    else {
+                        layer.msg('修改失败', { icon: 5, anim: 6 });
+                        layer.close(layerIndex);//关闭 加载层
+                    }
+                });
+            }
+            else {
+                layer.alert('请填写完整', { icon: 2, title: '警告', anim: 6, skin: 'layui-layer-molv' });
+            }
+        });
+
+        //删除修改基础单位明细
+        $("#btnDeleteGasis").click(function () {
+            var rowIndex = tabClassHour.getSelectedRowIndex();
+            if (rowIndex > -1) {
+                var ENID = tabClassHour.getColumnValue(rowIndex, "BaseDetailID")
+                layer.confirm("请确认是否删除数据？", {icon: 3, title: '提示', anim: 5, skin: 'layui-layer-molv', btn: ['确定', '取消'] }, function () {
+                    $.getJSON("/ShuJuGuanLi/DelectGasisById?ENID=" + ENID, function (data) {
+                        if (data == "success") {
+                            layer.msg("删除成功", { icon: 1 });
+                            tabClassHour.refreshPage();
+                        }
+                        else {
+                            layer.msg("删除失败", { icon: 2 ,anim:6});
+                        }
+                    });
+                });
+            }
+            else {
+                layer.alert('请选择要删除的信息', { icon: 2, title: '警告', anim: 6, skin: 'layui-layer-molv' });
+            }
+        });
+
+        //设置作废否
+        function SetCancelBitState(record, rowIndex, colIndex, options) {
+            var ExamineState = tabClassHour.getRecordIndexValue(record, "CancelBit");
+            var BaseDetailName = tabClassHour.getRecordIndexValue(record, "BaseDetailName");
+            if (ExamineState == true || ExamineState == "true") {
+                return '<span style="color:black ">' + BaseDetailName + '<span style="color:red">(作废)</span></span>';  
+            }
+            else {
+                return '<span style="color:black ">' + BaseDetailName + '</span>';
+            }
+        }
+
+        //页面关闭按钮
+        $(function () {
+            $("#btnGo").click(function () {
+                window.location.href = "/Main/Home";
+                //$("#caijiafenxi").hide();
+            });
+        });
+        
+
+    </script>
+    
+</body>
+</html>

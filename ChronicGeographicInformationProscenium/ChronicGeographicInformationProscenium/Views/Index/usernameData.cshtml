@@ -1,0 +1,248 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="generator" content="" />
+    <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/scripts/jquery.2.1.4.min.js"></script><!--jQuery插件-->
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/content/javascript/index/userData.js"></script><!--js代码-->
+    <title>个人资料</title>
+    <style>
+        #passwordSafeShow {
+            width: 100%;
+            height: 20px;
+            margin: 7px auto;
+            text-align: center;
+            display: none;
+            color: white;
+        }
+
+            #passwordSafeShow td {
+                font: 12px 宋体;
+                width: 33%;
+                border: 1px solid white;
+            }
+
+        #returnMainView:hover {
+            background-color: #d58512;
+        }
+
+        .panel-body {
+            padding: 10px 10px;
+        }
+    </style>
+</head>
+<body>
+    <input type="hidden" name="type" id="usernameID" value="@ViewBag.usernameID" />
+    @*<input type="hidden" name="type" id="UserroleID" value="@ ViewBag.UserroleID" />*@
+    @*<input type="hidden" name="type" id="OpenType" value="@ ViewBag.OpenType" />*@
+    <div class="container-fluid" style="margin: auto auto;height: 100%;position: absolute;top: 0px;bottom: 0px;left: 0px;right: 0px;">
+        <div class="panel panel-primary" style="width:100%;min-height:95%;position:relative;">
+            <div class="panel-heading">
+                <h1 class="panel-title text-center">个人资料</h1>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-pills">
+                    <li role="presentation" id="userDataLi" class="active"><a data-toggle="tab" href="#userData" aria-expanded="false">基础资料</a></li>
+                    <li role="presentation" id="safeDataLi"><a data-toggle="tab" href="#safeData" aria-expanded="true">账号安全</a></li>
+                    <li class="pull-right"><a class="btn btn-warning pull-right" id="returnMainView" onclick="closeView()" style="padding:8px 5px;">返回主界面</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    @*修改个人信息*@
+                    <div id="userData" class="tab-pane fade active in" style="border-top: 1px solid #337AB7;padding-bottom:5px;">
+                        <div class="container-fluid">
+                            <div class="row" style="padding-top: 10px;">
+                                <form role="form" class="form-horizontal">
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" style="padding:0px;margin-top:30px;">
+                                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding: 0px;margin-left: 0px;">
+                                            <label for="firstname" class="col-lg-3 col-md-4 col-sm-4 col-xs-4 col-lg-offset-1 col-md-offset-0 col-sm-offset-0 control-label text-right text-primary">姓 名：</label>
+                                            <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8">
+                                                @*<input value="@ViewData["username"]" type="text" disabled="disabled" class="form-control disabled">*@
+                                                <input value="@ViewBag.username"]" type="text" disabled="disabled" class="form-control disabled">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding: 0px;margin-left: 0px;">
+                                            <label for="firstname" class="col-lg-3 col-md-4 col-sm-4 col-xs-4 col-lg-offset-1 col-md-offset-0 col-sm-offset-0 control-label text-right text-primary">身份证号：</label>
+                                            <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8">
+                                                @*<input value="@ViewData["IDnumber"]" type="text" disabled="disabled" class="form-control disabled">*@
+                                                <input value="@ViewBag.IDnumber" type="text" disabled="disabled" class="form-control disabled">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 0px;margin-left: 0px;">
+                                            <label for="firstname" class="col-lg-1 col-md-2 col-sm-2 col-xs-2 col-lg-offset-1 col-md-offset-0 col-sm-offset-0 control-label text-right text-primary">地 址：</label>
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                @*<input value="@ViewData["location"]" type="text" disabled="disabled" class="form-control disabled">*@
+                                                <input value="@ViewBag.location" type="text" disabled="disabled" class="form-control disabled">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding: 0px;margin-left: 0px;">
+                                            <label for="firstname" class="col-lg-3 col-md-4 col-sm-4 col-xs-4 col-lg-offset-1 col-md-offset-0 col-sm-offset-0 control-label text-right text-primary">角色类型：</label>
+                                            <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8">
+                                                @*<input value="@ViewData["UserroleID"]" type="text" disabled="disabled" class="form-control disabled">*@
+                                                <input value="@ViewBag.Userrole" type="text" disabled="disabled" class="form-control disabled">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding: 0px;margin-left: 0px;">
+                                            <label for="firstname" class="col-lg-3 col-md-4 col-sm-4 col-xs-4 col-lg-offset-1 col-md-offset-0 col-sm-offset-0 control-label text-right text-primary">登录名：</label>
+                                            <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8">
+                                                @*<input value="@ViewData["name"]" type="text" disabled="disabled" class="form-control disabled">*@
+                                                <input value="@ViewBag.name" type="text" disabled="disabled" class="form-control disabled">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding: 0px;margin-left: 0px;">
+                                            <label for="firstname" class="col-lg-3 col-md-4 col-sm-4 col-xs-4 col-lg-offset-1 col-md-offset-0 col-sm-offset-0 control-label text-right text-primary">手机号码：</label>
+                                            <div class="col-lg-6 col-md-8 col-sm-8 col-xs-8">
+                                                @*<input id="phonenumber" value="@ViewData["phonenumber"]" type="text" class="form-control disabled">*@
+                                                <input id="phone" value="@ViewBag.phonenumber" type="text" class="form-control disabled" onkeyup="keypressPhone(event,this)" onbeforepaste="clipboardData.setData('text', clipboardData.getData('text').replace(/[^\d]/g, ''))">
+                                                @*<input id="phonenumber" value="@ViewBag.phonenumber" type="text" class="form-control disabled">*@
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding: 0px;margin-left: 0px;">
+                                            <label for="firstname" class="col-lg-3 col-md-4 col-sm-4 col-xs-4 col-lg-offset-1 col-md-offset-0 col-sm-offset-0 control-label text-right text-primary">邮箱：</label>
+                                            <div class="col-lg-6 col-md-8 col-sm-8 col-xs-8">
+                                                @*<input id="postbox" value="@ViewData["postbox"]" type="email" class="form-control disabled">*@
+                                                @*<input id="email" value="@ViewBag.postbox" type="text" class="form-control disabled" onkeyup="keypressPhone(event,this)" onbeforepaste="clipboardData.setData('text', clipboardData.getData('text').replace(/[^\d]/g, ''))">*@
+                                                <input id="email" value="@ViewBag.postbox" type="email" class="form-control disabled">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-top:40px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-sm-lg-12  text-center">
+                                        <button type="button" id="update" style="min-width:150px;" class="btn btn-success"> 确 定 修 改 </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*修改密码*@
+                    <div id="safeData" class="tab-pane fade" style="border-top:1px solid #337AB7;padding-bottom:5px;">
+                        <div class="container">
+                            <div class="row" style="padding-top: 10px;">
+                                <form role="form" class="form-horizontal">
+                                    <div class="form-group" style="margin-top:30px;">
+                                        <label for="firstname" class="col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 col-md-offset-3 col-sm-offset-2 control-label text-right text-primary" style="padding: 0px;">当前密码：</label>
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5" style="padding:0px;">
+                                            <input type="password" class="form-control has-success" bool="0" autocomplete="off" id="oldpassword" onkeyup="judgeOddPassword(event, this)" onchange="judgeOddPassword(event,this)" placeholder="请输当前密码">
+                                        </div>
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding:0px;height:34px;">
+                                            <img src="~/content/images/confirmGree.png" id="oldpasswordImg" style="height:100%;display:none;" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top:20px;">
+                                        <label for="lastname" class="col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 col-md-offset-3 col-sm-offset-2 control-label text-right text-primary" style="padding: 0px;">新&nbsp;&nbsp;密&nbsp;&nbsp;码：</label>
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5" style="padding:0px;">
+                                            <input type="password" class="form-control has-success" id="newpassword1" autocomplete="off" onkeyup="verificationNewPassword(event,this);" onchange="verificationNewPassword(event,this);" placeholder="请输入新密码">
+                                        </div>
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2" style="padding:0px;height:34px;">
+                                            <table id="passwordSafeShow" border="0" cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td>
+                                                        <span>弱</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>中</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>强</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top:20px;">
+                                        <label for="lastname" class="col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 col-md-offset-3 col-sm-offset-2 control-label text-right text-primary" style="padding: 0px;">确认密码：</label>
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5" style="padding:0px;">
+                                            <input type="password" class="form-control has-success" id="newpassword2" autocomplete="off" onkeyup="judgeNewPasswordTow(event, this);" onchange="judgeNewPasswordTow(event,this);" placeholder="请输入新密码">
+                                        </div>
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding:0px;height:34px;">
+                                            <img src="~/content/images/cancelRed.png" style="height:100%;display:none;" id="newpassword2Img" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top:20px;">
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-sm-lg-5 col-lg-offset-5 col-md-offset-5 col-sm-offset-5 col-xs-offset-3  text-center">
+                                            <button type="button" id="UpdatePassword" class="btn btn-success">确定修改</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--确定修改资料提示-->
+    <div class="modal fade" id="myUserData" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="LoadMapLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title text-primary" id="LoadMapLabel">修改资料</h1>
+                </div>
+                <div class="modal-body text-info" id="showLoadBodyText">
+                    是否确定修改资料？
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger col-lg-2 col-md-2 col-sm-2 col-xs-2 pull-right" role="button" data-dismiss="modal">取消</button>
+                    <button class="btn btn-primary col-lg-2 col-md-2 col-sm-2 col-xs-2 pull-right" role="button" indexType="0" style="margin-right:3px;" onclick="confirmUserData()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--确定修改密码提示-->
+    <div class="modal fade" id="myPassword" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="LoadMapLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title text-primary" id="LoadMapLabel">修改密码</h1>
+                </div>
+                <div class="modal-body text-info" id="showLoadBodyText">
+                    是否确定修改密码？
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger col-lg-2 col-md-2 col-sm-2 col-xs-2 pull-right" role="button" data-dismiss="modal" onclickaa="closePassword()">取消</button>
+                    <button class="btn btn-primary col-lg-2 col-md-2 col-sm-2 col-xs-2 pull-right" role="button" indexType="0" style="margin-right:3px;" onclick="confirmPassword()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Content/bootstrap-3.3.7-dist/js/jquery-1.11.3.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/js/lang/grid.zh-CN.min.js"></script>
+    <script src="~/Content/js/jquery.form.js"></script>
+    <script src="~/Content/js/customfunction.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+
+    <script type="text/javascript">
+
+        //返回主界面
+        function closeView() {
+            window.location.href = '/Index/Main';
+        }
+
+
+    </script>
+
+
+
+</body>
+</html>

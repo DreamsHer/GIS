@@ -1,0 +1,361 @@
+﻿div {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.titleStyle {
+    font-style: normal;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: "宋体";
+        line-height: 22px !important;
+}
+
+#PerimeterQuerySelectDivController {
+ display:none;
+}
+
+.checkbox {
+    margin-top: 2px;
+    margin-bottom:0px; 
+}
+.redNubmer {
+  color:red;
+  font-style:normal;
+}
+/*开始让结果界面不出来*/
+#moveResult {
+    display: none;
+}
+/*工具箱样式*/
+#SelectTool {
+    display:none;
+   padding-top:0px;
+}
+
+#Jia_table a{
+    font-size:12px!important;
+ cursor:pointer;
+ font-style:normal;
+}
+
+
+#Jia_table tr:hover{
+    background-color: rgba(136, 201, 255, 0.43);
+}
+.moveBar_result {
+        left: 468.989px;
+    top: 48.9858px;
+    position: absolute;
+    width: 285px;
+    /*height: 107px;*/
+    background: white;
+     border: solid 1px #0574fb;
+}
+
+#banner_result {
+    background:rgb(0, 102, 153);
+    cursor: move;
+    color: white;
+    text-align: center;
+    height: 26px;
+}
+
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.moveBar {
+        left: 280px;
+    top: 36.9829px;
+    display:none;
+    position: absolute;
+    width: 254px;
+    /*height: 107px;*/
+    background: white;
+    border: solid 1px #0574fb;
+}
+
+#banner {
+    line-height: 25.5px;
+    background: rgb(0, 102, 153);
+    cursor: move;
+    color: white;
+    text-align: center;
+    height: 26px;
+}
+
+
+/*工具栏样式*/
+/*.tool-table img {
+            padding-left: 13px;
+            padding-top: 4px;
+        }
+
+        .tool-table div {
+            width: 62px;
+            height: 62px;
+            border: solid;
+            border-width: 1px;
+        }
+
+        .tool-table td {
+            cursor: pointer;
+            padding-left: 12px;
+            padding-top: 4px;
+        }
+
+        .tool-table p {
+            font-size: 14px;
+            text-align: center;
+        }*/
+ul, li {
+    list-style: none;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+}
+
+.list {
+    width: 210px;
+    border-bottom: solid 1px #316a91;
+    margin: 40px auto 0 auto;
+}
+
+    .list ul li {
+        background-color: #467ca2;
+        border: solid 1px #316a91;
+        border-bottom: 0;
+    }
+
+        .list ul li a {
+            padding-left: 10px;
+            color: #fff;
+            font-size: 12px;
+            display: block;
+            font-weight: bold;
+            height: 36px;
+            line-height: 36px;
+            position: relative;
+        }
+
+        .list ul li .inactive {
+            background: url(images/off.png) no-repeat 184px center;
+        }
+
+        .list ul li .inactives {
+            background: url(images/on.png) no-repeat 184px center;
+        }
+
+        .list ul li ul {
+            display: none;
+        }
+
+            .list ul li ul li {
+                border-left: 0;
+                border-right: 0;
+                background-color: #6196bb;
+                border-color: #467ca2;
+            }
+
+                .list ul li ul li ul {
+                    display: none;
+                }
+
+                .list ul li ul li a {
+                    padding-left: 20px;
+                }
+
+                .list ul li ul li ul li {
+                    background-color: #d6e6f1;
+                    border-color: #6196bb;
+                }
+
+.last {
+    background-color: #d6e6f1;
+    border-color: #6196bb;
+}
+
+.list ul li ul li ul li a {
+    color: #316a91;
+    padding-left: 30px;
+}
+#panel-checkstylePu {
+    width: 100%;
+}
+#panel-checkstylePu td{
+    width: auto;
+}
+
+#panel-checkstylePu label{
+      font-size: 13px;
+}
+#panel-checkstyle td {
+    width: 80px;
+}
+
+#panel-checkstyle label {
+    font-size: 10px;
+}
+.panel-body {
+    padding-left: 5px!important;
+    padding-right: 5px!important;
+}   /*周边查询样式*/
+    #PerimeterQueryController{
+         display:none;
+        width:256px;
+        position:absolute;
+        top:0px;
+         left:1px;
+        background:#FFF;
+        z-index:2;
+        border:1px solid #3586D7;
+        border-radius:2px;      
+    }
+   #PerimeterQueryController .panel-primary>.panel-heading{
+       background-color: #3586D7;
+       border-color: #3586D7;
+    }
+      #PerimeterQueryTatle{
+        width:100%;
+        height:25px;
+        line-height:25px;
+        text-align:center;
+        background-color:#3586D7;
+        cursor:move;
+        position:relative;
+        
+    }
+.tool-table .panel-title  a {
+ font-style: normal;
+    width: 88%;
+    display: block;
+    float: left;
+    text-align: center;
+    font-size:12px;
+}
+       #PerimeterQuerySelectDivController{
+        min-width:256px;
+        position:absolute;
+        top:0px;
+         left:1px;
+        background:#FFF;
+        z-index:2;
+        border:1px solid #3586D7;
+        border-radius:2px;
+        display:block;
+        
+    }
+      #PerimeterQuerySelectDivTatle{
+        width:100%;
+        height:25px;
+        line-height:25px;
+        text-align:center;
+        background-color:#3586D7;
+        cursor:move;
+        position:relative;
+        
+    }
+     #PerimeterQuerySelectDivController .panel-primary>.panel-heading{
+          background-color:#3586D7 !important;
+      }
+
+     #fat-btn{
+    margin-left: 12px !important;
+    margin-bottom: 5px !important;
+    padding-top: 3px !important ;
+    padding-bottom: 4px !important;
+    background-color:#3F7EE5 !important;
+    border: 0px !important;
+    font-size:12px !important;
+     }
+
+     #PerimeterQueryControllerContent{
+        font-size:15px;
+        color:#3385FF;
+        text-align:center
+    }
+     #PerimeterQueryControllerContent ul{
+         width:220px;
+         height:100px;
+         padding:5px;
+     }
+    #PerimeterQueryControllerContent ul li{
+        text-align:left;
+        float:left;
+        width:105px;
+        list-style:none;
+    }
+    #PerimeterQueryControllerContent ul li:hover{
+      text-decoration:solid;
+     color:red;
+    } 
+    .acollapse{
+       display: block;font-style: normal;float: left; width: 90%;
+     }
+
+#resultWindow {
+    cursor: pointer;
+    background-image: url(/content/images/close.PNG);
+    width: 18px;
+    height: 18px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position:absolute;
+    top:3px;
+    right:0px;
+}
+
+    #resultWindow:hover {
+        background-image: url(/content/images/Redclose.png) !important;
+    }
+#NarrowWindow {
+    cursor: pointer;
+    background-image: url(/content/images/small.png);
+    float: right;
+    width: 18px;
+    height: 18px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+        position:absolute;
+    top:3px;
+    right:18px;
+}
+#narrowwindow:hover {
+       /*background-image: url(/content/images/smallred.png)!important;*/
+}
+#SmallZhouBian {
+    cursor: pointer;
+    background-image: url(/content/images/bigwin.png);
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+    background-size: 100%;
+    position: absolute;
+    right: 0px;
+    top: 3px;
+}
+#SmallZhouBian:hover{
+    /*background-image: url(/content/images/smallRed.png) !important;*/
+}
+#CloseZhouBian {
+    cursor: pointer;
+    background: url(/content/images/close.PNG) no-repeat;
+    display: none;
+    width: 18px;
+    height: 18px;
+    background-repeat: round;
+    background-size: 100%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+    #CloseZhouBian:hover {
+        background-image: url(/content/images/Redclose.png) !important;
+    }

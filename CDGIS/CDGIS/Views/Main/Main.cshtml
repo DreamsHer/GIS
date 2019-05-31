@@ -1,0 +1,262 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>Mian</title>
+    <link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/ace.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/ace-responsive.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/ace-skins.min.css" />
+    <link rel="shortcut icon" type="image/svg" href="~/Content/images/bg/Logo.png" media="screen" />
+    <style type="text/css">
+        label.Size {
+            font-size: 60px;
+        }
+
+        .HeiBackgroud {
+            background-image: url('../../Content/images/bg/ZhuJieMianTou.jpg');
+            background-attachment: fixed !important;
+            background-size: 100% !important;
+        }
+
+        label {
+            font-weight: normal;
+        }
+
+        a, li, span {
+            font-size: 15px;
+        }
+    </style>
+
+</head>
+
+<body class="no-skin">
+
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container-fluid HeiBackgroud" style="height:60px;">
+                <a href="#" class="brand" style="margin-top:10px;">
+                    <small>
+                        <span style="margin-left:400px;color:#ffffff;font-size:25px;">欢迎登陆后台管理中心 Welcome to the backstage management</span>
+                    </small>
+                </a><!--标题-->
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container container-fluid">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+        <div class="sidebar" id="sidebar">
+            <h3 style="margin-top:5px;margin-left:25px;color:#000000;">菜 单 列 表</h3>
+
+            <ul class="nav nav-list" style="margin-top:10px;">
+              
+                <!--首页-->
+                @*<li id="">
+                    <a href="javascript:;" class="dropdown-toggle" id="Home">
+                        <i class="icon-home"></i>
+                        <span class="menu-text" id=""> 首页 </span>
+                    </a>
+                </li>*@
+
+                <!--用户管理-->
+                <li id="UserManage">
+                    <a href="#;" class="dropdown-toggle" id="GuanLiJieMian">
+                        <i class="icon-cut"></i>
+                        <span class="menu-text">用户管理 </span>
+                    </a>
+                </li>
+
+                <!--角色管理-->
+                <li id="RoleManage">
+                    <a href="#;" class="dropdown-toggle" id="JiaoSeJieMian">
+                        <i class="icon-lock"></i>
+                        <span class="menu-text">角色管理 </span>
+                    </a>
+                </li>
+
+                <!--日志管理-->
+                <li id="JournalManage">
+                    <a href="#;" class="dropdown-toggle" id="RiZhiGuanLi">
+                        <i class="icon-edit"></i>
+                        <span class="menu-text">日志管理 </span>
+                    </a>
+                </li>
+
+                <!--数据管理-->
+                <li id="DataManage">
+                    <a href="#;" class="dropdown-toggle" id="JiChuXinXiGuanLi">
+                        <i class="icon-save"></i>
+                        <span class="menu-text">数据管理 </span>
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+                    <ul class="submenu">
+                        <li class="active">
+                            <a href="javascript:;" id="DaoRuShuJu">
+                                <i class="menu-icon fa fa-caret-right"></i>导入数据
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="javascript:;" id="ShuJuJieMian">
+                                <i class="menu-icon fa fa-caret-right"></i>基础数据
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+
+                <!--退出-->
+                <li>
+                    <a href="#" id="Quit">
+                        <i class="icon-off"></i>退出系统
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="sidebar-collapse" id="sidebar-collapse">
+                <i class="icon-double-angle-left"></i>
+            </div>
+
+        </div>
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <ul class="breadcrumb" style="float:right">
+                    <li><span>欢迎您：</span><span id="StudentName">@ViewBag.username</span><span>&nbsp;</span></li>
+                    <li><span id="DataTime">@ViewBag.serverTime</span><span>&nbsp;</span></li>
+                    <li><a href="javascript:;" id="loginOut">注销</a></li>
+                </ul>
+            </div>
+
+            <div class="page-content">
+                <iframe id="content" class="fgf" style="width:100%;height:600px;border:none;"></iframe>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="~/Content/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/assets/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="~/Content/assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="~/Content/assets/js/jquery.slimscroll.min.js"></script>
+    <script src="~/Content/assets/js/jquery.easy-pie-chart.min.js"></script>
+    <script src="~/Content/assets/js/jquery.sparkline.min.js"></script>
+    <script src="~/Content/assets/js/ace-elements.min.js"></script>
+    <script src="~/Content/assets/js/ace.min.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+
+    @*界面管理*@
+    <script type="text/javascript">
+
+        //注销当前用户      
+        $("#loginOut").click(function () {
+            layer.confirm("确定要注销退出？", {
+                icon: 3,
+                btn: ['确定', '取消']
+            }, function (layerIndex) {
+                layer.close(layerIndex);//关闭提示框
+
+                $.post("/Main/LoginOut", function (msg) {
+                    location.reload();
+                });
+            });
+        });
+
+        $(function () {
+            //time();
+
+            $("#content").attr("src", "/Main/Home");
+
+            //用户管理
+            $(function () {
+                $("#GuanLiJieMian").click(function () {
+                    select($(this));
+                    $("#content").attr("src", "/YongHuGuanLi/GuanLiJieMian");
+                });
+            });
+            //角色管理
+            $(function () {
+                $("#JiaoSeJieMian").click(function () {
+                    select($(this));
+                    $("#content").attr("src", "/JiaoSeGuanLi/JiaoSeJieMian");
+                });
+            });
+            //日志管理
+            $(function () {
+                $("#RiZhiGuanLi").click(function () {
+                    select($(this));
+                    $("#content").attr("src", "/RiZhiGuanLi/RiZhiGuanLi");
+                });
+            });
+            //导入数据
+            $(function () {
+                $("#DaoRuShuJu").click(function () {
+                    select($(this));
+                    $("#content").attr("src", "/ShuJuGuanLi/DaoRuShuJu");
+                });
+            });
+            //基础数据
+            $(function () {
+                $("#ShuJuJieMian").click(function () {
+                    select($(this));
+                    $("#content").attr("src", "/ShuJuGuanLi/ShuJuJieMian/");
+                });
+            });
+
+        });
+
+        function select(e) {
+            $('.nav-list li').removeClass('active');//移除 li标签上的active类
+            e.parents("li").addClass("active");//给选中的li标签添加active类
+        }
+    </script>
+
+    @*访问权限*@
+    <script type="text/javascript">
+        $(function () {
+            //模块权限设置
+            var usernameID = @Session["usernameID"];//获取用户ID
+            $.getJSON("/Main/SelectModule?usernameId=" + usernameID+"&time="+(new Date()).getTime(), function (data) {
+                //先隐藏全部模块
+                $("#UserManage").hide();      //用户管理
+                $("#RoleManage").hide();      //角色管理
+                $("#JournalManage").hide();   //日志管理
+                $("#DataManage").hide();      //数据管理
+
+                $.each(data, function (i) {
+                    switch (data[i].Name) {
+                        case "用户管理":
+                            $("#UserManage").show();
+                            break;
+                        case "角色管理":
+                            $("#RoleManage").show();
+                            break;
+                        case "日志管理":
+                            $("#JournalManage").show();
+                            break;
+                        case "数据管理":
+                            $("#DataManage").show();
+                            break;
+                    }
+                });
+            });
+        });
+
+    </script>
+
+</body>
+</html>

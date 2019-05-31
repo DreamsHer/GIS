@@ -1,0 +1,132 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>报告报表</title>
+    <link href="~/content/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Contents/jquery.bsgrid-1.37/merged/bsgrid.all.min.css" rel="stylesheet" />
+    <link href="~/Contents/jquery.bsgrid-1.37/css/skins/grid_blue.min.css" rel="stylesheet" />
+    <style>
+        .col-lg-2, .col-lg-1 {
+            padding-right: 0;
+        }
+
+        #formInsertUser label {
+            padding-top: 10px;
+        }
+
+        #formInsertUser select, #formInsertUser input, #formInsertUser button {
+            height: 38px;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <div class="panel panel-heading"><i class="glyphicon glyphicon-pencil"></i> 报告报表</div>
+        <div class="panel-body " style="text-align:center">
+            <form class="form-horizontal" role="form" id="">
+                <div class="col-lg-1 col-md-1 col-sm-1 text-right">
+                    <label class="control-label" style="font-weight:lighter">报告时间:</label>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2" style="padding-left:0;">
+                    <input class="form-control" name="ReportDateTime" id="KReportDate" type="date"/>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1 text-right">
+                    <label class="control-label" style="font-weight:lighter">报告类型:</label>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2" style="padding-left:0;">
+                    <select class="form-control" name="BaseDetailName" id="ScaseClassID">
+                        <option value="0">--选择病例类型--</option>
+                        <option value="1">疑似病例</option>
+                        <option value="2">确诊病例</option>
+                    </select>
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="button" id="btnSelect" onclick="btnSelect()">查询</button>
+                    <button class="btn btn-default btn-danger" id="btnFanHui" type="button">返回</button>
+                </div>
+            </form>
+            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:20px;padding:0">
+                <table id="tabBingLiXinXi" class="table">
+                    <tr>
+                        <th w_index="" w_hidden="true">SickpersonID</th>
+                        <th w_index="Cardnumber" width="5%">卡片编号</th>
+                        <th w_index="name" width="10%">患者名称</th>
+                        <th w_index="IDnumber" width="15%">有效证件号</th>
+                        <th w_index="sexID" width="5%">性别</th>
+                        <th w_index="workunit" width="10%">工作单位</th>
+                        <th w_index="CensusAddDetail" width="15%">户籍详细地址</th>
+                        <th w_index="Detailedaddress" width="15%">现住详细地址</th>
+                        <th w_index="ReportDateTime" width="10">报告卡录入时间</th>
+                        <th w_index="Remark" width="5%">备注</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+   
+    <script src="~/content/bootstrap-3.3.7-dist/js/jquery-2.0.3.min.js"></script>
+    <script src="~/content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="~/content/jquery.bsgrid-1.37/merged/bsgrid.all.min.js"></script>
+    <script src="~/content/bootstrap-3.3.7-dist/js/grid.zh-CN.min.js"></script>
+    <script src="~/content/bootstrap-3.3.7-dist/js/jquery.form.js"></script>
+    <script src="~/Contents/jquery.bsgrid-1.37/js/lang/grid.zh-CN.min.js"></script>
+    <script type="text/javascript">
+        var tabBingLiXinXi;
+        $(document).ready(function () {
+            //病例类型
+            $.post("/Index/CaseClass", function (data) {
+                selectLoadData("ScaseClassID", data);
+            });
+
+            //加载表格
+            tabBingLiXinXi = $.fn.bsgrid.init('tabBingLiXinXi', {
+                url: '/Index/ConditionalQuery',
+                autoLoad: false,//自动加载数据
+                stripeRows: true,//隔行变色
+                rowHoverColor: true,//划过行变色
+                rowSelectedColor: true,//是否显示选中行背景色      
+                displayBlankRows: true,//是否显示空白行，默认值false
+                pageSize: 9,//分页大小, 如果设置值小于1则不分页且展示全部数据(即自动将pageAll设置为true), 默认值20
+                pageSizeSelect: true,// 是否显示分页大小选择下拉框, 配合参数pageSizeForGrid, 默认值false
+                pagingLittleToolbar: true,//是否显示精简的图标按钮分页工具条, 默认值false
+                pagingToolbarAlign: "left",//分页工具条的显示位置
+            });
+
+            tabConditionalQuery();
+
+        });
+
+        //查询按钮
+        $("#btnSelect").click(function () {
+            tabConditionalQuery();
+        });
+
+        //表格条件查询
+        function tabConditionalQuery() {
+
+            var KReportDate = $("#KReportDate").val();
+
+            var caseClassID = $("#ScaseClassID").val();
+            if (caseClassID == undefined || caseClassID == "") {
+                caseClassID = 0;
+            }
+
+            tabBingLiXinXi.search("&KReportDate=" + KReportDate + "&caseClassID=" + caseClassID);
+        }
+
+        //返回
+        $("#btnFanHui").click(function () {
+            window.history.go(-1);
+        })
+
+    </script>
+
+</body>
+</html>

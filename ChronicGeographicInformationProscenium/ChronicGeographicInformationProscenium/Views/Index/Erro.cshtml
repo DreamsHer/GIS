@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>网页访问异常</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="generator" content="" />
+    <link href="~/content/css/index/error_all.css" rel="stylesheet" /><!--css样式-->
+    <link rel="shortcut icon" type="image/svg" href="~/content/images/picture/Logo2.png" media="screen" /> <!--网页小图标-->
+    <script src="~/scripts/jquery.2.1.4.min.js"></script><!--jQuery插件-->
+</head>
+<body class="error-404">
+    <div id="doc_main">
+        <section class="bd clearfix">
+            <div class="module-error">
+                <div class="error-main clearfix">
+                    <div class="label"></div>
+                    <div class="info">
+                        <h3 class="title">你所访问的页面异常</h3>
+                        <div class="reason">
+                            <p>可能的原因：</p>
+                            <p>1.账号异常。</p>
+                            <p>2.网络异常。</p>
+                            <p>3.服务器异常。</p>
+                        </div>
+                        <div class="oper">
+                            <p><a href="javascript:history.go(-1);">返回上一级页面&gt;</a></p>
+                            <p><a href="/Index/login" target="_parent">重新登录&gt;</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

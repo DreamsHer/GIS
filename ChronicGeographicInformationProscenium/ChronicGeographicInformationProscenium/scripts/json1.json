@@ -1,0 +1,948 @@
+﻿[
+        {
+            "id": "0",
+            "pId": "0",
+            "name": "深圳市南山区",
+            open: true,
+            "communityWebID": "4",
+            "webType": "0",
+            "webID": "1",
+            "farID": "0",
+            "children": [
+              {
+                  "id": "1",
+                  "pId": "0",
+                  "name": "南头街道",
+                  open: true,
+                  "communityWebID": "4",
+                  "webID": "2",
+                  "webType": "1",
+                  "farID": "1",
+                  "children": [
+                    {
+                        "id": "11",
+                        "pId": "1",
+                        "name": "南头城社区",
+                        open: true,
+                        "webID": "10",
+                        "farID": "2",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "12",
+                        "pId": "1",
+                        "name": "田厦社区",
+                        open: true,
+                        "webID": "12",
+                        "farID": "2",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "13",
+                        "pId": "1",
+                        "name": "大新社区",
+                        open: true,
+                        "webID": "5",
+                        "farID": "2",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "14",
+                        "pId": "1",
+                        "name": "大汪山社区",
+                        open: true,
+                        "webID": "4",
+                        "farID": "2",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "前海社区",
+                        open: true,
+                        "webID": "11",
+                        "farID": "2",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "红花园社区",
+                        open: true,
+                        "webID": "6",
+                        "farID": "2",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "16",
+                        "pId": "1",
+                        "name": "南联社区",
+                        open: true,
+                        "webID": "9",
+                        "farID": "2",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "17",
+                        "pId": "1",
+                        "name": "马家龙社区",
+                        open: true,
+                        "webID": "8",
+                        "farID": "2",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "18",
+                        "pId": "1",
+                        "name": "莲城社区",
+                        open: true,
+                        "webID": "7",
+                        "farID": "2",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "星海名城社区",
+                        open: true,
+                        "webID": "13",
+                        "farID": "2",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "19",
+                        "pId": "1",
+                        "name": "同乐社区",
+                        open: true,
+                        "webID": "14",
+                        "farID": "2",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "20",
+                        "pId": "1",
+                        "name": "安乐社区",
+                        open: true,
+                        "webID": "3",
+                        "farID": "2",
+                        "webType": "2"
+                    }
+                  ]
+              },
+              {
+                  "id": "2",
+                  "pId": "0",
+                  "name": "南山街道",
+                  open: true,
+                  "communityWebID": "6",
+                  "webID": "87",
+                  "webType": "1",
+                  "farID": "1",
+                  "children": [
+                  {
+                      "id": "11",
+                      "pId": "1",
+                      "name": "南园社区",
+                      open: true,
+                      "webID": "96",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "12",
+                      "pId": "1",
+                      "name": "南山社区",
+                      open: true,
+                      "webID": "97",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "13",
+                      "pId": "1",
+                      "name": "南光社区",
+                      open: true,
+                      "webID": "92",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "14",
+                      "pId": "1",
+                      "name": "向南社区",
+                      open: true,
+                      "webID": "88",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "15",
+                      "pId": "1",
+                      "name": "北头社区",
+                      open: true,
+                      "webID": "94",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "16",
+                      "pId": "1",
+                      "name": "学府社区",
+                      open: true,
+                      "webID": "89",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "17",
+                      "pId": "1",
+                      "name": "荔芳社区",
+                      open: true,
+                      "webID": "90",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "18",
+                      "pId": "1",
+                      "name": "阳光棕榈社区",
+                      open: true,
+                      "webID": "91",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "18",
+                      "pId": "1",
+                      "name": "阳光棕榈社区",
+                      open: true,
+                      "webID": "91",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "18",
+                      "pId": "1",
+                      "name": "向南社区居委会",
+                      open: true,
+                      "webID": "95",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "18",
+                      "pId": "1",
+                      "name": "月亮湾社区",
+                      open: true,
+                      "webID": "100",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "18",
+                      "pId": "1",
+                      "name": "荔湾社区",
+                      open: true,
+                      "webID": "99",
+                      "webType": "2"
+                  },
+                  {
+                      "id": "18",
+                      "pId": "1",
+                      "name": "荔林社区",
+                      open: true,
+                      "webID": "98",
+                      "webType": "2"
+                  }
+                  ]
+              },
+              {
+                  "id": "3",
+                  "pId": "0",
+                  "name": "西丽街道",
+                  open: true,
+                  "communityWebID": "6",
+                  "webID": "101",
+                  "webType": "1",
+                  "farID": "1",
+                  "children": [
+                    {
+                        "id": "11",
+                        "pId": "1",
+                        "name": "松坪山社区",
+                        open: true,
+                        "webID": "102",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "12",
+                        "pId": "1",
+                        "name": "留仙社区",
+                        open: true,
+                        "webID": "103",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "13",
+                        "pId": "1",
+                        "name": "西丽社区",
+                        open: true,
+                        "webID": "104",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "14",
+                        "pId": "1",
+                        "name": "曙光社区",
+                        open: true,
+                        "webID": "104",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "新围社区",
+                        open: true,
+                        "webID": "105",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "16",
+                        "pId": "1",
+                        "name": "新围社区",
+                        open: true,
+                        "webID": "106",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "17",
+                        "pId": "1",
+                        "name": "丽湖社区",
+                        open: true,
+                        "webID": "107",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "18",
+                        "pId": "1",
+                        "name": "白芒社区",
+                        open: true,
+                        "webID": "108",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "19",
+                        "pId": "1",
+                        "name": "阳光社区",
+                        open: true,
+                        "webID": "109",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "20",
+                        "pId": "1",
+                        "name": "大磡社区",
+                        open: true,
+                        "webID": "110",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "21",
+                        "pId": "1",
+                        "name": "麻磡社区",
+                        open: true,
+                        "webID": "111",
+                        "webType": "2"
+                    }
+                  ]
+
+              },
+              {
+                  "id": "4",
+                  "pId": "0",
+                  "name": "沙河街道",
+                  open: true,
+                  "communityWebID": "6",
+                  "webID": "33",
+                  "webType": "1",
+                  "farID": "1",
+                  "children": [
+                    {
+                        "id": "11",
+                        "pId": "1",
+                        "name": "文昌街社区",
+                        open: true,
+                        "webID": "34",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "12",
+                        "pId": "1",
+                        "name": "华夏街社区",
+                        open: true,
+                        "webID": "35",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "13",
+                        "pId": "1",
+                        "name": "白石洲-区",
+                        open: true,
+                        "webID": "36",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "14",
+                        "pId": "1",
+                        "name": "明珠街社区",
+                        open: true,
+                        "webID": "37",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "沙河街社区",
+                        open: true,
+                        "webID": "38",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "16",
+                        "pId": "1",
+                        "name": "中新街社区",
+                        open: true,
+                        "webID": "39",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "17",
+                        "pId": "1",
+                        "name": "新塘社区",
+                        open: true,
+                        "webID": "40",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "18",
+                        "pId": "1",
+                        "name": "星河街社区",
+                        open: true,
+                        "webID": "41",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "19",
+                        "pId": "1",
+                        "name": "光华街社区",
+                        open: true,
+                        "webID": "42",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "20",
+                        "pId": "1",
+                        "name": "香山社区",
+                        open: true,
+                        "webID": "43",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "21",
+                        "pId": "1",
+                        "name": "白石洲西社区",
+                        open: true,
+                        "webID": "44",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "22",
+                        "pId": "1",
+                        "name": "高发社区",
+                        open: true,
+                        "webID": "45",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "23",
+                        "pId": "1",
+                        "name": "东方社区",
+                        open: true,
+                        "webID": "46",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "24",
+                        "pId": "1",
+                        "name": "白石东社区",
+                        open: true,
+                        "webID": "47",
+                        "webType": "2"
+                    }
+                  ]
+              },
+              {
+                  "id": "5",
+                  "pId": "0",
+                  "name": "蛇口街道",
+                  open: true,
+                  "communityWebID": "2",
+                  "webID": "73",
+                  "webType": "1",
+                  "farID": "1",
+                  "children": [
+                    {
+                        "id": "11",
+                        "pId": "1",
+                        "name": "渔二社区工作站",
+                        open: true,
+                        "webID": "74",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "12",
+                        "pId": "1",
+                        "name": "渔一社区工作站",
+                        open: true,
+                        "webID": "75",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "13",
+                        "pId": "1",
+                        "name": "湾厦社区工作站",
+                        open: true,
+                        "webID": "76",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "14",
+                        "pId": "1",
+                        "name": "海滨社区",
+                        open: true,
+                        "webID": "77",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "大铲社区",
+                        open: true,
+                        "webID": "78",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "16",
+                        "pId": "1",
+                        "name": "围仔社区",
+                        open: true,
+                        "webID": "79",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "17",
+                        "pId": "1",
+                        "name": "东角头社区",
+                        open: true,
+                        "webID": "80",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "18",
+                        "pId": "1",
+                        "name": "海湾社区",
+                        open: true,
+                        "webID": "81",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "19",
+                        "pId": "1",
+                        "name": "海昌社区",
+                        open: true,
+                        "webID": "82",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "20",
+                        "pId": "1",
+                        "name": "南水社区",
+                        open: true,
+                        "webID": "83",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "21",
+                        "pId": "1",
+                        "name": "雷岭社区",
+                        open: true,
+                        "webID": "84",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "22",
+                        "pId": "1",
+                        "name": "深圳湾社区综合服务中心",
+                        open: true,
+                        "webID": "85",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "23",
+                        "pId": "1",
+                        "name": "伶仃岛社区",
+                        open: true,
+                        "webID": "86",
+                        "webType": "2"
+                    }
+                  ]
+              },
+              {
+                  "id": "6",
+                  "pId": "0",
+                  "name": "招商街道",
+                  open: true,
+                  "communityWebID": "3",
+                  "webID": "61",
+                  "webType": "1",
+                  "farID": "1",
+                  "children": [
+                    {
+                        "id": "11",
+                        "pId": "1",
+                        "name": "赤湾社区",
+                        open: true,
+                        "webID": "62",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "12",
+                        "pId": "1",
+                        "name": "五湾社区",
+                        open: true,
+                        "webID": "63",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "13",
+                        "pId": "1",
+                        "name": "水湾社区",
+                        open: true,
+                        "webID": "64",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "14",
+                        "pId": "1",
+                        "name": "花果山社区",
+                        open: true,
+                        "webID": "65",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "沿山社区",
+                        open: true,
+                        "webID": "66",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "16",
+                        "pId": "1",
+                        "name": "四海社区",
+                        open: true,
+                        "webID": "67",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "17",
+                        "pId": "1",
+                        "name": "兰园社区",
+                        open: true,
+                        "webID": "68",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "18",
+                        "pId": "1",
+                        "name": "桂园社区",
+                        open: true,
+                        "webID": "69",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "19",
+                        "pId": "1",
+                        "name": "桃花园社区",
+                        open: true,
+                        "webID": "70",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "20",
+                        "pId": "1",
+                        "name": "文竹园社区",
+                        open: true,
+                        "webID": "71",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "21",
+                        "pId": "1",
+                        "name": "海月社区",
+                        open: true,
+                        "webID": "72",
+                        "webType": "2"
+                    }
+
+                  ]
+              },
+              {
+                  "id": "7",
+                  "pId": "0",
+                  "name": "粤海街道",
+                  open: true,
+                  "communityWebID": "3",
+                  "webID": "15",
+                  "webType": "1",
+                  "farID": "1",
+                  "children": [
+                    {
+                        "id": "11",
+                        "pId": "1",
+                        "name": "麻岭社区",
+                        open: true,
+                        "webID": "16",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "12",
+                        "pId": "1",
+                        "name": "科技园社区",
+                        open: true,
+                        "webID": "17",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "13",
+                        "pId": "1",
+                        "name": "滨海社区",
+                        open: true,
+                        "webID": "18",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "14",
+                        "pId": "1",
+                        "name": "高新区社区",
+                        open: true,
+                        "webID": "19",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "海珠社区",
+                        open: true,
+                        "webID": "20",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "铜鼓社区",
+                        open: true,
+                        "webID": "21",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "大冲社区",
+                        open: true,
+                        "webID": "22",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "滨海社区",
+                        open: true,
+                        "webID": "23",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "粤桂社区",
+                        open: true,
+                        "webID": "24",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "创业路社区",
+                        open: true,
+                        "webID": "25",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "南油社区",
+                        open: true,
+                        "webID": "26",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "龙城社区",
+                        open: true,
+                        "webID": "27",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "京光社区",
+                        open: true,
+                        "webID": "28",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "后海社区",
+                        open: true,
+                        "webID": "29",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "蔚蓝海岸社区",
+                        open: true,
+                        "webID": "30",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "名海社区",
+                        open: true,
+                        "webID": "31",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "深大社区",
+                        open: true,
+                        "webID": "32",
+                        "webType": "2"
+                    }
+                  ]
+              },
+              {
+                  "id": "8",
+                  "pId": "0",
+                  "name": "桃源街道",
+                  open: true,
+                  "communityWebID": "3",
+                  "webID": "48",
+                  "webType": "1",
+                  "farID": "1",
+                  "children": [
+                    {
+                        "id": "11",
+                        "pId": "1",
+                        "name": "平山社区",
+                        open: true,
+                        "webID": "49",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "12",
+                        "pId": "1",
+                        "name": "塘朗社区",
+                        open: true,
+                        "webID": "50",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "13",
+                        "pId": "1",
+                        "name": "长源社区",
+                        open: true,
+                        "webID": "51",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "14",
+                        "pId": "1",
+                        "name": "峰景社区",
+                        open: true,
+                        "webID": "52",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "15",
+                        "pId": "1",
+                        "name": "桃源社区",
+                        open: true,
+                        "webID": "53",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "16",
+                        "pId": "1",
+                        "name": "龙辉社区",
+                        open: true,
+                        "webID": "54",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "17",
+                        "pId": "1",
+                        "name": "龙光社区",
+                        open: true,
+                        "webID": "55",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "18",
+                        "pId": "1",
+                        "name": "龙联社区",
+                        open: true,
+                        "webID": "56",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "19",
+                        "pId": "1",
+                        "name": "大学城社区",
+                        open: true,
+                        "webID": "57",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "20",
+                        "pId": "1",
+                        "name": "福光社区",
+                        open: true,
+                        "webID": "58",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "21",
+                        "pId": "1",
+                        "name": "龙珠社区",
+                        open: true,
+                        "webID": "59",
+                        "webType": "2"
+                    },
+                    {
+                        "id": "22",
+                        "pId": "1",
+                        "name": "珠光社区",
+                        open: true,
+                        "webID": "60",
+                        "webType": "2"
+                    }
+                  ]
+
+              }
+            ]
+        }]

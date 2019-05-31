@@ -1,0 +1,112 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="generator" content="" />
+    <title>登录--从化区慢性病地理信息管理平台</title>
+    <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/content/css/login/Login.css" rel="stylesheet" /><!--css样式-->
+    <script src="~/scripts/jquery.2.1.4.min.js"></script><!--jQuery插件-->
+    <link rel="shortcut icon" type="image/svg" href="~/content/images/picture/Logo2.png" media="screen" /> <!--网页小图标-->
+</head>
+<body id="HuiCheDengLu">
+    <input type="hidden" id="username" value="@Session["username"]" />
+    <div class="htmleaf-container">
+        <div id="loadMap">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-8 col-lg-offset-4 col-md-offset-4 col-md-offset-4 col-xs-offset-2" style="position:absolute;top:30%;">
+                <div class="ball-pulse col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper">
+            <div class="container">
+                <img src="~/content/images/picture/Logo.png" width="120" height="120"/>
+                <h1>广州从化区慢性病地理信息管理平台</h1>
+                <h5>Geographical Information Management platform for chronic Diseases in Conghua District</h5>
+                <form class="form" id="fmLogin">
+                    <input type="text" onkeyup="keypressUserName(event);" onchange="keypressUserName(event);" name="username" id="username" value="@ViewBag.username" placeholder="输入用户名">
+                    <input type="password" onkeyup="keypressPassword(event);" autocomplete="off" onchange="keypressPassword(event);" name="password" id="password" value="@ViewBag.password" placeholder="输入密码">
+                    <button type="button" id="submit">登 录</button>
+
+                </form>
+            </div>
+            <ul class="bg-bubbles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+  
+    <script src="~/Contents/bootstrap-3.3.7-dist/js/jquery-1.11.3.min.js"></script>
+    <script src="~/Contents/bootstrap-3.3.7-dist/js/jquery-2.0.3.min.js"></script>
+    <script src="~/Contents/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="~/Contents/jquery.bsgrid-1.37/merged/bsgrid.all.min.js"></script>
+    <script src="~/Contents/jquery.bsgrid-1.37/js/lang/grid.zh-CN.min.js"></script>
+    <script src="~/Contents/js/jquery.form.js"></script>
+    <script src="~/Contents/js/customfunction.js"></script>
+    <script src="~/Contents/layer/layer.js"></script>
+
+    @*前台登录*@
+    <script type="text/javascript">
+        $("#heightSize").show('slow');
+        if (window.top.location.href != window.location.href) {
+            window.top.location.href = window.location.href;
+        }
+
+        //登录
+        $("#submit").click(function () {
+            //window.location.href = "/Index/Main";
+            var fromData = $("#fmLogin").serializeArray();
+            $.post("/Index/UserLogin", fromData, function (msg) {
+                if (msg == "fail") {
+                    layer.alert("用户名或密码不正确", { icon: 5, title: '温馨小提示：' });
+                } else {
+                    if (msg == "loginErro") {
+                        layer.alert("请输入用户名/密码", { icon: 5, title: '温馨小提示：' });
+                    } else {                      
+                        if (msg == "Main") {
+                            window.location.href = "/Index/Main";
+                        }
+                        else if (msg == "passwordErro") {
+                            layer.alert("请输入正确的密码", { icon: 5, title: '温馨小提示：' });
+                        }
+
+                    }
+
+                }
+
+            });
+        });
+    
+        $("#coclYanSe").fadeTo("slow", 0.66);
+
+        //回车键登录
+        function HuiCheDengLu() {
+            if (event.keyCode==13) {
+                $("#submit").click();
+            }
+        };
+
+    </script>
+
+</body>
+</html>

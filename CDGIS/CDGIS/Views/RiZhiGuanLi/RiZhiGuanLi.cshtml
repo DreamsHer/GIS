@@ -1,0 +1,150 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>日志管理</title>
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap-treeview.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/css/skins/grid_blue.min.css" rel="stylesheet" />
+    <link href="~/Content/layer/layui.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.css" rel="stylesheet" />
+    <link href="~/Content/layui/css/layui.css" rel="stylesheet" />
+    
+    <style type="text/css">
+        .container {
+            width: 98%;
+            padding-top: 4px;
+        }
+
+        .panel-heading {
+            font-size: 16px;
+        }
+
+        .panel-body {
+            padding: 0;
+            border-left: 3px solid #377ab7;
+            border-bottom: 3px solid #377ab7;
+            border-right: 3px solid #377ab7;
+        }
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row" id="Logmanagement">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <span style="padding-left:14px;">日志信息</span>
+                    </div>
+                </div>
+                <div class="panel-body" style="width:100%;height:520px; background:#f0edf1;">
+
+                    <form class="form-horizontal" role="form">
+
+                        <div class="form-group" style="margin-top:5px;">
+                            <label class="col-md-1 col-sm-1 control-label reset" style="margin-top:20px;">登录名:</label>
+                            <div class="col-md-2 col-sm-1 reset" style="margin-top:20px;">
+                                <input type="text" class="form-control" id="username" name="username" />
+                            </div>
+                            <label class="col-md-1 col-sm-1 control-label reset" style="margin-top:20px;">时间段:</label>
+                            <div class="col-md-2 col-sm-1 reset" style="margin-top:20px;">
+                                <input type="date" class="form-control" id="KSOperateDate" name="OperateDate" />
+                            </div>
+                            <label class="control-label col-md-1 reset-padding color" style="margin-top:20px;width:15px; text-align:center;">至</label>
+                            <div class="col-md-2 col-sm-1 reset" style="margin-top:20px;">
+                                <input type="date" class="form-control" id="JSOperateDate" name="OperateDate" />
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 reset" style="margin-top:20px;">
+                                <button type="button" class="btn btn-primary" onclick="Search()" id="btnSelect">
+                                    <span class="glyphicon glyphicon-zoom-out"></span> 搜索
+                                </button>
+                            </div>
+                            <div class="col-md-1 col-sm-1 reset" style="margin-top:20px;">
+                                <button type="button" class="btn btn-warning" id="btnFanHui">
+                                    <span class="glyphicon glyphicon-repeat"></span> 返回
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <table id="TabJournal" style="width:100%">
+                            <tr>
+                                <th w_num="total_line" width="10%">序号</th>
+                                <th w_index="JournalID" w_hidden="true"></th>
+                                <th w_index="username" width="20%">用户名(登录名)</th>
+                                <th w_index="name" width="20%">用户姓名</th>
+                                <th w_index="Operate" width="20%">操作行为</th>
+                                <th w_index="OperateDateStr" width="30%">操作时间</th>
+                            </tr>
+                        </table>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="~/Content/bootstrap-3.3.7-dist/js/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/js/lang/grid.zh-CN.min.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap-table.js"></script>
+    <script src="~/Content/layer/layui.js"></script>
+    <script src="~/Content/FormAndDown/customfunction.js"></script>
+    <script src="~/Content/FormAndDown/jquery.form.js"></script>
+
+    @*页面加载及查询*@
+    <script type="text/javascript">
+        var TabJournal;
+
+        $(function () {
+            TabJournal = $.fn.bsgrid.init('TabJournal', {
+                url: '/RiZhiGuanLi/SelectJournal',
+                autoLoad: false,//自动加载数据
+                stripeRows: true,//隔行变色
+                rowHoverColor: true,//划过行变色
+                rowSelectedColor: true,//是否显示选中行背景色      
+                displayBlankRows: true,//是否显示空白行，默认值false
+                pageSize: 12,//分页大小, 如果设置值小于1则不分页且展示全部数据(即自动将pageAll设置为true), 默认值20
+                pageSizeSelect: true,// 是否显示分页大小选择下拉框, 配合参数pageSizeForGrid, 默认值false
+                pagingLittleToolbar: true,//是否显示精简的图标按钮分页工具条, 默认值false
+                pagingToolbarAlign: "left",//分页工具条的显示位置
+            });
+            Search();
+            
+        });
+        function Search() {
+            var username = $("#username").val();
+            if (username == undefined || username == "") {
+                username = "";
+            }
+            var KSOperateDate = $("#KSOperateDate").val();
+            var JSOperateDate = $("#JSOperateDate").val();
+            TabJournal.search("username=" + username + "&KSOperateDate=" + KSOperateDate + "&JSOperateDate=" + JSOperateDate);
+        }
+        
+        //页面关闭按钮
+        $(function () {
+            $("#btnFanHui").click(function () {
+                window.location.href = "/Main/Home";
+                //$("#Logmanagement").hide();
+            });
+        });
+
+
+    </script>
+
+</body>
+</html>

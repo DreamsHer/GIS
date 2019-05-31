@@ -1,0 +1,194 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap-treeview.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/css/skins/grid_blue.min.css" rel="stylesheet" />
+    <link href="~/Content/layer/layui.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.css" rel="stylesheet" />
+    <link href="~/Content/layui/css/layui.css" rel="stylesheet" />
+    <title>导入数据</title>
+    <style type="text/css">
+        .container {
+            width: 98%;
+            padding-top: 4px;
+        }
+
+        .panel-heading {
+            font-size: 16px;
+        }
+
+        .panel-body {
+            padding: 0;
+            border-left: 3px solid #377ab7;
+            border-bottom: 3px solid #377ab7;
+            border-right: 3px solid #377ab7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row" id="daorushujuchuangti">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <span style="padding-left:14px;">导入数据</span>
+                    </div>
+                </div>
+                <div class="panel-body" style="width:100%;height:520px; background:#f0edf1;">
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="text-align:center;margin-top:15px;">
+                        <h1 style="color:#1275ae;font-size:20px;font-weight:bolder">选择导入数据模板</h1>
+                    </div>
+                    <form class="form-horizontal" role="form" style="text-align:center">
+                        <div class="form-group" style="margin-left:500px;">
+                            <label class="control-label col-md-2 reset-padding color" style="text-align:right;margin-top:10px;">模板类型:</label>
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="margin-top:10px;">
+                                <select class="form-control" id="BaseTypeID" name="BaseTypeID"></select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <button class="btn btn-success" type="button" id="OpenExel"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;打开表格</button>
+                            <button class="btn btn-warning" type="button" id="btnFanHui" style="margin-left:60px;"><span class="glyphicon glyphicon-repeat"></span> &nbsp;返回</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*导入病人Execl数据*@
+    <div class="modal fade bs-example-modal-lg" id="modImportExaminee">
+        <div class="modal-dialog modal-lg" style="width:1000px!important">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h5 class="modal-title">导入病人Execl数据</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <form action="/ShuJuGuanLi/ImportExcel" method="post" enctype="multipart/form-data" id="formImportExcel">
+                                    <input type="reset" class="hidden" />
+                                    <input type="file" name="file" accept=".xls" value="dd" id="bb" onchange="upExcel()" />
+                                </form>
+                            </div>
+                            <div class="col-md-2 col-md-offset-6">
+                                <button type="button" class="btn btn-danger btn-radius btn-sm" onclick="saveImport()">导入到数据库</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 table-responsive">
+                            <table id="tabStudentImport" style="width:4000px;">
+                                <tr>
+                                    <th w_num="total_line">序号</th>
+                                    <th w_index="SickpersonID" w_hidden="true"></th>
+                                    <th w_index="Cardnumber">卡片编号</th>
+                                    <th w_index="name">患者姓名</th>
+                                    <th w_index="IDnumber">身份证号码</th>
+                                    <th w_index="Sex">性别</th>
+                                    <th w_index="BirthDateTime">出生日期</th>
+                                    <th w_index="workunit">工作单位</th>
+                                    <th w_index="PatientOwnership">病人所属</th>
+                                    <th w_index="Addressnationalstandard">现详细住址国标</th>
+                                    <th w_index="Detailedaddress">现住详细地址</th>
+                                    <th w_index="CensusAddressInter">户籍地址国标</th>
+                                    <th w_index="CensusAddDetail">户籍地址详细</th>
+                                    <th w_index="CrowdClass">人群分类</th>
+                                    <th w_index="CaseClass">病例分类</th>
+                                    <th w_index="MorbidityDateTime">发病日期</th>
+                                    <th w_index="DiagnoseDateTime">诊断日期</th>
+                                    <th w_index="Occupation">职业</th>
+                                    <th w_index="DiseaseType">疾病名称类型</th>
+                                    <th w_index="ReportDateTime">录入日期</th>
+                                    <th w_index="AuditStatus">审核状态</th>
+                                    <th w_index="RevisedDateTime">订正终审日期</th>
+                                    <th w_index="Remark">备注</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <script src="~/Content/bootstrap-3.3.7-dist/js/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/js/lang/grid.zh-CN.min.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+    <script src="~/Content/js/jquery.form.js"></script>
+    <script src="~/Content/js/customfunction.js"></script>
+
+    @*页面加载及查询*@
+    <script type="text/javascript">
+
+        var tabStudentImport;
+
+        createSelect("BaseTypeID", "/ShuJuGuanLi/SelectModelType");
+        
+        //导入数据表样式
+        tabStudentImport = $.fn.bsgrid.init('tabStudentImport', {
+            url: '/ShuJuGuanLi/SelectSessImportStudent',
+            autoLoad: false,
+            stripeRows: true,//隔行变色
+            rowHoverColor: true,//划过行变色
+            pageSize: 15,
+            pageSizeSelect: false,//是否选择分页页数下拉框
+            pagingLittleToolbar: true,//精简的图标按钮分页工具条
+            pagingToolbarAlign: "left"//分页工具条的显示位置
+        });
+
+        //打开导入窗体
+        $("#OpenExel").click(function () {
+            //重置表单
+            $("#formImportExcel [type='reset']").click();
+
+            //清空 table
+            //tabStudentImport.clearGridBodyData();
+
+            //打开modal
+            $("#modImportExaminee").modal().slideDown(1000);
+        });
+
+        //保存 上传excel
+        function upExcel() {     //jquery 表单提交
+            var layerIndex = layer.load();   //显示加载层
+            $("#formImportExcel").ajaxSubmit(function (msg) {
+                layer.close(layerIndex);  //关闭加载层
+                tabStudentImport.search();//刷新学生导入表格
+            });
+        }
+
+        //保存 上传的数据
+        function saveImport() {
+            var layerIndex = layer.load();
+            $.post("/ShuJuGuanLi/SaveImport", function (msg) {
+                layer.close(layerIndex);
+                //刷新
+                layer.alert(msg, { icon: 1, title: "提示", skin: 'layui-layer-molv', });
+                $("#modImportExaminee").modal("hide");
+            });
+        }
+
+        //页面关闭按钮
+        $(function () {
+            $("#btnFanHui").click(function () {
+                window.location.href = "/Main/Home";
+                //$("#daorushujuchuangti").hide();
+            });
+        });
+
+    </script>
+
+</body>
+</html>

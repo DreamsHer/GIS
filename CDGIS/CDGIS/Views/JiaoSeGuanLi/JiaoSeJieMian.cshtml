@@ -1,0 +1,846 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap-treeview.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/css/skins/grid_blue.min.css" rel="stylesheet" />
+    <link href="~/Content/layer/layui.css" rel="stylesheet" />
+    <link href="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.css" rel="stylesheet" />
+    <link href="~/Content/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/Content/css/buffering/css/examples.css" rel="stylesheet" />
+    <title>角色管理</title>
+    <style type="text/css">
+        .container {
+            width: 98%;
+            padding-top: 4px;
+        }
+
+        .panel-heading {
+            font-size: 16px;
+        }
+
+        .panel-body {
+            padding: 0;
+            border-left: 3px solid #377ab7;
+            border-bottom: 3px solid #377ab7;
+            border-right: 3px solid #377ab7;
+        }
+        
+
+        #PersonnelInfor .reset-padding {
+            padding-right: 2px;
+            padding-left: 2px;
+        }
+
+        #PersonnelInfor .panel-heading a {
+            text-decoration: none;
+            margin: 0 4px;
+        }
+
+            #PersonnelInfor .panel-heading a:hover {
+                text-decoration: none;
+            }
+
+        #PersonnelInfor th {
+            font-weight: normal;
+            text-align: center;
+        }
+
+        #PersonnelInfor td {
+            text-align: center;
+            font-size: 12px;
+        }
+
+        #PersonnelInfor .modal-header {
+            border-radius: 5px 5px 0 0;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            background-color: #f4f4f4;
+        }
+
+        #PersonnelInfor .modal-footer {
+            border-radius: 0 0 5px 5px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            background-color: #f4f4f4;
+        }
+
+        #PersonnelInfor label {
+            font-weight: normal;
+        }
+
+        #PersonnelInfor input {
+            height: 26px;
+        }
+
+        #PersonnelInfor select {
+            padding: 0;
+            height: 26px;
+        }
+
+        .reset-row {
+            margin-bottom: 6px;
+        }
+
+        #InsertDepartment input[type=checkbox] {
+            position: relative;
+            top: 9px;
+        }
+
+        #PersonnelInfor li.node-DepartmentTree {
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border: none;
+        }
+
+    </style>
+</head>
+<body>
+    @*<div id="preloader" >
+        <div id="preloader-inner"></div>
+        <div id="preloader-inner_text">
+            <label class="text-gradient"id="Preloade">加载中···</label>
+        </div>
+    </div>*@
+    <div class="container">
+        <div class="row" id="ShangPinFenLeiJieMian">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <span style="padding-left:14px;">角色管理</span>
+                    </div>
+                </div>
+                <div class="panel-body" style="width:100%;height:520px; background:#f0edf1;">
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 reset-padding" style="height:450px;margin-top:10px;">
+                        <div class="panel panel-primary" style="height:100%;" overflow:auto>
+                            <div class="panel-heading">
+                                系统角色
+                                <div class="col-lg-7 col-md-7 col-sm-7 pull-right">
+                                    <button type="button" id="Add" class="glyphicon glyphicon-plus" style="width:25px;height:25px;border-radius:5px;background:#4af306">@*添加*@</button>
+                                    <button type="button" id="Update" class="glyphicon glyphicon-pencil" style="width:25px;height:25px;border-radius:5px;background:#ff6a00">@*修改*@</button>
+                                    <button type="button" id="Delete" class="glyphicon glyphicon-trash" style="width:25px;height:25px;border-radius:5px;background:#ff0000">@*删除*@</button>
+                                    <button type="button" id="Refurbish" class="glyphicon glyphicon-refresh" style="width:25px;height:25px;border-radius:5px;background:#05bdf8">@*刷新*@</button>
+                                </div>
+                            </div>
+                            <div class="content_wrap">
+                                <div class="zTreeDemoBackground left">
+                                    <form></form>
+                                    <ul id="treeDemo" class="ztree"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 reset-padding" style="height:450px;margin-top:10px;">
+                        <div class="panel panel-primary" style="height:100%;" overflow:auto>
+                            <div class="panel-heading">
+                                数据权限
+                                <div class="col-lg-8 col-md-8 col-sm-8 pull-right"></div>
+                            </div>
+                            <div class="content_wrap">
+                                <div class="zTreeDemoBackground left">
+                                    <form></form>
+                                    <ul id="DataAuthoritytreeDemo" class="ztree"></ul>
+                                </div>
+                            </div>
+                          
+                        </div>
+                        <div style="margin-top:5px;margin-left:200px;">
+                            <button type="button" class="btn btn-primary" id="SaveAllocation" style=""><span class="glyphicon glyphicon-ok"></span> 保存分配</button>
+                        </div>
+                        <div style="margin-top:-34px;margin-left:320px;">
+                            <button type="button" class="btn btn-warning" id="btnFanHui" style=""><span class="glyphicon glyphicon-repeat"></span> 返回</button>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 reset-padding" style="height:450px;margin-top:10px;">
+                        <div class="panel panel-primary" style="height:100%;" overflow:auto>
+                            <div class="panel-heading">
+                                功能权限
+                                <div class="col-lg-8 col-md-8 col-sm-8 pull-right"></div>
+                            </div>
+                            <div class="content_wrap">
+                                <div class="zTreeDemoBackground left">
+                                    <form></form>
+                                    <ul id="FunctionalAuthoritytreeDemo" class="ztree"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 reset-padding" style="height:450px;margin-top:10px;">
+                        <div class="panel panel-primary" style="height:100%;"overflow:auto>
+                            <div class="panel-heading">
+                                资源权限
+                                <div class="col-lg-8 col-md-8 col-sm-8 pull-right"></div>
+                            </div>
+                            <div class="content_wrap">
+                                <div class="zTreeDemoBackground left">
+                                    <form></form>
+                                    <ul id="" class="ztree" style="height:384px;"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*新增角色*@
+    <div class="modal fade" id="InserRole" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:700px;">
+            <div class="modal-content">
+                <form method="post" id="formInserRole" class="form-horizontal" action="/JiaoSeGuanLi/InserRole">
+                    <div class="modal-header" style="background:#0099bb">
+                        <button type="button" class="close" data-dismiss="modal" id="CloseHTXZ"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h1 class="modal-title" style="color:#ffffff;" id="add">添加角色</h1>
+                    </div>
+                    <div class="modal-body" style="">
+                        <div class="form-group" style="margin-right:70px">
+                            <label class="control-label col-md-2 reset-padding" style="text-align:right">科室类型：</label>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <select class="form-control" id="DepartmenttypeID" name="DepartmenttypeID"></select>
+                            </div>
+                            <label class="control-label col-md-2 reset-padding" style="text-align:right">角色名称：</label>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <input type="text" class="form-control" id="Userrole" name="Userrole"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                        <button type="button" id="SavaRole" class="btn btn-success" style="">&nbsp;保 存</button>
+                        <button type="reset" id="Reset" class="btn btn-primary" style="">&nbsp;重 置</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @*修改角色*@
+    <div class="modal fade" id="UpdateRole" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:700px;">
+            <div class="modal-content">
+                <form method="post" id="formUpdateRole" class="form-horizontal">
+                    <div class="modal-header" style="background:#0099bb">
+                        <button type="button" class="close" data-dismiss="modal" id="CloseHTXZ"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h1 class="modal-title" style="color:#ffffff;" id="add">修改角色</h1>
+                    </div>
+                    <div class="modal-body" style="">
+                        <input type="text" class="form-control" id="UserroleID" name="UserroleID" style="display:none;"/>
+                        <div class="form-group" style="margin-right:70px">
+                            <label class="control-label col-md-2 reset-padding" style="text-align:right">科室类型：</label>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <select class="form-control" id="UpdateDepartmentTypeID" name="DepartmenttypeID"></select>
+                            </div>
+                            <label class="control-label col-md-2 reset-padding" style="text-align:right">角色名称：</label>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <input type="text" class="form-control" id="UpdateUserrole" name="Userrole"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                        <button type="button" id="UpdateSavaRole" class="btn btn-success" style="">&nbsp;保 存</button>
+                        <button type="reset" id="UpdateReset" class="btn btn-default" style="display:none;">&nbsp;重置</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+          
+    <script src="~/Content/bootstrap-3.3.7-dist/js/jquery-2.0.3.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/js/lang/grid.zh-CN.min.js"></script>
+    <script src="~/Content/jquery.bsgrid-1.37/merged/bsgrid.all.min.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap-table.js"></script>
+    <script src="~/Content/layer/layui.js"></script>
+    <script src="~/Content/FormAndDown/customfunction.js"></script>
+    <script src="~/Content/FormAndDown/jquery.form.js"></script>
+    <script src="~/Content/layui/layui.js"></script>
+    <script src="~/Content/js/jquery.ztree.core.js"></script>
+    <script src="~/Content/js/jquery.ztree.excheck.js"></script>
+    
+    <script type="text/javascript">
+        var RoleTypeId = 0;//数据库的id
+        var NowNodeId = 0;//点击页面当前节点的id
+        var DataPermissions = new Array();//数据权限
+        var FunctionalAuthority = new Array();//功能权限
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onClick: onClick
+            }
+        };
+        var DataAuthority = {
+            check: {
+                enable: true
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        };
+
+        //页面加载树形
+        $(document).ready(function () {
+            //角色权限
+            $.getJSON("/JiaoSeGuanLi/SelectSystemRole", function (data) {
+                $.fn.zTree.init($("#treeDemo"), setting, data);
+            });
+            //数据权限
+            $.getJSON("/JiaoSeGuanLi/SelectDisease", function (data) {
+                $.fn.zTree.init($("#DataAuthoritytreeDemo"), DataAuthority, data);
+            });
+            //功能权限
+            $.getJSON("/JiaoSeGuanLi/SelectFunctionalAuthority", function (data) {
+                $.fn.zTree.init($("#FunctionalAuthoritytreeDemo"), DataAuthority, data);
+            });
+        });
+
+        //点击事件
+        function onClick(event, treeId, treeNode, clickFlag) {
+            RoleTypeId = treeNode.idp;//数据库的id
+            NowNodeId = treeNode.id;//页面当前节点的id
+            //点击角色
+            if (NowNodeId > 100) {
+                   
+                //查询数据权限
+                $.post("/JiaoSeGuanLi/SelectDataauthority", { RoleTypeId: RoleTypeId }, function (data) {
+                    if (data == "Fail") {
+                        DataPermissions = [];
+                        //移除原有的Class
+                        $("#DataAuthoritytreeDemo_1_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_2_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_3_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_4_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_5_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_6_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_7_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_8_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_9_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_10_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_11_check").removeClass("checkbox_true_full");
+                    } else {
+                        DataPermissions = [];
+                        //移除原有的Class
+                        $("#DataAuthoritytreeDemo_1_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_2_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_3_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_4_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_5_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_6_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_7_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_8_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_9_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_10_check").removeClass("checkbox_true_full");
+                        $("#DataAuthoritytreeDemo_11_check").removeClass("checkbox_true_full");
+                        //绑定ID
+                        $("#DataAuthoritytreeDemo_1_check").val(data[0].DiseaseID);
+                        $("#DataAuthoritytreeDemo_2_check").val(data[1].DiseaseID);
+                        $("#DataAuthoritytreeDemo_3_check").val(data[2].DiseaseID);
+                        $("#DataAuthoritytreeDemo_4_check").val(data[3].DiseaseID);
+                        $("#DataAuthoritytreeDemo_5_check").val(data[4].DiseaseID);
+                        $("#DataAuthoritytreeDemo_6_check").val(data[5].DiseaseID);
+                        $("#DataAuthoritytreeDemo_7_check").val(data[6].DiseaseID);
+                        $("#DataAuthoritytreeDemo_8_check").val(data[7].DiseaseID);
+                        $("#DataAuthoritytreeDemo_9_check").val(data[8].DiseaseID);
+                        $("#DataAuthoritytreeDemo_10_check").val(data[9].DiseaseID);
+                        $("#DataAuthoritytreeDemo_11_check").val(data[10].DiseaseID);
+
+                        var Id = $("#DataAuthoritytreeDemo_1_check").val();
+                        var ID1 = $("#DataAuthoritytreeDemo_2_check").val();
+                        var ID2 = $("#DataAuthoritytreeDemo_3_check").val();
+                        var ID3 = $("#DataAuthoritytreeDemo_4_check").val();
+                        var ID4 = $("#DataAuthoritytreeDemo_5_check").val();
+                        var ID5 = $("#DataAuthoritytreeDemo_6_check").val();
+                        var ID6 = $("#DataAuthoritytreeDemo_7_check").val();
+                        var ID7 = $("#DataAuthoritytreeDemo_8_check").val();
+                        var ID8 = $("#DataAuthoritytreeDemo_9_check").val();
+                        var ID9 = $("#DataAuthoritytreeDemo_10_check").val();
+                        var ID10 = $("#DataAuthoritytreeDemo_11_check").val();
+                        //绑定复选框
+                        if (Id > 0) {
+                            $("#DataAuthoritytreeDemo_1_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#DataAuthoritytreeDemo_1_check").addClass("checkbox_false_full");
+                        }
+                        if (ID1 > 0) {
+                            $("#DataAuthoritytreeDemo_2_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#DataAuthoritytreeDemo_2_check").addClass("checkbox_false_full");
+                        }
+                        if (ID2 > 0) {
+                            $("#DataAuthoritytreeDemo_3_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#DataAuthoritytreeDemo_3_check").addClass("checkbox_false_full");
+                        }
+                        if (ID3 > 0) {
+                            $("#DataAuthoritytreeDemo_4_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#DataAuthoritytreeDemo_4_check").addClass("checkbox_false_full");
+                        }
+                        if (ID4 > 0) {
+                            $("#DataAuthoritytreeDemo_5_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#DataAuthoritytreeDemo_5_check").addClass("checkbox_false_full");
+                        }
+                        if (ID5 > 0) {
+                            $("#DataAuthoritytreeDemo_6_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#DataAuthoritytreeDemo_6_check").addClass("checkbox_false_full");
+                        }
+                        if (ID6 > 0) {
+                            $("#DataAuthoritytreeDemo_7_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#DataAuthoritytreeDemo_7_check").addClass("checkbox_false_full");
+                        }
+                        if (ID7 > 0) {
+                            $("#DataAuthoritytreeDemo_8_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#DataAuthoritytreeDemo_8_check").addClass("checkbox_false_full");
+                        }
+                        if (ID8 > 0) {
+                            $("#DataAuthoritytreeDemo_9_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#DataAuthoritytreeDemo_9_check").addClass("checkbox_false_full");
+                        }
+                        if (ID9 > 0) {
+                            $("#DataAuthoritytreeDemo_10_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#DataAuthoritytreeDemo_10_check").addClass("checkbox_false_full");
+                        }
+                        if (ID10 > 0) {
+                            $("#DataAuthoritytreeDemo_11_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#DataAuthoritytreeDemo_11_check").addClass("checkbox_false_full");
+                        }
+                    }
+                });
+
+                //查询功能权限
+                $.post("/JiaoSeGuanLi/SelectFunctional", { RoleTypeId: RoleTypeId }, function (data) {
+                    if (data == "Fail") {
+                        FunctionalAuthority = [];
+                        //移除原有的Class
+                        $("#FunctionalAuthoritytreeDemo_1_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_2_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_3_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_4_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_5_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_6_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_7_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_8_check").removeClass("checkbox_true_full");
+                    } else {
+                        FunctionalAuthority = [];
+                        //移除原有的Class
+                        $("#FunctionalAuthoritytreeDemo_1_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_2_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_3_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_4_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_5_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_6_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_7_check").removeClass("checkbox_true_full");
+                        $("#FunctionalAuthoritytreeDemo_8_check").removeClass("checkbox_true_full");
+                        //绑定ID
+                        $("#FunctionalAuthoritytreeDemo_1_check").val(data[0].AuthorityID);
+                        $("#FunctionalAuthoritytreeDemo_2_check").val(data[1].AuthorityID);
+                        $("#FunctionalAuthoritytreeDemo_3_check").val(data[2].AuthorityID);
+                        $("#FunctionalAuthoritytreeDemo_4_check").val(data[3].AuthorityID);
+                        $("#FunctionalAuthoritytreeDemo_5_check").val(data[4].AuthorityID);
+                        $("#FunctionalAuthoritytreeDemo_6_check").val(data[5].AuthorityID);
+                        $("#FunctionalAuthoritytreeDemo_7_check").val(data[6].AuthorityID);
+                        $("#FunctionalAuthoritytreeDemo_8_check").val(data[7].AuthorityID);
+
+                        var Id = $("#FunctionalAuthoritytreeDemo_1_check").val();
+                        var ID1 = $("#FunctionalAuthoritytreeDemo_2_check").val();
+                        var ID2 = $("#FunctionalAuthoritytreeDemo_3_check").val();
+                        var ID3 = $("#FunctionalAuthoritytreeDemo_4_check").val();
+                        var ID4 = $("#FunctionalAuthoritytreeDemo_5_check").val();
+                        var ID5 = $("#FunctionalAuthoritytreeDemo_6_check").val();
+                        var ID6 = $("#FunctionalAuthoritytreeDemo_7_check").val();
+                        var ID7 = $("#FunctionalAuthoritytreeDemo_8_check").val();
+                        //绑定复选框
+                        if (Id > 0) {
+                            $("#FunctionalAuthoritytreeDemo_1_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#FunctionalAuthoritytreeDemo_1_check").addClass("checkbox_false_full");
+                        }
+                        if (ID1 > 0) {
+                            $("#FunctionalAuthoritytreeDemo_2_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#FunctionalAuthoritytreeDemo_2_check").addClass("checkbox_false_full");
+                        }
+                        if (ID2 > 0) {
+                            $("#FunctionalAuthoritytreeDemo_3_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#FunctionalAuthoritytreeDemo_3_check").addClass("checkbox_false_full");
+                        }
+                        if (ID3 > 0) {
+                            $("#FunctionalAuthoritytreeDemo_4_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#FunctionalAuthoritytreeDemo_4_check").addClass("checkbox_false_full");
+                        }
+                        if (ID4 > 0) {
+                            $("#FunctionalAuthoritytreeDemo_5_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#FunctionalAuthoritytreeDemo_5_check").addClass("checkbox_false_full");
+                        }
+                        if (ID5 > 0) {
+                            $("#FunctionalAuthoritytreeDemo_6_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#FunctionalAuthoritytreeDemo_6_check").addClass("checkbox_false_full");
+                        }
+                        if (ID6 > 0) {
+                            $("#FunctionalAuthoritytreeDemo_7_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#FunctionalAuthoritytreeDemo_7_check").addClass("checkbox_false_full");
+                        }
+                        if (ID7 > 0) {
+                            $("#FunctionalAuthoritytreeDemo_8_check").addClass("checkbox_true_full");
+                        }
+                        else {
+                            $("#FunctionalAuthoritytreeDemo_8_check").addClass("checkbox_false_full");
+                        }
+                    }
+                });
+            }
+        }
+
+        //刷新树形
+        $("#Refurbish").click(function () {
+            //系统角色
+            $.getJSON("/JiaoSeGuanLi/SelectSystemRole", function (data) {
+                $.fn.zTree.init($("#treeDemo"), setting, data);
+            });
+            //数据权限
+            $.getJSON("/JiaoSeGuanLi/SelectDisease", function (data) {
+                $.fn.zTree.init($("#DataAuthoritytreeDemo"), DataAuthority, data);
+            });
+            //功能权限
+            $.getJSON("/JiaoSeGuanLi/SelectFunctionalAuthority", function (data) {
+                $.fn.zTree.init($("#FunctionalAuthoritytreeDemo"), DataAuthority, data);
+            });
+        });
+
+        //弹出窗体绑定角色
+        $("#Add").click(function () {
+            if (NowNodeId == 0 ) {
+                alert("您没有选择前台职位或后台职位");
+            }
+            else {
+                $("#Reset").click();//重置
+                $("#DepartmenttypeID").val(0);
+                if (NowNodeId ==1) {//前台
+                    createSelect("DepartmenttypeID", "/JiaoSeGuanLi/SelectDepartmentType");
+                    $("#add").html("添加前台角色");
+                }
+                if (NowNodeId ==2) {//后台
+                    createSelect("DepartmenttypeID", "/JiaoSeGuanLi/SelectDepartment");
+                    $("#add").html("添加后台角色");
+                }
+                if (NowNodeId > 10 && NowNodeId < 20) {//前台
+                    createSelect("DepartmenttypeID", "/JiaoSeGuanLi/SelectDepartmentType");
+                    $("#add").html("添加前台角色");
+                }
+                if (NowNodeId > 20) {//后台
+                    createSelect("DepartmenttypeID", "/JiaoSeGuanLi/SelectDepartment");
+                    $("#add").html("添加后台角色");
+                }
+                if (NowNodeId > 100 && NowNodeId < 200) {//前台
+                    createSelect("DepartmenttypeID", "/JiaoSeGuanLi/SelectDepartmentType");
+                    $("#add").html("添加前台角色");
+                }
+                if (NowNodeId > 200) {//后台
+                    createSelect("DepartmenttypeID", "/JiaoSeGuanLi/SelectDepartment");
+                    $("#add").html("添加后台角色");
+                }
+                $("#InserRole").modal("show");
+            }
+        });
+
+        //保存新增角色
+        $("#SavaRole").click(function () {
+
+            var DepartmenttypeID = $("#DepartmenttypeID").val();
+
+            var Userrole = $("#Userrole").val();
+
+            if (DepartmenttypeID > 0 && Userrole != "") {
+
+                var layerIndex = layer.load(0);//显示 加载层
+
+                $("#formInserRole").ajaxSubmit(function (msg) {
+
+                    layer.close(layerIndex);//关闭 加载层
+
+                    layer.alert(msg, { title: '提示' });
+
+                    $("#InserRole").modal("hide");
+
+                    $("#Refurbish").click();
+                });
+            } else {
+                alert("请填写完整");
+            }
+        });
+
+        //修改绑定角色
+        $("#Update").click(function () {
+            if (NowNodeId > 100) {//页面当前节点的id
+                $.post("/JiaoSeGuanLi/SelectRoleInfo", { RoleTypeId: RoleTypeId }, function (data) {
+                    $("#UpdateReset").click();//重置
+                    $("#UpdateDepartmentTypeID").val(0);
+                    loadDatatoForm("formUpdateRole", data);//回填
+
+                    if (NowNodeId > 100 && NowNodeId<200) {//前台
+                        $.post("/JiaoSeGuanLi/SelectDepartmentType", function (jsondata) {
+                            selectLoadData("UpdateDepartmentTypeID", jsondata);//绑定科室
+                            $("#UpdateDepartmentTypeID").val(data.DepartmenttypeID);//回填科室id
+                        });
+                    }
+                    if (NowNodeId > 200) {//后台
+                        $.post("/JiaoSeGuanLi/SelectDepartment", function (jsondata) {
+                            selectLoadData("UpdateDepartmentTypeID", jsondata);//绑定科室
+                            $("#UpdateDepartmentTypeID").val(data.DepartmenttypeID);//回填科室id
+                        });
+                    }
+                });
+                $("#UpdateRole").modal("show");
+            } else {
+                alert("您没有选择角色");
+            }
+        });
+
+        //修改保存角色
+        $("#UpdateSavaRole").click(function () {
+            var UpdateDepartmentTypeID = $("#UpdateDepartmentTypeID").val();
+            var UpdateUserrole = $("#UpdateUserrole").val();
+            var form = $("#formUpdateRole").serializeArray();
+
+            if (UpdateDepartmentTypeID > 0 && UpdateUserrole != "") {
+
+                var layerIndex = layer.load(0);//显示 加载层
+
+                $.post("/JiaoSeGuanLi/UpdateRole", form, function (data) {
+
+                    layer.close(layerIndex);
+
+                    layer.alert(data, { title: '提示' });
+
+                    $("#UpdateRole").modal("hide");
+
+                    $("#Refurbish").click();
+                });
+            } else {
+                alert("请填写完整");
+            }
+        });
+
+        //删除角色
+        $("#Delete").click(function () {
+            layer.confirm("确定删除？", {
+                icon: 3,
+                btn: ['确定', '取消']
+            }, function (layerIndex) {
+                if (NowNodeId > 100) {//页面当前节点的id
+                    $.post("/JiaoSeGuanLi/DeleteRoleType", { RoleTypeId: RoleTypeId }, function (data) {
+                        layer.alert(data, { title: '提示' });
+                        $("#Refurbish").click();
+                    });
+                } else {
+                    alert("您没有选择要删除角色");
+                }
+            });
+          
+        });
+
+        //保存分配
+        $("#SaveAllocation").click(function () {
+            if (NowNodeId > 100) {
+                //数据权限
+                var FeiJie = $("#DataAuthoritytreeDemo_1_check").hasClass("checkbox_true_full");
+                if (FeiJie == true) {
+                    var FeiJieID = 1;
+                } else {
+                    var FeiJieID = 0;
+                }
+                var JieHe = $("#DataAuthoritytreeDemo_2_check").hasClass("checkbox_true_full");
+                if (JieHe == true) {
+                    var JieHeID = 2;
+                } else {
+                    var JieHeID = 0;
+                }
+                var FeiWai = $("#DataAuthoritytreeDemo_3_check").hasClass("checkbox_true_full");
+                if (FeiWai == true) {
+                    var FeiWaiID = 3;
+                } else {
+                    var FeiWaiID = 0;
+                }
+                var YiYu = $("#DataAuthoritytreeDemo_4_check").hasClass("checkbox_true_full");
+                if (YiYu == true) {
+                    var YiYuID = 4;
+                } else {
+                    var YiYuID = 0;
+                }
+                var JingShen = $("#DataAuthoritytreeDemo_5_check").hasClass("checkbox_true_full");
+                if (JingShen == true) {
+                    var JingShenID = 5;
+                } else {
+                    var JingShenID = 0;
+                }
+                var LinBing = $("#DataAuthoritytreeDemo_6_check").hasClass("checkbox_true_full");
+                if (LinBing == true) {
+                    var LinBingID = 6;
+                } else {
+                    var LinBingID = 0;
+                }
+                var MeiDu = $("#DataAuthoritytreeDemo_7_check").hasClass("checkbox_true_full");
+                if (MeiDu == true) {
+                    var MeiDuID = 7;
+                } else {
+                    var MeiDuID = 0;
+                }
+                var MaFeng = $("#DataAuthoritytreeDemo_8_check").hasClass("checkbox_true_full");
+                if (MaFeng == true) {
+                    var MaFengID = 8;
+                } else {
+                    var MaFengID = 0;
+                }
+                var GaoXie = $("#DataAuthoritytreeDemo_9_check").hasClass("checkbox_true_full");
+                if (GaoXie == true) {
+                    var GaoXieID = 9;
+                } else {
+                    var GaoXieID = 0;
+                }
+                var TangNiao = $("#DataAuthoritytreeDemo_10_check").hasClass("checkbox_true_full");
+                if (TangNiao == true) {
+                    var TangNiaoID = 10;
+                } else {
+                    var TangNiaoID = 0;
+                }
+                var EXing = $("#DataAuthoritytreeDemo_11_check").hasClass("checkbox_true_full");
+                if (EXing == true) {
+                    var EXingID = 11;
+                } else {
+                    var EXingID = 0;
+                }
+                DataPermissions.push(RoleTypeId + "," + FeiJieID + "," + JieHeID + "," + FeiWaiID + "," + YiYuID + "," + JingShenID + "," + LinBingID + "," + MeiDuID + "," + MaFengID + "," + GaoXieID + "," + TangNiaoID + "," + EXingID);
+                //功能权限
+                var YongHu = $("#FunctionalAuthoritytreeDemo_1_check").hasClass("checkbox_true_full");
+                if (YongHu == true) {
+                    var YongHuID = 1;
+                } else {
+                    var YongHuID = 0;
+                }
+                var JueSe = $("#FunctionalAuthoritytreeDemo_2_check").hasClass("checkbox_true_full");
+                if (JueSe == true) {
+                    var JueSeID = 2;
+                } else {
+                    var JueSeID = 0;
+                }
+                var RiZhi = $("#FunctionalAuthoritytreeDemo_3_check").hasClass("checkbox_true_full");
+                if (RiZhi == true) {
+                    var RiZhiID = 3;
+                } else {
+                    var RiZhiID = 0;
+                }
+                var ShuJu = $("#FunctionalAuthoritytreeDemo_4_check").hasClass("checkbox_true_full");
+                if (ShuJu == true) {
+                    var ShuJuID = 4;
+                } else {
+                    var ShuJuID = 0;
+                }
+                var ZongHe = $("#FunctionalAuthoritytreeDemo_5_check").hasClass("checkbox_true_full");
+                if (ZongHe == true) {
+                    var ZongHeID = 5;
+                } else {
+                    var ZongHeID = 0;
+                }
+                var YiQing = $("#FunctionalAuthoritytreeDemo_6_check").hasClass("checkbox_true_full");
+                if (YiQing == true) {
+                    var YiQingID = 6;
+                } else {
+                    var YiQingID = 0;
+                }
+                var ZhuanTi = $("#FunctionalAuthoritytreeDemo_7_check").hasClass("checkbox_true_full");
+                if (ZhuanTi == true) {
+                    var ZhuanTiID = 7;
+                } else {
+                    var ZhuanTiID = 0;
+                }
+                var BaoGao = $("#FunctionalAuthoritytreeDemo_8_check").hasClass("checkbox_true_full");
+                if (BaoGao == true) {
+                    var BaoGaoID = 8;
+                } else {
+                    var BaoGaoID = 0;
+                }
+                FunctionalAuthority.push(RoleTypeId + "," + YongHuID + "," + JueSeID + "," + RiZhiID + "," + ShuJuID + "," + ZongHeID + "," + YiQingID + "," + ZhuanTiID + "," + BaoGaoID);
+
+                //$("#Preloade").html("保存中···");
+
+                //$("#preloader").show();
+
+                $.post("/JiaoSeGuanLi/UpdatePermissions", { DataPermiss: DataPermissions, FunctionalAuthority: FunctionalAuthority }, function (data) {
+                    if (data == "success") {
+                        //$("#preloader").hide();
+                        layer.msg('分配成功', { icon: 6 });
+                    }
+                    else {
+                        layer.msg('分配失败', { icon: 5, anim: 6 });
+                    }
+                });
+            } else {
+                layer.alert('请选择要修改的角色', { icon: 2, title: '警告', anim: 6, skin: 'layui-layer-molv' });
+            }
+        });
+
+        //页面关闭按钮
+        $(function () {
+            $("#btnFanHui").click(function () {
+                window.location.href = "/Main/Home";
+                //$("#ShangPinFenLeiJieMian").hide();
+            });
+        });
+
+        
+
+    </script>
+
+</body>
+</html>

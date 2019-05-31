@@ -1,0 +1,760 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ChronicGeographicInformationSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="B_AuthorityList">
+          <Key>
+            <PropertyRef Name="authorityID" />
+          </Key>
+          <Property Name="authorityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="authority" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="B_BaseDetailList">
+          <Key>
+            <PropertyRef Name="BaseDetailID" />
+          </Key>
+          <Property Name="BaseDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BaseTypeID" Type="int" />
+          <Property Name="BaseDetailName" Type="nvarchar(max)" />
+          <Property Name="CancelBit" Type="bit" />
+        </EntityType>
+        <EntityType Name="B_BaseTypeList">
+          <Key>
+            <PropertyRef Name="BaseTypeID" />
+          </Key>
+          <Property Name="BaseTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BaseTypeName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="B_DiseaseDetailList">
+          <Key>
+            <PropertyRef Name="DiseaseDetailID" />
+          </Key>
+          <Property Name="DiseaseDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserroleID" Type="int" />
+          <Property Name="DiseaseID" Type="int" />
+        </EntityType>
+        <EntityType Name="B_DrugfastList">
+          <Key>
+            <PropertyRef Name="DrugfastID" />
+          </Key>
+          <Property Name="DrugfastID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SickpersonID" Type="int" />
+          <Property Name="DateOfDiagnosis" Type="date" />
+          <Property Name="DiagnosisResult" Type="nvarchar(max)" />
+          <Property Name="StopTreatmentCause" Type="nvarchar(max)" />
+          <Property Name="DrugSensitivityTestResults" Type="nvarchar(max)" />
+          <Property Name="DrugResistanceDiagnosis" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="B_GenePoolList">
+          <Key>
+            <PropertyRef Name="GenePoolID" />
+          </Key>
+          <Property Name="GenePoolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SickpersonID" Type="nchar" MaxLength="10" />
+          <Property Name="SampleNumber" Type="nvarchar(max)" />
+          <Property Name="OutpatientNumber" Type="nvarchar(max)" />
+          <Property Name="SNPsite" Type="nvarchar(max)" />
+          <Property Name="MutableGene" Type="nvarchar(max)" />
+          <Property Name="Colorposition" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="B_HaveInTheWindList">
+          <Key>
+            <PropertyRef Name="HaveInTheWindID" />
+          </Key>
+          <Property Name="HaveInTheWindID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SickpersonID" Type="int" />
+          <Property Name="DiseaseregistrationID" Type="int" />
+          <Property Name="TracedArea" Type="nvarchar(max)" />
+          <Property Name="TrackingUnit" Type="nvarchar(max)" />
+          <Property Name="TrackingSituation" Type="nvarchar(max)" />
+          <Property Name="TracingMethod" Type="nvarchar(max)" />
+          <Property Name="TimeInPlace" Type="datetime" />
+          <Property Name="InPlaceMethod" Type="nvarchar(max)" />
+          <Property Name="ReferralDate" Type="datetime" />
+          <Property Name="TrackingRemarks" Type="nvarchar(max)" />
+          <Property Name="MedicalRecordDiagnosis" Type="nvarchar(max)" />
+          <Property Name="ReportArea" Type="nvarchar(max)" />
+          <Property Name="ReportUnitName" Type="nvarchar(max)" />
+          <Property Name="AdmissionUnit" Type="nvarchar(max)" />
+          <Property Name="Registration" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="B_MedicalrecordList">
+          <Key>
+            <PropertyRef Name="MedicalrecordID" />
+          </Key>
+          <Property Name="MedicalrecordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SickpersonID" Type="int" />
+          <Property Name="DiseaseregistrationID" Type="int" />
+          <Property Name="DateFirst" Type="date" />
+          <Property Name="DiagnosisResult" Type="date" />
+          <Property Name="DiagnosticClassification" Type="nvarchar(max)" />
+          <Property Name="DiagnosticResults" Type="nvarchar(max)" />
+          <Property Name="IsItSevere" Type="bit" />
+          <Property Name="DrugResistance" Type="nvarchar(max)" />
+          <Property Name="SupervisoryUnit" Type="nvarchar(max)" />
+          <Property Name="StopReason" Type="nvarchar(max)" />
+          <Property Name="QuiescentTime" Type="nvarchar(max)" />
+          <Property Name="Nation" Type="nvarchar(max)" />
+          <Property Name="Occupation" Type="nvarchar(max)" />
+          <Property Name="CensusAddressInter" Type="nvarchar(max)" />
+          <Property Name="CensusAddDetail" Type="nvarchar(max)" />
+          <Property Name="PatientSource" Type="nvarchar(max)" />
+          <Property Name="NowSymptomDate" Type="date" />
+          <Property Name="RegistrationDate" Type="date" />
+          <Property Name="RegistrationTypeID" Type="int" />
+          <Property Name="TreatTypeID" Type="int" />
+          <Property Name="MedicalStatusID" Type="int" />
+        </EntityType>
+        <EntityType Name="B_RoleAuthorityList">
+          <Key>
+            <PropertyRef Name="RoleAuthorityID" />
+          </Key>
+          <Property Name="RoleAuthorityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserroleID" Type="int" />
+          <Property Name="authorityID" Type="int" />
+        </EntityType>
+        <EntityType Name="B_SickpersonDetailList">
+          <Key>
+            <PropertyRef Name="SickpersonDetailID" />
+          </Key>
+          <Property Name="SickpersonDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SickpersonID" Type="int" />
+          <Property Name="BaseDetailID" Type="int" />
+          <Property Name="SmX" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SmY" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DrugResistantMycobacteriumBit" Type="bit" />
+        </EntityType>
+        <EntityType Name="B_SickpersonList">
+          <Key>
+            <PropertyRef Name="SickpersonID" />
+          </Key>
+          <Property Name="SickpersonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cardnumber" Type="nvarchar(max)" />
+          <Property Name="name" Type="nvarchar(max)" />
+          <Property Name="sexID" Type="int" />
+          <Property Name="Age" Type="nvarchar(max)" />
+          <Property Name="cantonID" Type="int" />
+          <Property Name="CrowdclassificationID" Type="int" />
+          <Property Name="CaseClassID" Type="int" />
+          <Property Name="DiseaseTypeID" Type="int" />
+          <Property Name="AuditStatusID" Type="int" />
+          <Property Name="DiagnoseDate" Type="datetime" />
+          <Property Name="CensusAddDetail" Type="nvarchar(max)" />
+          <Property Name="IDnumber" Type="nvarchar(max)" />
+          <Property Name="dateofbirth" Type="datetime" />
+          <Property Name="workunit" Type="nvarchar(max)" />
+          <Property Name="Addressnationalstandard" Type="nvarchar(max)" />
+          <Property Name="Detailedaddress" Type="nvarchar(max)" />
+          <Property Name="Occupation" Type="nvarchar(max)" />
+          <Property Name="CensusAddressInter" Type="nvarchar(max)" />
+          <Property Name="MorbidityDate" Type="datetime" />
+          <Property Name="ReportDate" Type="datetime" />
+          <Property Name="RevisedDate" Type="datetime" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="DiseaseID" Type="int" />
+        </EntityType>
+        <EntityType Name="B_UsernameList">
+          <Key>
+            <PropertyRef Name="usernameID" />
+          </Key>
+          <Property Name="usernameID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar(max)" />
+          <Property Name="password" Type="nvarchar(max)" />
+          <Property Name="name" Type="nvarchar(max)" />
+          <Property Name="IDnumber" Type="nvarchar(max)" />
+          <Property Name="location" Type="nvarchar(max)" />
+          <Property Name="phonenumber" Type="nvarchar(max)" />
+          <Property Name="postbox" Type="nvarchar(max)" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="UniformAuthenticationCode" Type="nvarchar(max)" />
+          <Property Name="UserroleID" Type="int" />
+          <Property Name="BaseDetailID" Type="int" />
+          <Property Name="DepartmenttypeID" Type="int" />
+          <Property Name="USERReviewNo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="S_DepartmenttypeList">
+          <Key>
+            <PropertyRef Name="DepartmenttypeID" />
+          </Key>
+          <Property Name="DepartmenttypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AroundID" Type="int" />
+          <Property Name="Departmenttype" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="S_DiseaseList">
+          <Key>
+            <PropertyRef Name="DiseaseID" />
+          </Key>
+          <Property Name="DiseaseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DiseaseName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="S_JournalList">
+          <Key>
+            <PropertyRef Name="JournalID" />
+          </Key>
+          <Property Name="JournalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usernameID" Type="int" />
+          <Property Name="Operate" Type="nvarchar(max)" />
+          <Property Name="OperateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="S_SickpersonRajectoryrList">
+          <Key>
+            <PropertyRef Name="SickpersonRajectoryrID" />
+          </Key>
+          <Property Name="SickpersonRajectoryrID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SickpersonDetailID" Type="int" />
+          <Property Name="SmX" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="SmY" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ActivityTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="S_UrlList">
+          <Key>
+            <PropertyRef Name="UrlID" />
+          </Key>
+          <Property Name="UrlID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Url" Type="nvarchar" MaxLength="500" />
+          <Property Name="Describe" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="S_UserroleList">
+          <Key>
+            <PropertyRef Name="UserroleID" />
+          </Key>
+          <Property Name="UserroleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Userrole" Type="nchar" MaxLength="20" />
+          <Property Name="DepartmenttypeID" Type="int" />
+        </EntityType>
+        <EntityContainer Name="ChronicGeographicInformationSystemModelStoreContainer">
+          <EntitySet Name="B_AuthorityList" EntityType="Self.B_AuthorityList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_BaseDetailList" EntityType="Self.B_BaseDetailList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_BaseTypeList" EntityType="Self.B_BaseTypeList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_DiseaseDetailList" EntityType="Self.B_DiseaseDetailList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_DrugfastList" EntityType="Self.B_DrugfastList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_GenePoolList" EntityType="Self.B_GenePoolList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_HaveInTheWindList" EntityType="Self.B_HaveInTheWindList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_MedicalrecordList" EntityType="Self.B_MedicalrecordList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_RoleAuthorityList" EntityType="Self.B_RoleAuthorityList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_SickpersonDetailList" EntityType="Self.B_SickpersonDetailList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_SickpersonList" EntityType="Self.B_SickpersonList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_UsernameList" EntityType="Self.B_UsernameList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_DepartmenttypeList" EntityType="Self.S_DepartmenttypeList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_DiseaseList" EntityType="Self.S_DiseaseList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_JournalList" EntityType="Self.S_JournalList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_SickpersonRajectoryrList" EntityType="Self.S_SickpersonRajectoryrList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_UrlList" EntityType="Self.S_UrlList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="S_UserroleList" EntityType="Self.S_UserroleList" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ChronicGeographicInformationSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="B_AuthorityList">
+          <Key>
+            <PropertyRef Name="authorityID" />
+          </Key>
+          <Property Name="authorityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="authority" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="B_BaseDetailList">
+          <Key>
+            <PropertyRef Name="BaseDetailID" />
+          </Key>
+          <Property Name="BaseDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BaseTypeID" Type="Int32" />
+          <Property Name="BaseDetailName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CancelBit" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="B_BaseTypeList">
+          <Key>
+            <PropertyRef Name="BaseTypeID" />
+          </Key>
+          <Property Name="BaseTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BaseTypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="B_DiseaseDetailList">
+          <Key>
+            <PropertyRef Name="DiseaseDetailID" />
+          </Key>
+          <Property Name="DiseaseDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserroleID" Type="Int32" />
+          <Property Name="DiseaseID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="B_DrugfastList">
+          <Key>
+            <PropertyRef Name="DrugfastID" />
+          </Key>
+          <Property Name="DrugfastID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SickpersonID" Type="Int32" />
+          <Property Name="DateOfDiagnosis" Type="DateTime" Precision="0" />
+          <Property Name="DiagnosisResult" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StopTreatmentCause" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DrugSensitivityTestResults" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DrugResistanceDiagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="B_GenePoolList">
+          <Key>
+            <PropertyRef Name="GenePoolID" />
+          </Key>
+          <Property Name="GenePoolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SickpersonID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="SampleNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OutpatientNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SNPsite" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MutableGene" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Colorposition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="B_HaveInTheWindList">
+          <Key>
+            <PropertyRef Name="HaveInTheWindID" />
+          </Key>
+          <Property Name="HaveInTheWindID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SickpersonID" Type="Int32" />
+          <Property Name="DiseaseregistrationID" Type="Int32" />
+          <Property Name="TracedArea" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TrackingUnit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TrackingSituation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TracingMethod" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeInPlace" Type="DateTime" Precision="3" />
+          <Property Name="InPlaceMethod" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReferralDate" Type="DateTime" Precision="3" />
+          <Property Name="TrackingRemarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MedicalRecordDiagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReportArea" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReportUnitName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AdmissionUnit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Registration" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="B_MedicalrecordList">
+          <Key>
+            <PropertyRef Name="MedicalrecordID" />
+          </Key>
+          <Property Name="MedicalrecordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SickpersonID" Type="Int32" />
+          <Property Name="DiseaseregistrationID" Type="Int32" />
+          <Property Name="DateFirst" Type="DateTime" Precision="0" />
+          <Property Name="DiagnosisResult" Type="DateTime" Precision="0" />
+          <Property Name="DiagnosticClassification" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DiagnosticResults" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsItSevere" Type="Boolean" />
+          <Property Name="DrugResistance" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SupervisoryUnit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StopReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="QuiescentTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Nation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Occupation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CensusAddressInter" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CensusAddDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PatientSource" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NowSymptomDate" Type="DateTime" Precision="0" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="0" />
+          <Property Name="RegistrationTypeID" Type="Int32" />
+          <Property Name="TreatTypeID" Type="Int32" />
+          <Property Name="MedicalStatusID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="B_RoleAuthorityList">
+          <Key>
+            <PropertyRef Name="RoleAuthorityID" />
+          </Key>
+          <Property Name="RoleAuthorityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserroleID" Type="Int32" />
+          <Property Name="authorityID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="B_SickpersonDetailList">
+          <Key>
+            <PropertyRef Name="SickpersonDetailID" />
+          </Key>
+          <Property Name="SickpersonDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SickpersonID" Type="Int32" />
+          <Property Name="BaseDetailID" Type="Int32" />
+          <Property Name="SmX" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SmY" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DrugResistantMycobacteriumBit" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="B_SickpersonList">
+          <Key>
+            <PropertyRef Name="SickpersonID" />
+          </Key>
+          <Property Name="SickpersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cardnumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sexID" Type="Int32" />
+          <Property Name="Age" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="cantonID" Type="Int32" />
+          <Property Name="CrowdclassificationID" Type="Int32" />
+          <Property Name="CaseClassID" Type="Int32" />
+          <Property Name="DiseaseTypeID" Type="Int32" />
+          <Property Name="AuditStatusID" Type="Int32" />
+          <Property Name="DiagnoseDate" Type="DateTime" Precision="3" />
+          <Property Name="CensusAddDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IDnumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dateofbirth" Type="DateTime" Precision="3" />
+          <Property Name="workunit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Addressnationalstandard" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Detailedaddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Occupation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CensusAddressInter" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MorbidityDate" Type="DateTime" Precision="3" />
+          <Property Name="ReportDate" Type="DateTime" Precision="3" />
+          <Property Name="RevisedDate" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DiseaseID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="B_UsernameList">
+          <Key>
+            <PropertyRef Name="usernameID" />
+          </Key>
+          <Property Name="usernameID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IDnumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="phonenumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="postbox" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UniformAuthenticationCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserroleID" Type="Int32" />
+          <Property Name="BaseDetailID" Type="Int32" />
+          <Property Name="DepartmenttypeID" Type="Int32" />
+          <Property Name="USERReviewNo" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="S_DepartmenttypeList">
+          <Key>
+            <PropertyRef Name="DepartmenttypeID" />
+          </Key>
+          <Property Name="DepartmenttypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AroundID" Type="Int32" />
+          <Property Name="Departmenttype" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="S_DiseaseList">
+          <Key>
+            <PropertyRef Name="DiseaseID" />
+          </Key>
+          <Property Name="DiseaseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DiseaseName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="S_JournalList">
+          <Key>
+            <PropertyRef Name="JournalID" />
+          </Key>
+          <Property Name="JournalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usernameID" Type="Int32" />
+          <Property Name="Operate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OperateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="S_SickpersonRajectoryrList">
+          <Key>
+            <PropertyRef Name="SickpersonRajectoryrID" />
+          </Key>
+          <Property Name="SickpersonRajectoryrID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SickpersonDetailID" Type="Int32" />
+          <Property Name="SmX" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="SmY" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ActivityTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="S_UrlList">
+          <Key>
+            <PropertyRef Name="UrlID" />
+          </Key>
+          <Property Name="UrlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Url" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Describe" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="S_UserroleList">
+          <Key>
+            <PropertyRef Name="UserroleID" />
+          </Key>
+          <Property Name="UserroleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Userrole" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="DepartmenttypeID" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="ChronicGeographicInformationSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="B_AuthorityList" EntityType="Self.B_AuthorityList" />
+          <EntitySet Name="B_BaseDetailList" EntityType="Self.B_BaseDetailList" />
+          <EntitySet Name="B_BaseTypeList" EntityType="Self.B_BaseTypeList" />
+          <EntitySet Name="B_DiseaseDetailList" EntityType="Self.B_DiseaseDetailList" />
+          <EntitySet Name="B_DrugfastList" EntityType="Self.B_DrugfastList" />
+          <EntitySet Name="B_GenePoolList" EntityType="Self.B_GenePoolList" />
+          <EntitySet Name="B_HaveInTheWindList" EntityType="Self.B_HaveInTheWindList" />
+          <EntitySet Name="B_MedicalrecordList" EntityType="Self.B_MedicalrecordList" />
+          <EntitySet Name="B_RoleAuthorityList" EntityType="Self.B_RoleAuthorityList" />
+          <EntitySet Name="B_SickpersonDetailList" EntityType="Self.B_SickpersonDetailList" />
+          <EntitySet Name="B_SickpersonList" EntityType="Self.B_SickpersonList" />
+          <EntitySet Name="B_UsernameList" EntityType="Self.B_UsernameList" />
+          <EntitySet Name="S_DepartmenttypeList" EntityType="Self.S_DepartmenttypeList" />
+          <EntitySet Name="S_DiseaseList" EntityType="Self.S_DiseaseList" />
+          <EntitySet Name="S_JournalList" EntityType="Self.S_JournalList" />
+          <EntitySet Name="S_SickpersonRajectoryrList" EntityType="Self.S_SickpersonRajectoryrList" />
+          <EntitySet Name="S_UrlList" EntityType="Self.S_UrlList" />
+          <EntitySet Name="S_UserroleList" EntityType="Self.S_UserroleList" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ChronicGeographicInformationSystemModelStoreContainer" CdmEntityContainer="ChronicGeographicInformationSystemEntities">
+          <EntitySetMapping Name="B_AuthorityList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_AuthorityList">
+              <MappingFragment StoreEntitySet="B_AuthorityList">
+                <ScalarProperty Name="authorityID" ColumnName="authorityID" />
+                <ScalarProperty Name="authority" ColumnName="authority" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_BaseDetailList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_BaseDetailList">
+              <MappingFragment StoreEntitySet="B_BaseDetailList">
+                <ScalarProperty Name="BaseDetailID" ColumnName="BaseDetailID" />
+                <ScalarProperty Name="BaseTypeID" ColumnName="BaseTypeID" />
+                <ScalarProperty Name="BaseDetailName" ColumnName="BaseDetailName" />
+                <ScalarProperty Name="CancelBit" ColumnName="CancelBit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_BaseTypeList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_BaseTypeList">
+              <MappingFragment StoreEntitySet="B_BaseTypeList">
+                <ScalarProperty Name="BaseTypeID" ColumnName="BaseTypeID" />
+                <ScalarProperty Name="BaseTypeName" ColumnName="BaseTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_DiseaseDetailList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_DiseaseDetailList">
+              <MappingFragment StoreEntitySet="B_DiseaseDetailList">
+                <ScalarProperty Name="DiseaseDetailID" ColumnName="DiseaseDetailID" />
+                <ScalarProperty Name="UserroleID" ColumnName="UserroleID" />
+                <ScalarProperty Name="DiseaseID" ColumnName="DiseaseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_DrugfastList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_DrugfastList">
+              <MappingFragment StoreEntitySet="B_DrugfastList">
+                <ScalarProperty Name="DrugfastID" ColumnName="DrugfastID" />
+                <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+                <ScalarProperty Name="DateOfDiagnosis" ColumnName="DateOfDiagnosis" />
+                <ScalarProperty Name="DiagnosisResult" ColumnName="DiagnosisResult" />
+                <ScalarProperty Name="StopTreatmentCause" ColumnName="StopTreatmentCause" />
+                <ScalarProperty Name="DrugSensitivityTestResults" ColumnName="DrugSensitivityTestResults" />
+                <ScalarProperty Name="DrugResistanceDiagnosis" ColumnName="DrugResistanceDiagnosis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_GenePoolList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_GenePoolList">
+              <MappingFragment StoreEntitySet="B_GenePoolList">
+                <ScalarProperty Name="GenePoolID" ColumnName="GenePoolID" />
+                <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+                <ScalarProperty Name="SampleNumber" ColumnName="SampleNumber" />
+                <ScalarProperty Name="OutpatientNumber" ColumnName="OutpatientNumber" />
+                <ScalarProperty Name="SNPsite" ColumnName="SNPsite" />
+                <ScalarProperty Name="MutableGene" ColumnName="MutableGene" />
+                <ScalarProperty Name="Colorposition" ColumnName="Colorposition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_HaveInTheWindList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_HaveInTheWindList">
+              <MappingFragment StoreEntitySet="B_HaveInTheWindList">
+                <ScalarProperty Name="HaveInTheWindID" ColumnName="HaveInTheWindID" />
+                <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+                <ScalarProperty Name="DiseaseregistrationID" ColumnName="DiseaseregistrationID" />
+                <ScalarProperty Name="TracedArea" ColumnName="TracedArea" />
+                <ScalarProperty Name="TrackingUnit" ColumnName="TrackingUnit" />
+                <ScalarProperty Name="TrackingSituation" ColumnName="TrackingSituation" />
+                <ScalarProperty Name="TracingMethod" ColumnName="TracingMethod" />
+                <ScalarProperty Name="TimeInPlace" ColumnName="TimeInPlace" />
+                <ScalarProperty Name="InPlaceMethod" ColumnName="InPlaceMethod" />
+                <ScalarProperty Name="ReferralDate" ColumnName="ReferralDate" />
+                <ScalarProperty Name="TrackingRemarks" ColumnName="TrackingRemarks" />
+                <ScalarProperty Name="MedicalRecordDiagnosis" ColumnName="MedicalRecordDiagnosis" />
+                <ScalarProperty Name="ReportArea" ColumnName="ReportArea" />
+                <ScalarProperty Name="ReportUnitName" ColumnName="ReportUnitName" />
+                <ScalarProperty Name="AdmissionUnit" ColumnName="AdmissionUnit" />
+                <ScalarProperty Name="Registration" ColumnName="Registration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_MedicalrecordList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_MedicalrecordList">
+              <MappingFragment StoreEntitySet="B_MedicalrecordList">
+                <ScalarProperty Name="MedicalrecordID" ColumnName="MedicalrecordID" />
+                <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+                <ScalarProperty Name="DiseaseregistrationID" ColumnName="DiseaseregistrationID" />
+                <ScalarProperty Name="DateFirst" ColumnName="DateFirst" />
+                <ScalarProperty Name="DiagnosisResult" ColumnName="DiagnosisResult" />
+                <ScalarProperty Name="DiagnosticClassification" ColumnName="DiagnosticClassification" />
+                <ScalarProperty Name="DiagnosticResults" ColumnName="DiagnosticResults" />
+                <ScalarProperty Name="IsItSevere" ColumnName="IsItSevere" />
+                <ScalarProperty Name="DrugResistance" ColumnName="DrugResistance" />
+                <ScalarProperty Name="SupervisoryUnit" ColumnName="SupervisoryUnit" />
+                <ScalarProperty Name="StopReason" ColumnName="StopReason" />
+                <ScalarProperty Name="QuiescentTime" ColumnName="QuiescentTime" />
+                <ScalarProperty Name="Nation" ColumnName="Nation" />
+                <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+                <ScalarProperty Name="CensusAddressInter" ColumnName="CensusAddressInter" />
+                <ScalarProperty Name="CensusAddDetail" ColumnName="CensusAddDetail" />
+                <ScalarProperty Name="PatientSource" ColumnName="PatientSource" />
+                <ScalarProperty Name="NowSymptomDate" ColumnName="NowSymptomDate" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="RegistrationTypeID" ColumnName="RegistrationTypeID" />
+                <ScalarProperty Name="TreatTypeID" ColumnName="TreatTypeID" />
+                <ScalarProperty Name="MedicalStatusID" ColumnName="MedicalStatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_RoleAuthorityList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_RoleAuthorityList">
+              <MappingFragment StoreEntitySet="B_RoleAuthorityList">
+                <ScalarProperty Name="RoleAuthorityID" ColumnName="RoleAuthorityID" />
+                <ScalarProperty Name="UserroleID" ColumnName="UserroleID" />
+                <ScalarProperty Name="authorityID" ColumnName="authorityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_SickpersonDetailList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_SickpersonDetailList">
+              <MappingFragment StoreEntitySet="B_SickpersonDetailList">
+                <ScalarProperty Name="SickpersonDetailID" ColumnName="SickpersonDetailID" />
+                <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+                <ScalarProperty Name="BaseDetailID" ColumnName="BaseDetailID" />
+                <ScalarProperty Name="SmX" ColumnName="SmX" />
+                <ScalarProperty Name="SmY" ColumnName="SmY" />
+                <ScalarProperty Name="DrugResistantMycobacteriumBit" ColumnName="DrugResistantMycobacteriumBit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_SickpersonList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_SickpersonList">
+              <MappingFragment StoreEntitySet="B_SickpersonList">
+                <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+                <ScalarProperty Name="Cardnumber" ColumnName="Cardnumber" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="sexID" ColumnName="sexID" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="cantonID" ColumnName="cantonID" />
+                <ScalarProperty Name="CrowdclassificationID" ColumnName="CrowdclassificationID" />
+                <ScalarProperty Name="CaseClassID" ColumnName="CaseClassID" />
+                <ScalarProperty Name="DiseaseTypeID" ColumnName="DiseaseTypeID" />
+                <ScalarProperty Name="AuditStatusID" ColumnName="AuditStatusID" />
+                <ScalarProperty Name="DiagnoseDate" ColumnName="DiagnoseDate" />
+                <ScalarProperty Name="CensusAddDetail" ColumnName="CensusAddDetail" />
+                <ScalarProperty Name="IDnumber" ColumnName="IDnumber" />
+                <ScalarProperty Name="dateofbirth" ColumnName="dateofbirth" />
+                <ScalarProperty Name="workunit" ColumnName="workunit" />
+                <ScalarProperty Name="Addressnationalstandard" ColumnName="Addressnationalstandard" />
+                <ScalarProperty Name="Detailedaddress" ColumnName="Detailedaddress" />
+                <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+                <ScalarProperty Name="CensusAddressInter" ColumnName="CensusAddressInter" />
+                <ScalarProperty Name="MorbidityDate" ColumnName="MorbidityDate" />
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="RevisedDate" ColumnName="RevisedDate" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DiseaseID" ColumnName="DiseaseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_UsernameList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_UsernameList">
+              <MappingFragment StoreEntitySet="B_UsernameList">
+                <ScalarProperty Name="usernameID" ColumnName="usernameID" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="IDnumber" ColumnName="IDnumber" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+                <ScalarProperty Name="postbox" ColumnName="postbox" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="UniformAuthenticationCode" ColumnName="UniformAuthenticationCode" />
+                <ScalarProperty Name="UserroleID" ColumnName="UserroleID" />
+                <ScalarProperty Name="BaseDetailID" ColumnName="BaseDetailID" />
+                <ScalarProperty Name="DepartmenttypeID" ColumnName="DepartmenttypeID" />
+                <ScalarProperty Name="USERReviewNo" ColumnName="USERReviewNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_DepartmenttypeList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_DepartmenttypeList">
+              <MappingFragment StoreEntitySet="S_DepartmenttypeList">
+                <ScalarProperty Name="DepartmenttypeID" ColumnName="DepartmenttypeID" />
+                <ScalarProperty Name="AroundID" ColumnName="AroundID" />
+                <ScalarProperty Name="Departmenttype" ColumnName="Departmenttype" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_DiseaseList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_DiseaseList">
+              <MappingFragment StoreEntitySet="S_DiseaseList">
+                <ScalarProperty Name="DiseaseID" ColumnName="DiseaseID" />
+                <ScalarProperty Name="DiseaseName" ColumnName="DiseaseName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_JournalList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_JournalList">
+              <MappingFragment StoreEntitySet="S_JournalList">
+                <ScalarProperty Name="JournalID" ColumnName="JournalID" />
+                <ScalarProperty Name="usernameID" ColumnName="usernameID" />
+                <ScalarProperty Name="Operate" ColumnName="Operate" />
+                <ScalarProperty Name="OperateDate" ColumnName="OperateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_SickpersonRajectoryrList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_SickpersonRajectoryrList">
+              <MappingFragment StoreEntitySet="S_SickpersonRajectoryrList">
+                <ScalarProperty Name="SickpersonRajectoryrID" ColumnName="SickpersonRajectoryrID" />
+                <ScalarProperty Name="SickpersonDetailID" ColumnName="SickpersonDetailID" />
+                <ScalarProperty Name="SmX" ColumnName="SmX" />
+                <ScalarProperty Name="SmY" ColumnName="SmY" />
+                <ScalarProperty Name="ActivityTime" ColumnName="ActivityTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_UrlList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_UrlList">
+              <MappingFragment StoreEntitySet="S_UrlList">
+                <ScalarProperty Name="UrlID" ColumnName="UrlID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Describe" ColumnName="Describe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="S_UserroleList">
+            <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_UserroleList">
+              <MappingFragment StoreEntitySet="S_UserroleList">
+                <ScalarProperty Name="UserroleID" ColumnName="UserroleID" />
+                <ScalarProperty Name="Userrole" ColumnName="Userrole" />
+                <ScalarProperty Name="DepartmenttypeID" ColumnName="DepartmenttypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

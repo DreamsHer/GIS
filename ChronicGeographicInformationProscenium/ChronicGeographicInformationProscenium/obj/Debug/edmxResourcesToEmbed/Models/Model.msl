@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ChronicGeographicInformationSystemModelStoreContainer" CdmEntityContainer="ChronicGeographicInformationSystemEntities">
+    <EntitySetMapping Name="B_AuthorityList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_AuthorityList">
+        <MappingFragment StoreEntitySet="B_AuthorityList">
+          <ScalarProperty Name="authorityID" ColumnName="authorityID" />
+          <ScalarProperty Name="authority" ColumnName="authority" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_BaseDetailList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_BaseDetailList">
+        <MappingFragment StoreEntitySet="B_BaseDetailList">
+          <ScalarProperty Name="BaseDetailID" ColumnName="BaseDetailID" />
+          <ScalarProperty Name="BaseTypeID" ColumnName="BaseTypeID" />
+          <ScalarProperty Name="BaseDetailName" ColumnName="BaseDetailName" />
+          <ScalarProperty Name="CancelBit" ColumnName="CancelBit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_BaseTypeList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_BaseTypeList">
+        <MappingFragment StoreEntitySet="B_BaseTypeList">
+          <ScalarProperty Name="BaseTypeID" ColumnName="BaseTypeID" />
+          <ScalarProperty Name="BaseTypeName" ColumnName="BaseTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_DiseaseDetailList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_DiseaseDetailList">
+        <MappingFragment StoreEntitySet="B_DiseaseDetailList">
+          <ScalarProperty Name="DiseaseDetailID" ColumnName="DiseaseDetailID" />
+          <ScalarProperty Name="UserroleID" ColumnName="UserroleID" />
+          <ScalarProperty Name="DiseaseID" ColumnName="DiseaseID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_DrugfastList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_DrugfastList">
+        <MappingFragment StoreEntitySet="B_DrugfastList">
+          <ScalarProperty Name="DrugfastID" ColumnName="DrugfastID" />
+          <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+          <ScalarProperty Name="DateOfDiagnosis" ColumnName="DateOfDiagnosis" />
+          <ScalarProperty Name="DiagnosisResult" ColumnName="DiagnosisResult" />
+          <ScalarProperty Name="StopTreatmentCause" ColumnName="StopTreatmentCause" />
+          <ScalarProperty Name="DrugSensitivityTestResults" ColumnName="DrugSensitivityTestResults" />
+          <ScalarProperty Name="DrugResistanceDiagnosis" ColumnName="DrugResistanceDiagnosis" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_GenePoolList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_GenePoolList">
+        <MappingFragment StoreEntitySet="B_GenePoolList">
+          <ScalarProperty Name="GenePoolID" ColumnName="GenePoolID" />
+          <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+          <ScalarProperty Name="SampleNumber" ColumnName="SampleNumber" />
+          <ScalarProperty Name="OutpatientNumber" ColumnName="OutpatientNumber" />
+          <ScalarProperty Name="SNPsite" ColumnName="SNPsite" />
+          <ScalarProperty Name="MutableGene" ColumnName="MutableGene" />
+          <ScalarProperty Name="Colorposition" ColumnName="Colorposition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_HaveInTheWindList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_HaveInTheWindList">
+        <MappingFragment StoreEntitySet="B_HaveInTheWindList">
+          <ScalarProperty Name="HaveInTheWindID" ColumnName="HaveInTheWindID" />
+          <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+          <ScalarProperty Name="DiseaseregistrationID" ColumnName="DiseaseregistrationID" />
+          <ScalarProperty Name="TracedArea" ColumnName="TracedArea" />
+          <ScalarProperty Name="TrackingUnit" ColumnName="TrackingUnit" />
+          <ScalarProperty Name="TrackingSituation" ColumnName="TrackingSituation" />
+          <ScalarProperty Name="TracingMethod" ColumnName="TracingMethod" />
+          <ScalarProperty Name="TimeInPlace" ColumnName="TimeInPlace" />
+          <ScalarProperty Name="InPlaceMethod" ColumnName="InPlaceMethod" />
+          <ScalarProperty Name="ReferralDate" ColumnName="ReferralDate" />
+          <ScalarProperty Name="TrackingRemarks" ColumnName="TrackingRemarks" />
+          <ScalarProperty Name="MedicalRecordDiagnosis" ColumnName="MedicalRecordDiagnosis" />
+          <ScalarProperty Name="ReportArea" ColumnName="ReportArea" />
+          <ScalarProperty Name="ReportUnitName" ColumnName="ReportUnitName" />
+          <ScalarProperty Name="AdmissionUnit" ColumnName="AdmissionUnit" />
+          <ScalarProperty Name="Registration" ColumnName="Registration" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_MedicalrecordList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_MedicalrecordList">
+        <MappingFragment StoreEntitySet="B_MedicalrecordList">
+          <ScalarProperty Name="MedicalrecordID" ColumnName="MedicalrecordID" />
+          <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+          <ScalarProperty Name="DiseaseregistrationID" ColumnName="DiseaseregistrationID" />
+          <ScalarProperty Name="DateFirst" ColumnName="DateFirst" />
+          <ScalarProperty Name="DiagnosisResult" ColumnName="DiagnosisResult" />
+          <ScalarProperty Name="DiagnosticClassification" ColumnName="DiagnosticClassification" />
+          <ScalarProperty Name="DiagnosticResults" ColumnName="DiagnosticResults" />
+          <ScalarProperty Name="IsItSevere" ColumnName="IsItSevere" />
+          <ScalarProperty Name="DrugResistance" ColumnName="DrugResistance" />
+          <ScalarProperty Name="SupervisoryUnit" ColumnName="SupervisoryUnit" />
+          <ScalarProperty Name="StopReason" ColumnName="StopReason" />
+          <ScalarProperty Name="QuiescentTime" ColumnName="QuiescentTime" />
+          <ScalarProperty Name="Nation" ColumnName="Nation" />
+          <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+          <ScalarProperty Name="CensusAddressInter" ColumnName="CensusAddressInter" />
+          <ScalarProperty Name="CensusAddDetail" ColumnName="CensusAddDetail" />
+          <ScalarProperty Name="PatientSource" ColumnName="PatientSource" />
+          <ScalarProperty Name="NowSymptomDate" ColumnName="NowSymptomDate" />
+          <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+          <ScalarProperty Name="RegistrationTypeID" ColumnName="RegistrationTypeID" />
+          <ScalarProperty Name="TreatTypeID" ColumnName="TreatTypeID" />
+          <ScalarProperty Name="MedicalStatusID" ColumnName="MedicalStatusID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_RoleAuthorityList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_RoleAuthorityList">
+        <MappingFragment StoreEntitySet="B_RoleAuthorityList">
+          <ScalarProperty Name="RoleAuthorityID" ColumnName="RoleAuthorityID" />
+          <ScalarProperty Name="UserroleID" ColumnName="UserroleID" />
+          <ScalarProperty Name="authorityID" ColumnName="authorityID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_SickpersonDetailList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_SickpersonDetailList">
+        <MappingFragment StoreEntitySet="B_SickpersonDetailList">
+          <ScalarProperty Name="SickpersonDetailID" ColumnName="SickpersonDetailID" />
+          <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+          <ScalarProperty Name="BaseDetailID" ColumnName="BaseDetailID" />
+          <ScalarProperty Name="SmX" ColumnName="SmX" />
+          <ScalarProperty Name="SmY" ColumnName="SmY" />
+          <ScalarProperty Name="DrugResistantMycobacteriumBit" ColumnName="DrugResistantMycobacteriumBit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_SickpersonList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_SickpersonList">
+        <MappingFragment StoreEntitySet="B_SickpersonList">
+          <ScalarProperty Name="SickpersonID" ColumnName="SickpersonID" />
+          <ScalarProperty Name="Cardnumber" ColumnName="Cardnumber" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="sexID" ColumnName="sexID" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="cantonID" ColumnName="cantonID" />
+          <ScalarProperty Name="CrowdclassificationID" ColumnName="CrowdclassificationID" />
+          <ScalarProperty Name="CaseClassID" ColumnName="CaseClassID" />
+          <ScalarProperty Name="DiseaseTypeID" ColumnName="DiseaseTypeID" />
+          <ScalarProperty Name="AuditStatusID" ColumnName="AuditStatusID" />
+          <ScalarProperty Name="DiagnoseDate" ColumnName="DiagnoseDate" />
+          <ScalarProperty Name="CensusAddDetail" ColumnName="CensusAddDetail" />
+          <ScalarProperty Name="IDnumber" ColumnName="IDnumber" />
+          <ScalarProperty Name="dateofbirth" ColumnName="dateofbirth" />
+          <ScalarProperty Name="workunit" ColumnName="workunit" />
+          <ScalarProperty Name="Addressnationalstandard" ColumnName="Addressnationalstandard" />
+          <ScalarProperty Name="Detailedaddress" ColumnName="Detailedaddress" />
+          <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+          <ScalarProperty Name="CensusAddressInter" ColumnName="CensusAddressInter" />
+          <ScalarProperty Name="MorbidityDate" ColumnName="MorbidityDate" />
+          <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+          <ScalarProperty Name="RevisedDate" ColumnName="RevisedDate" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="DiseaseID" ColumnName="DiseaseID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_UsernameList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.B_UsernameList">
+        <MappingFragment StoreEntitySet="B_UsernameList">
+          <ScalarProperty Name="usernameID" ColumnName="usernameID" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="IDnumber" ColumnName="IDnumber" />
+          <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+          <ScalarProperty Name="postbox" ColumnName="postbox" />
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+          <ScalarProperty Name="UniformAuthenticationCode" ColumnName="UniformAuthenticationCode" />
+          <ScalarProperty Name="UserroleID" ColumnName="UserroleID" />
+          <ScalarProperty Name="BaseDetailID" ColumnName="BaseDetailID" />
+          <ScalarProperty Name="DepartmenttypeID" ColumnName="DepartmenttypeID" />
+          <ScalarProperty Name="USERReviewNo" ColumnName="USERReviewNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="S_DepartmenttypeList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_DepartmenttypeList">
+        <MappingFragment StoreEntitySet="S_DepartmenttypeList">
+          <ScalarProperty Name="DepartmenttypeID" ColumnName="DepartmenttypeID" />
+          <ScalarProperty Name="AroundID" ColumnName="AroundID" />
+          <ScalarProperty Name="Departmenttype" ColumnName="Departmenttype" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="S_DiseaseList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_DiseaseList">
+        <MappingFragment StoreEntitySet="S_DiseaseList">
+          <ScalarProperty Name="DiseaseID" ColumnName="DiseaseID" />
+          <ScalarProperty Name="DiseaseName" ColumnName="DiseaseName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="S_JournalList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_JournalList">
+        <MappingFragment StoreEntitySet="S_JournalList">
+          <ScalarProperty Name="JournalID" ColumnName="JournalID" />
+          <ScalarProperty Name="usernameID" ColumnName="usernameID" />
+          <ScalarProperty Name="Operate" ColumnName="Operate" />
+          <ScalarProperty Name="OperateDate" ColumnName="OperateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="S_SickpersonRajectoryrList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_SickpersonRajectoryrList">
+        <MappingFragment StoreEntitySet="S_SickpersonRajectoryrList">
+          <ScalarProperty Name="SickpersonRajectoryrID" ColumnName="SickpersonRajectoryrID" />
+          <ScalarProperty Name="SickpersonDetailID" ColumnName="SickpersonDetailID" />
+          <ScalarProperty Name="SmX" ColumnName="SmX" />
+          <ScalarProperty Name="SmY" ColumnName="SmY" />
+          <ScalarProperty Name="ActivityTime" ColumnName="ActivityTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="S_UrlList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_UrlList">
+        <MappingFragment StoreEntitySet="S_UrlList">
+          <ScalarProperty Name="UrlID" ColumnName="UrlID" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Describe" ColumnName="Describe" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="S_UserroleList">
+      <EntityTypeMapping TypeName="ChronicGeographicInformationSystemModel.S_UserroleList">
+        <MappingFragment StoreEntitySet="S_UserroleList">
+          <ScalarProperty Name="UserroleID" ColumnName="UserroleID" />
+          <ScalarProperty Name="Userrole" ColumnName="Userrole" />
+          <ScalarProperty Name="DepartmenttypeID" ColumnName="DepartmenttypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

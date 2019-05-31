@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ChronicGeographicInformationSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="B_AuthorityList">
+    <Key>
+      <PropertyRef Name="authorityID" />
+    </Key>
+    <Property Name="authorityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="authority" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="B_BaseDetailList">
+    <Key>
+      <PropertyRef Name="BaseDetailID" />
+    </Key>
+    <Property Name="BaseDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BaseTypeID" Type="Int32" />
+    <Property Name="BaseDetailName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CancelBit" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="B_BaseTypeList">
+    <Key>
+      <PropertyRef Name="BaseTypeID" />
+    </Key>
+    <Property Name="BaseTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BaseTypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="B_DiseaseDetailList">
+    <Key>
+      <PropertyRef Name="DiseaseDetailID" />
+    </Key>
+    <Property Name="DiseaseDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserroleID" Type="Int32" />
+    <Property Name="DiseaseID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="B_DrugfastList">
+    <Key>
+      <PropertyRef Name="DrugfastID" />
+    </Key>
+    <Property Name="DrugfastID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SickpersonID" Type="Int32" />
+    <Property Name="DateOfDiagnosis" Type="DateTime" Precision="0" />
+    <Property Name="DiagnosisResult" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="StopTreatmentCause" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DrugSensitivityTestResults" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DrugResistanceDiagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="B_GenePoolList">
+    <Key>
+      <PropertyRef Name="GenePoolID" />
+    </Key>
+    <Property Name="GenePoolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SickpersonID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="SampleNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OutpatientNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SNPsite" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MutableGene" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Colorposition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="B_HaveInTheWindList">
+    <Key>
+      <PropertyRef Name="HaveInTheWindID" />
+    </Key>
+    <Property Name="HaveInTheWindID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SickpersonID" Type="Int32" />
+    <Property Name="DiseaseregistrationID" Type="Int32" />
+    <Property Name="TracedArea" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TrackingUnit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TrackingSituation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TracingMethod" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TimeInPlace" Type="DateTime" Precision="3" />
+    <Property Name="InPlaceMethod" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ReferralDate" Type="DateTime" Precision="3" />
+    <Property Name="TrackingRemarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MedicalRecordDiagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ReportArea" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ReportUnitName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="AdmissionUnit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Registration" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="B_MedicalrecordList">
+    <Key>
+      <PropertyRef Name="MedicalrecordID" />
+    </Key>
+    <Property Name="MedicalrecordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SickpersonID" Type="Int32" />
+    <Property Name="DiseaseregistrationID" Type="Int32" />
+    <Property Name="DateFirst" Type="DateTime" Precision="0" />
+    <Property Name="DiagnosisResult" Type="DateTime" Precision="0" />
+    <Property Name="DiagnosticClassification" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DiagnosticResults" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsItSevere" Type="Boolean" />
+    <Property Name="DrugResistance" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SupervisoryUnit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="StopReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="QuiescentTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Nation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Occupation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CensusAddressInter" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CensusAddDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PatientSource" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="NowSymptomDate" Type="DateTime" Precision="0" />
+    <Property Name="RegistrationDate" Type="DateTime" Precision="0" />
+    <Property Name="RegistrationTypeID" Type="Int32" />
+    <Property Name="TreatTypeID" Type="Int32" />
+    <Property Name="MedicalStatusID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="B_RoleAuthorityList">
+    <Key>
+      <PropertyRef Name="RoleAuthorityID" />
+    </Key>
+    <Property Name="RoleAuthorityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserroleID" Type="Int32" />
+    <Property Name="authorityID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="B_SickpersonDetailList">
+    <Key>
+      <PropertyRef Name="SickpersonDetailID" />
+    </Key>
+    <Property Name="SickpersonDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SickpersonID" Type="Int32" />
+    <Property Name="BaseDetailID" Type="Int32" />
+    <Property Name="SmX" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SmY" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DrugResistantMycobacteriumBit" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="B_SickpersonList">
+    <Key>
+      <PropertyRef Name="SickpersonID" />
+    </Key>
+    <Property Name="SickpersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Cardnumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="sexID" Type="Int32" />
+    <Property Name="Age" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="cantonID" Type="Int32" />
+    <Property Name="CrowdclassificationID" Type="Int32" />
+    <Property Name="CaseClassID" Type="Int32" />
+    <Property Name="DiseaseTypeID" Type="Int32" />
+    <Property Name="AuditStatusID" Type="Int32" />
+    <Property Name="DiagnoseDate" Type="DateTime" Precision="3" />
+    <Property Name="CensusAddDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IDnumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="dateofbirth" Type="DateTime" Precision="3" />
+    <Property Name="workunit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Addressnationalstandard" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Detailedaddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Occupation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CensusAddressInter" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MorbidityDate" Type="DateTime" Precision="3" />
+    <Property Name="ReportDate" Type="DateTime" Precision="3" />
+    <Property Name="RevisedDate" Type="DateTime" Precision="3" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DiseaseID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="B_UsernameList">
+    <Key>
+      <PropertyRef Name="usernameID" />
+    </Key>
+    <Property Name="usernameID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IDnumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="phonenumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="postbox" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UniformAuthenticationCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserroleID" Type="Int32" />
+    <Property Name="BaseDetailID" Type="Int32" />
+    <Property Name="DepartmenttypeID" Type="Int32" />
+    <Property Name="USERReviewNo" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="S_DepartmenttypeList">
+    <Key>
+      <PropertyRef Name="DepartmenttypeID" />
+    </Key>
+    <Property Name="DepartmenttypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AroundID" Type="Int32" />
+    <Property Name="Departmenttype" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="S_DiseaseList">
+    <Key>
+      <PropertyRef Name="DiseaseID" />
+    </Key>
+    <Property Name="DiseaseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DiseaseName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="S_JournalList">
+    <Key>
+      <PropertyRef Name="JournalID" />
+    </Key>
+    <Property Name="JournalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="usernameID" Type="Int32" />
+    <Property Name="Operate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OperateDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="S_SickpersonRajectoryrList">
+    <Key>
+      <PropertyRef Name="SickpersonRajectoryrID" />
+    </Key>
+    <Property Name="SickpersonRajectoryrID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SickpersonDetailID" Type="Int32" />
+    <Property Name="SmX" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="SmY" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="ActivityTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="S_UrlList">
+    <Key>
+      <PropertyRef Name="UrlID" />
+    </Key>
+    <Property Name="UrlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Url" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Describe" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="S_UserroleList">
+    <Key>
+      <PropertyRef Name="UserroleID" />
+    </Key>
+    <Property Name="UserroleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Userrole" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="DepartmenttypeID" Type="Int32" />
+  </EntityType>
+  <EntityContainer Name="ChronicGeographicInformationSystemEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="B_AuthorityList" EntityType="Self.B_AuthorityList" />
+    <EntitySet Name="B_BaseDetailList" EntityType="Self.B_BaseDetailList" />
+    <EntitySet Name="B_BaseTypeList" EntityType="Self.B_BaseTypeList" />
+    <EntitySet Name="B_DiseaseDetailList" EntityType="Self.B_DiseaseDetailList" />
+    <EntitySet Name="B_DrugfastList" EntityType="Self.B_DrugfastList" />
+    <EntitySet Name="B_GenePoolList" EntityType="Self.B_GenePoolList" />
+    <EntitySet Name="B_HaveInTheWindList" EntityType="Self.B_HaveInTheWindList" />
+    <EntitySet Name="B_MedicalrecordList" EntityType="Self.B_MedicalrecordList" />
+    <EntitySet Name="B_RoleAuthorityList" EntityType="Self.B_RoleAuthorityList" />
+    <EntitySet Name="B_SickpersonDetailList" EntityType="Self.B_SickpersonDetailList" />
+    <EntitySet Name="B_SickpersonList" EntityType="Self.B_SickpersonList" />
+    <EntitySet Name="B_UsernameList" EntityType="Self.B_UsernameList" />
+    <EntitySet Name="S_DepartmenttypeList" EntityType="Self.S_DepartmenttypeList" />
+    <EntitySet Name="S_DiseaseList" EntityType="Self.S_DiseaseList" />
+    <EntitySet Name="S_JournalList" EntityType="Self.S_JournalList" />
+    <EntitySet Name="S_SickpersonRajectoryrList" EntityType="Self.S_SickpersonRajectoryrList" />
+    <EntitySet Name="S_UrlList" EntityType="Self.S_UrlList" />
+    <EntitySet Name="S_UserroleList" EntityType="Self.S_UserroleList" />
+  </EntityContainer>
+</Schema>

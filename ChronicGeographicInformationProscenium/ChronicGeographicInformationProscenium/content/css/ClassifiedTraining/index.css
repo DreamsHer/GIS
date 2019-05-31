@@ -1,0 +1,28 @@
+﻿.item {
+    margin-bottom:10px;
+}
+.item img {
+    text-align:center;
+    width: 160px;
+    height: 190px;
+}
+.item p {
+    text-align:center;
+    font-size:20px;
+}
+.item a:hover {
+    text-decoration:none;
+}
+.thumbnail {
+    margin-bottom:10px;
+    border:none;
+}
+.thumbnail:hover {
+    box-shadow:1px 1px 1px #aaa;
+}
+.caption h4{
+    text-align:center;
+}
+.caption h4:hover{
+    color:#900;
+}
